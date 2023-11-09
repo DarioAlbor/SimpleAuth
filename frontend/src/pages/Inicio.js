@@ -7,7 +7,7 @@ const Inicio = () => {
     <div>
       <SidebarWithHeader />
 
-    </div>
+    </div>  
   );
 }
 

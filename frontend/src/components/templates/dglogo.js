@@ -2,8 +2,7 @@ import React from 'react';
 import { Avatar, Box, keyframes } from '@chakra-ui/react';
 import dglogo from '../assets/dglogo.png'; 
 
-const AvatarWithRipple = () => {
-  const size = '96px';
+const DgLogo = ({ size = '96px', centered = true, top = 0, right = 0 }) => { // Añadí las propiedades top y right
   const color = 'teal';
 
   const pulseRing = keyframes`
@@ -20,13 +19,18 @@ const AvatarWithRipple = () => {
   `;
 
   return (
-    <div style={{ textAlign: 'center', position: 'relative' }}>
+    <div style={{ 
+      textAlign: centered ? 'center' : 'left', 
+      position: 'absolute', 
+      top: top, // Añadí la propiedad top
+      right: right, // Añadí la propiedad right
+      }}>
       <Box
         as="div"
         position="absolute"
         top="50%"
         left="50%"
-        transform="translate(-50%, -50%)"
+        transform={centered ? 'translate(-50%, -50%)' : 'none'}
         w={size}
         h={size}
         _before={{
@@ -49,4 +53,4 @@ const AvatarWithRipple = () => {
   );
 };
 
-export default AvatarWithRipple;
+export default DgLogo;

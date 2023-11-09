@@ -1,5 +1,5 @@
-// Importaciones necesarias
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   IconButton,
   Avatar,
@@ -35,7 +35,8 @@ import {
 import { IconType } from 'react-icons';
 import DgLogo from './dglogo';
 
-// Interfaces
+import { Link, Outlet } from 'react-router-dom'; 
+
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -54,7 +55,6 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
-// Datos de los ítems del menú
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Inicio', icon: FiHome },
   { name: 'Tienda', icon: FiBookOpen },
@@ -63,7 +63,6 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Configuración', icon: FiSettings },
 ];
 
-// Componente del contenido del Sidebar
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
@@ -76,11 +75,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-      <DgLogo />
+        <DgLogo size="60px" centered={false} right="0px" top="10px" right="150px" />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} to={`/${link.name.toLowerCase()}`}>
           {link.name}
         </NavItem>
       ))}
@@ -88,44 +87,52 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   );
 };
 
-// Componente de un ítem del menú
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, to, ...rest }: NavItemProps & { to: string }) => {
   return (
-    <Box
-      as="a"
-      href="#"
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}>
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}>
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Box>
+    <Link to={to} style={{ textDecoration: 'none' }}>
+      <Box as="div" _focus={{ boxShadow: 'none' }}>
+        <Flex
+          align="center"
+          p="4"
+          mx="4"
+          borderRadius="lg"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: 'cyan.400',
+            color: 'white',
+          }}
+          {...rest}>
+          {icon && (
+            <Icon
+              mr="4"
+              fontSize="16"
+              _groupHover={{
+                color: 'white',
+              }}
+              as={icon}
+            />
+          )}
+          {children}
+        </Flex>
+      </Box>
+    </Link>
   );
 };
 
-// Componente de navegación móvil
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+axios.get('http://localhost:3001/api/user/getUsername')
+      .then((response) => {
+        setUsername(response.data.username);
+      })
+      .catch((error) => {
+        console.error('Error al obtener el nombre de usuario:', error);
+      });
+  }, []);
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -145,12 +152,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold">
-        Logo
+      <Text display={{ base: 'flex', md: 'none' }} fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        <DgLogo size="55px" centered={false} right="0px" top="10px" right="230px" />
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
@@ -161,16 +164,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={
-                    'RUTA DE LA FOTO (A IMPLEMENTAR)'
-                  }
+                  src={'RUTA DE LA FOTO (A IMPLEMENTAR)'}
                 />
-                <VStack
-                  display={{ base: 'none', md: 'flex' }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2">
-                  <Text fontSize="sm">NOMBRE DE USUARIO</Text>
+                <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
+                  <Text fontSize="sm">{username}</Text>
                   <Text fontSize="xs" color="gray.600">
                     RANGO ASIGNADO
                   </Text>
@@ -180,9 +177,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 </Box>
               </HStack>
             </MenuButton>
-            <MenuList
-              bg={useColorModeValue('white', 'gray.900')}
-              borderColor={useColorModeValue('gray.200', 'gray.700')}>
+            <MenuList bg={useColorModeValue('white', 'gray.900')} borderColor={useColorModeValue('gray.200', 'gray.700')}>
               <MenuItem>Perfil</MenuItem>
               <MenuItem>Configuración</MenuItem>
               <MenuItem>Estado de cuenta</MenuItem>
@@ -196,28 +191,20 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   );
 };
 
-// Componente del Sidebar completo con cabecera
 const SidebarWithHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
+      <SidebarContent onClose={onClose} display={{ base: 'none', md: 'block' }} />
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose} returnFocusOnClose={false} onOverlayClick={onClose} size="full">
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Contenido */}
+        <Outlet />
       </Box>
     </Box>
   );

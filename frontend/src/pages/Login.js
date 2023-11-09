@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginCard from '../components/templates/LoginCard';
 import ColorModeToggle from '../components/templates/colormodetoggle';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,8 +21,8 @@ const Login = ({ setIsAuthenticated }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Redirigir a la página 'index'
-        navigate('/index');
+        localStorage.setItem('token', data.token); // Almacena el token en el localStorage
+        navigate('/inicio');
       } else {
         console.error('Error:', data.message);
       }

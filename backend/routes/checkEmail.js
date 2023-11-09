@@ -5,3 +5,4 @@ const authController = require('../controllers/authController');
 router.get('/:email', authController.checkEmail);
 
 module.exports = router;
+	

@@ -1,57 +1,59 @@
-const User = require('../models/user');
+  const User = require('../models/user');
+  const passport = require('passport');
 
-exports.register = async (req, res) => {  
-  try {
-    const { firstName, lastName, email, password } = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
+  exports.register = async (req, res) => {  
+    try {
+      const { firstName, lastName, email, password } = req.body;
 
-    if (existingUser) {
-      return res.status(409).json({ message: 'El usuario ya existe' });
+      const existingUser = await User.findOne({ where: { email } });
+
+      if (existingUser) {
+        return res.status(409).json({ message: 'El usuario ya existe' });
+      }
+
+      const user = await User.create({ firstName, lastName, email, password });
+      res.json({ message: 'Usuario registrado exitosamente', user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al registrar el usuario' });
     }
+  };
 
-    const user = await User.create({ firstName, lastName, email, password });
-    res.json({ message: 'Usuario registrado exitosamente', user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al registrar el usuario' });
-  }
-};
+  exports.checkEmail = async (req, res) => {
+    try {
+      const { email } = req.params;
 
-exports.checkEmail = async (req, res) => {
-  try {
-    const { email } = req.params;
+      const existingUser = await User.findOne({ where: { email } });
 
-    const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        return res.json({ exists: 'Si' });
+      }
 
-    if (existingUser) {
-      return res.json({ exists: 'Si' });
+      return res.json({ exists: 'No' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al verificar el correo electrónico' });
     }
+  };
 
-    return res.json({ exists: 'No' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al verificar el correo electrónico' });
-  }
-};
+  exports.login = async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+      const user = await User.findOne({ where: { email } });
 
-    const user = await User.findOne({ where: { email } });
+      if (!user) {
+        return res.status(401).json({ message: 'Credenciales incorrectas' });
+      }
 
-    if (!user) {
-      return res.status(401).json({ message: 'Credenciales incorrectas' });
+      if (password !== user.password) {
+        return res.status(401).json({ message: 'Credenciales incorrectas' });
+      }
+
+      res.json({ message: 'Inicio de sesión exitoso', user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al iniciar sesión' });
     }
-
-    if (password !== user.password) {
-      return res.status(401).json({ message: 'Credenciales incorrectas' });
-    }
-
-    res.json({ message: 'Inicio de sesión exitoso', user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al iniciar sesión' });
-  }
-};
+  };
