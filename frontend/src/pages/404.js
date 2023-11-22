@@ -1,13 +1,13 @@
 import React from 'react';
 import SidebarWithHeader from '../components/templates/sidebar';
+import Iframe from 'react-iframe';
 
-const Inicio = () => {
+const Tienda = () => {
     return (
         <div>
-            <SidebarWithHeader />
-            {/* Contenido específico de Inicio */}
+eSTA PAGIUNA NO EXISTEEWEEE
         </div>
     );
 };
 
-export default Inicio;
+export default Tienda;

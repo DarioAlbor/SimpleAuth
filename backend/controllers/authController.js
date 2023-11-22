@@ -37,23 +37,27 @@
     }
   };
 
-  exports.login = async (req, res) => {
+exports.login = async (req, res) => {
     try {
-      const { email, password } = req.body;
+        const { email, password } = req.body;
 
-      const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({ where: { email } });
 
-      if (!user) {
-        return res.status(401).json({ message: 'Credenciales incorrectas' });
-      }
+        if (!user || password !== user.password) {
+            return res.status(401).json({ message: 'Credenciales incorrectas' });
+        }
 
-      if (password !== user.password) {
-        return res.status(401).json({ message: 'Credenciales incorrectas' });
-      }
+        // Guarda el ID del usuario en la sesión
+        req.session.userId = user.id;
 
-      res.json({ message: 'Inicio de sesión exitoso', user });
+        res.json({ message: 'Inicio de sesión exitoso', user });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error al iniciar sesión' });
+        console.error(error);
+        res.status(500).json({ message: 'Error al iniciar sesión' });
     }
-  };
+};
+
+exports.logout = (req, res) => {
+    req.session.destroy(); // Destruye la sesión al cerrar sesión
+    res.json({ message: 'Cierre de sesión exitoso' });
+};

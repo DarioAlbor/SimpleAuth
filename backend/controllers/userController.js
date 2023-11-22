@@ -1,32 +1,52 @@
 // controllers/userController.js
 const User = require('../models/user');
 
-exports.getUsername = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.user.id);
+exports.getUserInfo = async (req, res) => {
+    try {
+        // Verifica si el usuario está autenticado
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Acceso no autorizado' });
+        }
 
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+        // Obtiene el ID del usuario desde la sesión
+        const userId = req.session.userId;
+
+        // Busca al usuario por ID
+        const user = await User.findByPk(userId, {
+            attributes: ['id', 'firstName', 'lastName', 'email'],
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.json({ user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener la información del usuario' });
     }
-
-    res.json({ username: user.firstName });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al obtener el nombre de usuario' });
-  }
 };
 
-exports.getProtectedData = async (req, res) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ message: 'Acceso no autorizado' });
+exports.getUsername = async (req, res) => {
+    try {
+        // Verifica si el usuario está autenticado
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Acceso no autorizado' });
+        }
+
+        // Obtiene el ID del usuario desde la sesión
+        const userId = req.session.userId;
+
+        // Busca al usuario por ID y devuelve el nombre de usuario
+        const user = await User.findByPk(userId, { attributes: ['firstName'] });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.json({ username: user.firstName });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener el nombre de usuario' });
     }
-
-    // Aquí puedes realizar cualquier acción que requiera un usuario autenticado
-
-    res.json({ message: 'Acceso autorizado', user: req.user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al obtener datos protegidos' });
-  }
 };
