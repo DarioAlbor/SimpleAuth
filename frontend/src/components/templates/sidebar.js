@@ -20,6 +20,7 @@ import {
     MenuButton,
     MenuDivider,
     MenuItem,
+    Button,
     MenuList,
 } from '@chakra-ui/react';
 import {
@@ -31,8 +32,8 @@ import {
     FiMenu,
     FiBell,
     FiChevronDown,
+    FiUser, // Añadir el icono de usuario
 } from 'react-icons/fi';
-import { IconType } from 'react-icons';
 import DgLogo from './dglogo';
 
 import { Link, Outlet, useNavigate } from 'react-router-dom';
@@ -146,6 +147,7 @@ const NavItem = ({ icon, children, to, ...rest }: NavItemProps) => {
 
 const MobileNav = ({ onOpen, handleLogout, ...rest }: MobileProps) => {
     const [username, setUsername] = useState(null);
+    const { isOpen, onToggle } = useDisclosure();
 
     useEffect(() => {
         const getUsername = async () => {
@@ -184,7 +186,7 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }: MobileProps) => {
         >
             <IconButton
                 display={{ base: 'flex', md: 'none' }}
-                onClick={onOpen}
+                onClick={() => { onOpen(); onToggle(); }}
                 variant="outline"
                 aria-label="open menu"
                 icon={<FiMenu />}
@@ -197,37 +199,38 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }: MobileProps) => {
             <HStack spacing={{ base: '0', md: '6' }}>
                 <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
                 <Flex alignItems={'center'}>
-                    <Menu>
-                        <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
-                            <HStack>
-                                <Avatar
-                                    size={'sm'}
-                                    src={'RUTA DE LA FOTO (A IMPLEMENTAR)'}
-                                />
-                                <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
-                                    <Text fontSize="sm">{username}</Text>
-                                    <Text fontSize="xs" color="gray.600">
-                                        RANGO ASIGNADO
-                                    </Text>
-                                </VStack>
-                                <Box display={{ base: 'none', md: 'flex' }}>
-                                    <FiChevronDown />
-                                </Box>
-                            </HStack>
-                        </MenuButton>
-                        <MenuList bg={useColorModeValue('white', 'gray.900')} borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                            <MenuItem>Perfil</MenuItem>
-                            <MenuItem>Configuración</MenuItem>
-                            <MenuItem>Estado de cuenta</MenuItem>
-                            <MenuDivider />
-                            <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-                        </MenuList>
-                    </Menu>
+                    <a onClick={onToggle}>
+                        <HStack>
+                            <Box borderLeft="1px" borderColor={useColorModeValue('gray.200', 'gray.700')} height="24px" mx="4" />
+                            <Icon as={FiUser} fontSize="xl" color="gray.600" />
+                            <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
+                                <Text fontSize="sm">{username}</Text>
+                                <Text fontSize="xs" color="gray.600">
+                                    RANGO ASIGNADO
+                                </Text>
+                            </VStack>
+                            <Box borderLeft="1px" borderColor={useColorModeValue('gray.200', 'gray.700')} height="24px" mx="4" />
+                        </HStack>
+                    </a>
                 </Flex>
+                <Menu>
+                    <MenuButton as={Button} rounded="full" variant="link" cursor="pointer">
+                        <FiChevronDown />
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem>Perfil</MenuItem>
+                        <MenuItem>Configuración</MenuItem>
+                        <MenuItem>Estado de cuenta</MenuItem>
+                        <MenuDivider />
+                        <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+                    </MenuList>
+                </Menu>
             </HStack>
         </Flex>
+
     );
 };
+
 
 const SidebarWithHeader = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();

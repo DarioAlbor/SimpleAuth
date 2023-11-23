@@ -15,6 +15,7 @@ import {
     IconButton,
     Alert,
     AlertIcon,
+    Image,
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { HiCheckCircle } from 'react-icons/hi';  // Agrega esta línea para importar HiCheckCircle
@@ -92,6 +93,13 @@ const LoginCard = ({ handleLoginClick, setEmail, setPassword, errorMessage, logi
                         </Alert>
                     )}
                 </Stack>
+            </Flex>
+            <Flex flex={1}>
+                <Image
+                    alt={'Login Image'}
+                    objectFit={'cover'}
+                    src={'http://localhost:3000/images/garzonfront.jpg  '}
+                />
             </Flex>
         </Stack>
     );

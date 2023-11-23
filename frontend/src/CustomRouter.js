@@ -4,10 +4,11 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Inicio from './pages/Inicio';
 import Tienda from './pages/Tienda';
-import NotFound from './pages/404'; // Asegúrate de tener una página NotFound creada
+import NotFound from './pages/404';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [checkComplete, setCheckComplete] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,43 +20,61 @@ const CustomRouter = () => {
                 });
 
                 const data = await response.json();
-
                 setIsAuthenticated(data.authenticated);
-
-                // Si no está autenticado, redirigimos a /login
-                if (!data.authenticated) {
-                    navigate('/login');
-                }
             } catch (error) {
                 console.error('Error al verificar la autenticación:', error);
                 setIsAuthenticated(false);
+            } finally {
+                setCheckComplete(true);
             }
         };
 
         checkAuthentication();
-    }, [navigate]);
+    }, []);
+
+    // Esperar a que la verificación de autenticación se complete antes de renderizar las rutas
+    if (!checkComplete) {
+        return null;
+    }
+
+    const PublicRoute = ({ element }) => {
+        // Si el usuario ya está autenticado, redirige a la página de inicio
+        return isAuthenticated ? <Navigate to="/Inicio" /> : element;
+    };
+
+    const PrivateRoute = ({ children }) => {
+        return isAuthenticated ? children : <Navigate to="/login" />;
+    };
 
     return (
         <Routes>
-            {/* Rutas públicas */}
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<PublicRoute element={<Register />} />} />
+            <Route path="/login" element={<PublicRoute element={<Login />} />} />
 
-            {/* Rutas privadas */}
-            {isAuthenticated && (
-                <>
-                    <Route path="/Inicio/*" element={<Inicio />} />
-                    <Route path="/tienda" element={<Tienda />} />
-                </>
-            )}
-
-            {/* Redirección de la ruta por defecto */}
             <Route
-                index
-                element={isAuthenticated ? <Navigate to="/Inicio" /> : <Navigate to="/login" />}
+                path="/Inicio/*"
+                element={
+                    <PrivateRoute>
+                        <Inicio />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/tienda"
+                element={
+                    <PrivateRoute>
+                        <Tienda />
+                    </PrivateRoute>
+                }
             />
 
-            {/* Ruta 404 */}
+            <Route
+                index
+                element={
+                    isAuthenticated ? <Navigate to="/Inicio" /> : <Navigate to="/login" />
+                }
+            />
+
             <Route path="*" element={<NotFound />} />
         </Routes>
     );
