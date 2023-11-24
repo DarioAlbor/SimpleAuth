@@ -1,0 +1,108 @@
+/* sidebar.css */
+
+/* Estilos para el icono FiBell */
+.bell-icon {
+    margin-top: 0px;
+}
+
+/* Estilos para el botón de limpiar */
+.clear-search-button {
+    margin-top: 0px;
+}
+
+/* Estilos para el botón de búsqueda */
+.search-button {
+    color: gray.500;
+    border-radius: full;
+    &:hover
+
+{
+    background: transparent;
+    &_before
+
+{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+}
+
+}
+
+&_active {
+    background: transparent;
+}
+
+}
+
+/* Estilos para el separador */
+.separator {
+    border-left: 1px solid rgba(128, 128, 128, 0.2); /* Esto representa el color gray.200 en formato rgba */
+    height: 80px;
+    margin: 0 -2px;
+    margin-left: 9px;
+}
+
+/* Estilos para pantallas más pequeñas (móviles) */
+@media only screen and (max-width: 768px) {
+    /* Ajustes específicos para pantallas más pequeñas */
+    .search-button {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        margin-top: 8px; /* Ajusta según sea necesario */
+    }
+
+    .separator {
+        height: 16px; /* Reduce la altura del separador */
+    }
+}
+
+
+/* Estilos específicos para la lupa en dispositivos móviles */
+.search-button-mobile {
+    cursor: pointer;
+    display: flex; /* Cambié 'none' a 'flex' para que esté visible inicialmente */
+}
+
+    .search-button-mobile.active {
+        display: flex;
+    }
+
+/* Añade estos estilos para ocultar la lupa en dispositivos no móviles */
+@media only screen and (min-width: 769px) {
+    .search-button-mobile {
+        display: none;
+    }
+}
+
+/* Estilo para la barra lateral */
+/* Estilo para los elementos de navegación */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin: 0 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    white-space: nowrap; /* Evitar el salto de línea en el texto */
+}
+
+    .nav-item:hover {
+        background-color: #cyan.400;
+        color: #fff;
+    }
+
+/* Estilo para el texto de los elementos de navegación */
+.nav-text {
+    margin-left: 1rem;
+    opacity: 1; /* Cambiado de 1 a 0 */
+    transition: opacity 0.3s;
+}
+
+/* Muestra el texto cuando se "hoverea" el elemento de navegación */
+.nav-item:hover .nav-text {
+    opacity: 0;
+}
