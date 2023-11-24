@@ -200,7 +200,16 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }: MobileProps) => {
                 <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
                 <Flex alignItems={'center'}>
                     <a onClick={onToggle}>
-                        <HStack>
+                        <HStack position="relative">
+                            <Box
+                                position="absolute"
+                                left="-5px"
+                                top="-5px"
+                                right="-5px"
+                                bottom="-5px"
+                                borderRadius="full"
+                                boxShadow="0px 0px 5px rgba(0, 255, 255, 0.5)" // Ajusta el color y el tamaño de la sombra según sea necesario
+                            />
                             <Box borderLeft="1px" borderColor={useColorModeValue('gray.200', 'gray.700')} height="24px" mx="4" />
                             <Icon as={FiUser} fontSize="xl" color="gray.600" />
                             <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
@@ -209,27 +218,51 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }: MobileProps) => {
                                     RANGO ASIGNADO
                                 </Text>
                             </VStack>
+                            <HStack position="relative">
+    <Box
+        position="absolute"
+        left="2px"
+        top="-5px"  // Ajusta el valor positivo para mover el menú hacia abajo
+        right="2px"
+        bottom="-5px"
+        borderRadius="full"
+        boxShadow="0px 0px 5px rgba(0, 255, 255, 0.5)"
+    />
+                            <Menu>
+                                <MenuButton
+                                    as={Button}
+                                    rounded="full"
+                                    variant="link"
+                                    cursor="pointer"
+                                    position="relative"
+                                    zIndex="1"
+                                    _hover={{
+                                        boxShadow: '1px 1px 20px rgba(0, 255, 255, 0.5)',  // Ajusta el valor según sea necesario
+                                        bg: useColorModeValue('gray.100', 'gray.700'),
+                                    }}
+                                    paddingLeft="3"
+                                    paddingRight="1"
+                                >
+                                    <FiChevronDown />
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem>Perfil</MenuItem>
+                                    <MenuItem>Configuración</MenuItem>
+                                    <MenuItem>Estado de cuenta</MenuItem>
+                                    <MenuDivider />
+                                    <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+                                </MenuList>
+                            </Menu>
+                            </HStack>
                             <Box borderLeft="1px" borderColor={useColorModeValue('gray.200', 'gray.700')} height="24px" mx="4" />
                         </HStack>
                     </a>
                 </Flex>
-                <Menu>
-                    <MenuButton as={Button} rounded="full" variant="link" cursor="pointer">
-                        <FiChevronDown />
-                    </MenuButton>
-                    <MenuList>
-                        <MenuItem>Perfil</MenuItem>
-                        <MenuItem>Configuración</MenuItem>
-                        <MenuItem>Estado de cuenta</MenuItem>
-                        <MenuDivider />
-                        <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-                    </MenuList>
-                </Menu>
             </HStack>
         </Flex>
-
     );
 };
+
 
 
 const SidebarWithHeader = () => {

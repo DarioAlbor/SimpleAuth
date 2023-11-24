@@ -1,3 +1,4 @@
+// CustomRouter.js
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Register from './pages/Register';
@@ -22,7 +23,7 @@ const CustomRouter = () => {
                 const data = await response.json();
                 setIsAuthenticated(data.authenticated);
             } catch (error) {
-                console.error('Error al verificar la autenticación:', error);
+                console.error('Error al verificar la autenticaciï¿½n:', error);
                 setIsAuthenticated(false);
             } finally {
                 setCheckComplete(true);
@@ -32,13 +33,11 @@ const CustomRouter = () => {
         checkAuthentication();
     }, []);
 
-    // Esperar a que la verificación de autenticación se complete antes de renderizar las rutas
     if (!checkComplete) {
         return null;
     }
 
     const PublicRoute = ({ element }) => {
-        // Si el usuario ya está autenticado, redirige a la página de inicio
         return isAuthenticated ? <Navigate to="/Inicio" /> : element;
     };
 
@@ -51,22 +50,8 @@ const CustomRouter = () => {
             <Route path="/register" element={<PublicRoute element={<Register />} />} />
             <Route path="/login" element={<PublicRoute element={<Login />} />} />
 
-            <Route
-                path="/Inicio/*"
-                element={
-                    <PrivateRoute>
-                        <Inicio />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/tienda"
-                element={
-                    <PrivateRoute>
-                        <Tienda />
-                    </PrivateRoute>
-                }
-            />
+            <Route path="/Inicio/*" element={<PrivateRoute><Inicio /></PrivateRoute>} />
+            <Route path="/tienda" element={<PrivateRoute><Tienda /></PrivateRoute>} />
 
             <Route
                 index

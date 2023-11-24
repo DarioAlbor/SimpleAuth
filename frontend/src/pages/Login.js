@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginCard from '../components/templates/LoginCard';
@@ -31,10 +32,10 @@ const Login = () => {
                 if (data.user && data.user.id) {
                     localStorage.setItem('userId', data.user.id);
 
-                    // Esperar 5 segundos antes de redirigir
+                    // Esperar 1 segundo antes de recargar la página
                     setTimeout(() => {
-                        navigate('/', { replace: true });
-                    }, 5000);
+                        window.location.reload();
+                    }, 1000);
                 }
             }
         } catch (error) {
