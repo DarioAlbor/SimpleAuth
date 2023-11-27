@@ -46,7 +46,7 @@ const Catalogo = () => {
         // Agrega más datos según sea necesario
     ];
 
-    const [data, setData] = useState(initialData.map((item) => ({ ...item, cantidad: 1, showWarning: false })));
+    const [data, setData] = useState(initialData.map((item) => ({ ...item, cantidad: 0, showWarning: false })));
     const [alertIndex, setAlertIndex] = useState(null);
 
     const getStockColor = (stock) => {
@@ -61,7 +61,7 @@ const Catalogo = () => {
 
     const getStockMessage = (stock) => {
         if (stock < 5) {
-            return 'Stock Crítico'; // Mensaje si el stock es menor a 5
+            return 'Stock Critico'; // Mensaje si el stock es menor a 5
         } else if (stock < 10) {
             return 'Poco Stock'; // Mensaje si el stock es menor a 10
         } else {
@@ -168,7 +168,7 @@ const Catalogo = () => {
                     textAlign="center"
                     pb="2"
                 >
-                    CATALOGO:
+                    CATALOGO
                 </TableCaption>
                 <Thead>
                     <Tr>
@@ -197,20 +197,24 @@ const Catalogo = () => {
                             <Td>{producto.precioConDesc}</Td>
                             <Td>{producto.minOfer}</Td>
                             <Td>
-                                <Input
-                                    type="number"
-                                    value={producto.cantidad}
-                                    onChange={(e) => handleCantidadChange(index, e.target.value)}
-                                    w="60px" // Ajusta el ancho de la caja de entrada
-                                />
-                                {alertIndex === index && (
-                                    <div className="alert-box">
-                                        <div className="alert alert-danger">
-                                            <div className="alert-icon alert-warning">!</div>
-                                            <div className="alert-text">La cantidad máxima permitida es 100 por producto.</div>
-                                        </div>
-                                    </div>
-                                )}
+                                <Box position="relative">
+                                    <Input
+                                        type="number"
+                                        value={producto.cantidad}
+                                        onChange={(e) => handleCantidadChange(index, e.target.value)}
+                                        w="60px"
+                                    />
+                                    {producto.cantidad > maxCantidad && (
+                                        <Tooltip label="La cantidad máxima permitida es 100 por producto" placement="top" hasArrow>
+                                            <Box className="alert-box" position="absolute" top="-30px">
+                                                <Box className="alert alert-danger">
+                                                    {/* Puedes agregar un icono de advertencia si lo deseas */}
+                                                    {/* <Box className="alert-icon alert-warning">!</Box> */}
+                                                </Box>
+                                            </Box>
+                                        </Tooltip>
+                                    )}
+                                </Box>
                             </Td>
                         </Tr>
                     ))}

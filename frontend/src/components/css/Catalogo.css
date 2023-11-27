@@ -28,7 +28,6 @@
 /* Alertas */
 .alert-box {
     position: relative;
-    height: 0;
 }
 
 .alert {
@@ -47,7 +46,8 @@
 }
 
 .alert-icon {
-    margin-right: 20px;
+    margin-right: 0px;
+    background-color: transparent;
 }
 
 .alert-text {
