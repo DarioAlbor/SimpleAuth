@@ -84,69 +84,68 @@ const LinkItems: LinkItemProps[] = [
   { name: 'Configuración', icon: FiSettings, to: '/configuracion' },
 ];
 
-const SidebarContent = ({ onClose, handleMenuClick, onOpen, onToggle, handleMenuIconClick, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     const [isHovered, setIsHovered] = React.useState(false);
     const [isExpanded, setIsExpanded] = React.useState(false);
-  
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-      setIsExpanded(true);
-    };
-  
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-      if (!isExpanded) {
-        setIsExpanded(false);
-      }
-    };
-  
-    useEffect(() => {
-      const collapseMenu = () => {
-        if (!isHovered && isExpanded) {
-          setIsExpanded(false);
-        }
-      };
-  
-      window.addEventListener('mousemove', collapseMenu);
-  
-      return () => {
-        window.removeEventListener('mousemove', collapseMenu);
-      };
-    }, [isHovered, isExpanded]);
-  
-    return (
-      <Box
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        w={isExpanded || isHovered ? { base: 'full', md: 60 } : '60px'}
-        pos="fixed"
-        h="full"
-        overflow="hidden"
-        bg={useColorModeValue('white', 'gray.900')}
-        borderRight="1px"
-        borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-        className={isExpanded ? 'sidebar-expanded' : ''}
-        zIndex={10}
-        {...rest}
-      >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
 
-        <MobileNav onToggle={onToggle} handleLogout={handleLogout} handleMenuIconClick={handleMenuIconClick} />
-      </Flex>
-      {LinkItems.map((link) => (
-        <NavItem
-          key={link.name}
-          icon={link.icon}
-          to={link.to}
-          isHovered={isHovered}
-          setIsHovered={setIsHovered}
-          setIsExpanded={setIsExpanded}
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+        setIsExpanded(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+        if (!isExpanded) {
+            setIsExpanded(false);
+        }
+    };
+
+    useEffect(() => {
+        const collapseMenu = () => {
+            if (!isHovered && isExpanded) {
+                setIsExpanded(false);
+            }
+        };
+
+        window.addEventListener('mousemove', collapseMenu);
+
+        return () => {
+            window.removeEventListener('mousemove', collapseMenu);
+        };
+    }, [isHovered, isExpanded]);
+
+    return (
+        <Box
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            w={isExpanded || isHovered ? { base: 'full', md: 60 } : '60px'}
+            pos="fixed"
+            h="full"
+            overflow="hidden"
+            bg={useColorModeValue('white', 'gray.900')}
+            borderRight="1px"
+            borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+            className={isExpanded ? 'sidebar-expanded' : ''}
+            zIndex={10}
+            {...rest}
         >
-          {link.name}
-        </NavItem>
-      ))}
-    </Box>
-  );
+            <Flex h="150" alignItems="center" mx="8" justifyContent="space-between">
+                {/* Aquí puedes renderizar elementos específicos del encabezado */}
+            </Flex>
+            {LinkItems.map((link) => (
+                <NavItem
+                    key={link.name}
+                    icon={link.icon}
+                    to={link.to}
+                    isHovered={isHovered}
+                    setIsHovered={setIsHovered}
+                    setIsExpanded={setIsExpanded}
+                >
+                    {link.name}
+                </NavItem>
+            ))}
+        </Box>
+    );
 };
   
 
@@ -243,8 +242,8 @@ const SidebarContent = ({ onClose, handleMenuClick, onOpen, onToggle, handleMenu
   
     return (
         <Flex
-          ml={{ base: 0, md: 60 }}
-          px={{ base: 4, md: 4 }}
+          ml={{ base: -1, md: 0 }}
+          px={{ base: 4, md: 100}}
           height="20"
           alignItems="center"
           bg={useColorModeValue('white', 'gray.900')}
@@ -390,26 +389,26 @@ const SidebarContent = ({ onClose, handleMenuClick, onOpen, onToggle, handleMenu
       </Flex>
     );
   };
-  
-
 
 const SidebarWithHeader = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-  return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent onClose={onClose} display={{ base: 'none', md: 'block' }} />
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose} returnFocusOnClose={false} onOverlayClick={onClose} size="full">
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      <MobileNav onOpen={onOpen} handleLogout={handleLogout} />
-      <Flex ml={{ base: 0, md: 60 }} p="4" align="center" justify="center">
-        <Outlet />
-      </Flex>
-    </Box>
-  );
+    return (
+        <Box minH="0vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+            <SidebarContent onClose={onClose} display={{ base: 'none', md: 'block' }} />
+            <Drawer isOpen={isOpen} placement="left" onClose={onClose} returnFocusOnClose={false} onOverlayClick={onClose} size="full">
+                <DrawerContent>
+                    {/* Aquí no deberías renderizar MobileNav */}
+                    <SidebarContent onClose={onClose} />
+                </DrawerContent>
+            </Drawer>
+            {/* Renderiza MobileNav fuera del Drawer */}
+            <MobileNav onOpen={onOpen} handleLogout={handleLogout} />
+            <Flex ml={{ base: 0, md: 60 }} p="4" align="center" justify="center">
+                <Outlet />
+            </Flex>
+        </Box>
+    );
 };
 
 export default SidebarWithHeader;

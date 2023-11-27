@@ -1,0 +1,63 @@
+/* ./css/Catalogo.css */
+
+.box {
+    margin-bottom: 20px;
+    transition: all 0.3s ease; /* Agregamos una transición para suavizar el cambio de tamaño */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.button {
+    background-color: teal;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Estilos para pantallas más grandes que 600px */
+.larger-than-600 {
+    max-width: 1200px; /* Ajusta el tamaño máximo según tus necesidades */
+    margin: auto;
+}
+
+/* Alertas */
+.alert-box {
+    position: relative;
+    height: 0;
+}
+
+.alert {
+    position: absolute;
+    top: -40px; /* Ajusta la posición según sea necesario */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.alert-icon {
+    margin-right: 20px;
+}
+
+.alert-text {
+    font-weight: bold;
+}
+
+.alert-warning {
+    color: darkred; /* Color naranja */
+}
+
+.alert-danger {
+    color: black;
+}
