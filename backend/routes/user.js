@@ -7,6 +7,9 @@ const userController = require('../controllers/userController');
 router.get('/getUserInfo', userController.getUserInfo);
 
 // Ruta para obtener el nombre de usuario
-router.get('/getUsername', userController.getUsername);
+    router.get('/getUsername', userController.getUsername);
 
-module.exports = router;
+    module.exports = router;
+
+// Ruta para obtener el rol del usuario
+router.get('/getRole', userController.getRole);

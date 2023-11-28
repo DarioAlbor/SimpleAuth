@@ -12,7 +12,7 @@
         return res.status(409).json({ message: 'El usuario ya existe' });
       }
 
-      const user = await User.create({ firstName, lastName, email, password });
+        const user = await User.create({ firstName, lastName, email, password, role: 'Cliente' });
       res.json({ message: 'Usuario registrado exitosamente', user });
     } catch (error) {
       console.error(error);

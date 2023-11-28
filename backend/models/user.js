@@ -24,7 +24,12 @@ const User = sequelize.define('users', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+    },
+  role: {
+      type: DataTypes.ENUM('Cliente', 'Diseñador', 'Developer'), // Valores permitidos
+      allowNull: false,
+      defaultValue: 'Cliente' // Setea automaticamente el rango a Cliente, por ahora solo se cambia manualmente en MYSQL
+    },
 });
 
 module.exports = User;

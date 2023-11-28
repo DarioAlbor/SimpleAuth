@@ -34,6 +34,7 @@ import {
   FiClock,
   FiSettings,
   FiMenu,
+  FiUploadCloud,
   FiBell,
   FiChevronDown,
   FiUser,
@@ -78,8 +79,8 @@ const handleLogout = async () => {
 
 const LinkItems: LinkItemProps[] = [
   { name: 'Inicio', icon: FiHome, to: '/inicio' },
-  { name: 'Tienda', icon: FiBookOpen, to: '/tienda' },
-  { name: 'Carrito', icon: FiShoppingCart, to: '/carrito' },
+    { name: 'Tienda', icon: FiShoppingCart, to: '/tienda' },
+    { name: 'Via Salud', icon: FiBookOpen, to: '/viasalud' },
   { name: 'Pedidos', icon: FiClock, to: '/pedidos' },
   { name: 'Configuración', icon: FiSettings, to: '/configuracion' },
 ];
@@ -129,8 +130,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             zIndex={10}
             {...rest}
         >
+        
             <Flex h="150" alignItems="center" mx="8" justifyContent="space-between">
-                {/* Aquí puedes renderizar elementos específicos del encabezado */}
+                {/* Aquí renderiza arriba del menu lateral (proximo dglogo) */}
             </Flex>
             {LinkItems.map((link) => (
                 <NavItem
@@ -185,7 +187,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             />
           )}
           {to ? (
-            <Link to={to} style={{ textDecoration: 'none' }}>
+                    <Link to={to} style={{ textDecoration: 'none' }}>
+
 <Box
   ml={2}
   visibility={isHovered ? 'visible' : 'hidden'}
@@ -211,31 +214,51 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     const [searchText, setSearchText] = useState('');
     const [isSearchActive, setIsSearchActive] = useState(false);
     const { isOpen, onToggle } = useDisclosure();
-  
-    useEffect(() => {
-      const getUsername = async () => {
-        try {
-          const response = await axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true });
-          setUsername(response.data.username);
-        } catch (error) {
-          console.error('Error al obtener el nombre de usuario:', error);
-        }
-      };
-  
-      if (!document.cookie.includes('connect.sid')) {
-        getUsername();
-      } else {
-        axios
-          .get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
-          .then((response) => {
-            setUsername(response.data.username);
-          })
-          .catch((error) => {
-            console.error('Error al obtener el nombre de usuario:', error);
-          });
-      }
-    }, []);
-  
+    const [role, setRole] = useState(null);
+  // BACKEND: USUARIO Y RANGO POR SEPARADO
+      useEffect(() => {
+          const getUsername = async () => {
+              try {
+                  const response = await axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true });
+                  setUsername(response.data.username);
+              } catch (error) {
+                  console.error('Error al obtener el nombre de usuario:', error);
+              }
+          };
+
+          const getRole = async () => {
+              try {
+                  const response = await axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true });
+                  setRole(response.data.role);
+              } catch (error) {
+                  console.error('Error al obtener el rol del usuario:', error);
+              }
+          };
+
+          if (!document.cookie.includes('connect.sid')) {
+              getUsername();
+              getRole();
+          } else {
+              axios
+                  .get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
+                  .then((response) => {
+                      setUsername(response.data.username);
+                  })
+                  .catch((error) => {
+                      console.error('Error al obtener el nombre de usuario:', error);
+                  });
+
+              axios
+                  .get('http://localhost:3001/api/user/getRole', { withCredentials: true })
+                  .then((response) => {
+                      setRole(response.data.role);
+                  })
+                  .catch((error) => {
+                      console.error('Error al obtener el rol del usuario:', error);
+                  });
+          }
+      }, []);
+  // SETEAR EL TEXTO EN BLANCO (BARRA DE BUSQUEDA)
     const clearSearch = () => {
       setSearchText('');
     };
@@ -278,7 +301,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           >
             <Icon as={FiSearch} fontSize="20" color="gray.500" />
           </Box>
-  
+                {/* Nuevo botón "Subir pedido" */}
+                <Box
+                    display={{ base: 'flex' }}
+                    onClick={() => {
+                        // Agrega aquí la lógica para manejar el clic en el botón "Subir pedido"
+                    }}
+                    className={`upload-button-mobile`}
+                >
+                    <Icon as={FiUploadCloud} fontSize="20" color="gray.500" className="upload-icon" />
+                </Box>
           <InputGroup
             display={{ base: isSearchActive ? 'flex' : 'none', md: 'flex' }}
             mr="250"
@@ -340,9 +372,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                   <Icon as={FiUser} fontSize="xl" color="gray.600" />
                   <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                     <Text fontSize="sm">{username}</Text>
-                    <Text fontSize="xs" color="gray.600">
-                      RANGO ASIGNADO
-                    </Text>
+                    <Text fontSize="xs" color="gray.600">{role}</Text>
                   </VStack>
                   <HStack position="relative">
                     <Box
