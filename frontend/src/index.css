@@ -1,13 +1,145 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+*,
+html {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+    background-color: #F7F7F7;
+    color: #392b2b;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.small-space {
+    padding: 1rem;
+}
+
+.main-title {
+    font-size: 2.3rem;
+    color: #76BA99;
+    text-align: center;
+    margin: 2rem 0 .5rem;
+    font-weight: 500;
+}
+
+.grid {
+    margin: 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.box {
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 1px 2px 10px #76ba992e;
+    max-width: 200px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+    .box:hover {
+        box-shadow: 2px 3px 15px #76ba997d;
+    }
+
+    .box img {
+        width: 60%;
+        display: block;
+        margin: 0 auto 1rem;
+    }
+
+    .box h6 {
+        margin-bottom: .3rem;
+        font-size: 1.2rem;
+    }
+
+    .box p {
+        font-size: .8rem;
+    }
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+}
+
+.modal-close {
+    position: fixed;
+    right: 2rem;
+    top: 2rem;
+    background-color: #76BA99;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    z-index: 10;
+    cursor: pointer;
+    color: #fff;
+    padding: 3px;
+    border: 0;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    height: 90%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.viewer-wrapper {
+    border: 1px solid #76BA99;
+    height: 100%;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 5px 2rem;
+    border-bottom: 1px solid #000;
+}
+
+.rpv-core-text-layer {
+    pointer-events: none;
 }
