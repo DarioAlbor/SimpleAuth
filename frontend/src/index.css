@@ -9,8 +9,8 @@ html {
 }
 
 body {
-    background-color: #F7F7F7;
-    color: #392b2b;
+    background-color: cornflowerblue;
+    color: cornflowerblue;
 }
 
 .container {
@@ -25,7 +25,7 @@ body {
 
 .main-title {
     font-size: 2.3rem;
-    color: #76BA99;
+    color: dodgerblue;
     text-align: center;
     margin: 2rem 0 .5rem;
     font-weight: 500;
@@ -42,7 +42,7 @@ body {
 .box {
     padding: 1rem;
     border-radius: 5px;
-    box-shadow: 1px 2px 10px #76ba992e;
+    box-shadow: 1px 2px 10px cornflowerblue;
     max-width: 200px;
     width: 100%;
     text-align: center;
@@ -54,7 +54,7 @@ body {
 }
 
     .box:hover {
-        box-shadow: 2px 3px 15px #76ba997d;
+        box-shadow: 2px 3px 15px dodgerblue ;
     }
 
     .box img {
@@ -89,7 +89,7 @@ body {
     position: fixed;
     right: 2rem;
     top: 2rem;
-    background-color: #76BA99;
+    background-color: cornflowerblue;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
@@ -102,7 +102,7 @@ body {
 
 .modal-content {
     position: relative;
-    background-color: #fefefe;
+    background-color: cornflowerblue;
     margin: auto;
     padding: 0;
     border: 1px solid #888;
@@ -128,7 +128,7 @@ body {
 }
 
 .viewer-wrapper {
-    border: 1px solid #76BA99;
+    border: 1px solid cornflowerblue;
     height: 100%;
 }
 
