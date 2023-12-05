@@ -1,0 +1,80 @@
+﻿/* Estilos para el botón de limpiar */
+.clear-search-button {
+    margin-top: 02px;
+    color: ghostwhite;
+    border-radius: 100%; /* Hace el botón más circular */
+    &:hover
+
+{
+    background: rgba(169, 169, 169, 1);
+}
+
+}
+
+/* Estilos para el botón de búsqueda */
+.search-button {
+    color: ghostwhite;
+    border-radius: 10%; /* Hace el botón más circular */
+
+    &_before
+
+{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(169, 169, 169, 1);
+    z-index: -1;
+    opacity: 0; /* Agrega esta propiedad para ocultar el fondo gris por defecto */
+    transition: opacity 0.3s; /* Agrega una transición suave */
+}
+
+&:hover {
+    background: rgba(169, 169, 169, 1);
+    &_before
+
+{
+    opacity: 0; /* Muestra el fondo gris al hacer hover */
+}
+
+}
+
+&_active {
+    background: rgba(169, 169, 169, 1);
+}
+
+}
+
+/* Estilos para el input de búsqueda */
+.search-input {
+    color: white;
+    border-radius: 50%; /* Hace el input más circular */
+    background: rgba(169, 169, 169, 1);
+    padding: 0px; /* Ajusta el padding según sea necesario */
+    &:hover, &:focus
+       
+{
+    background: rgba(61, 61, 61, 1);
+}
+
+}
+
+/* Estilos para el InputGroup */
+.search-input-group {
+    background: rgba(61, 61, 61, 1);
+    border-radius: 20px; /* Ajusta el redondeo según sea necesario */
+    box-shadow: md;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ajusta el ancho de la barra de búsqueda */
+    padding: 1px; /* Ajustado el relleno */
+}
+
+/* Agrega estilos para el contenedor de búsqueda en la barra */
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 100px;
+}

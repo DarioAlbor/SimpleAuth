@@ -4,40 +4,6 @@
 .bell-icon {
     margin-top: 0px;
 }
-
-/* Estilos para el bot�n de limpiar */
-.clear-search-button {
-    margin-top: 0px;
-}
-
-/* Estilos para el bot�n de b�squeda */
-.search-button {
-    color: gray.500;
-    border-radius: full;
-    &:hover
-
-{
-    background: transparent;
-    &_before
-
-{
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.1);
-    z-index: -1;
-}
-
-}
-
-&_active {
-    background: transparent;
-}
-
-}
-
 /* Estilos para el separador */
 .separator {
     border-left: 1px solid rgba(128, 128, 128, 0.2); /* Esto representa el color gray.200 en formato rgba */
@@ -46,62 +12,6 @@
     margin-left: 9px;
 }
 
-/* Estilos para el boton de subir archivo */
-
-.upload-button-pc {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    margin-left: 5px; /* Ajusta el margen según tus necesidades */
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-    .upload-button-pc:hover {
-        background-color: #e0e0e0; /* Cambia el color de fondo al pasar el mouse */
-        transform: scale(1.1); /* Efecto de escala al pasar el mouse */
-    }
-
-.upload-icon-pc {
-    font-size: 50px; /* Tamaño del icono */
-    color: gray.500; /* Color del icono */
-    /* Estilos para el círculo de fondo */
-    background-color: teal.500; /* Color del fondo del círculo */
-    border-radius: 50%; /* Hace que el fondo sea circular */
-    width: 30px; /* Tamaño del fondo del círculo */
-    height: 30px; /* Tamaño del fondo del círculo */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Estilos de sombra para el círculo */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-}
-
-.upload-button-mobile {
-    cursor: pointer;
-    position: relative;
-    margin-right: 60px; /* Ajusta el margen según sea necesario */
-}
-
-.upload-icon {
-    font-size: 20px; /* Tamaño del icono */
-    color: gray.500; /* Color del icono */
-    /* Estilos para el círculo de fondo */
-    background-color: teal.500; /* Color del fondo del círculo */
-    border-radius: 50%; /* Hace que el fondo sea circular */
-    width: 30px; /* Tamaño del fondo del círculo */
-    height: 30px; /* Tamaño del fondo del círculo */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Estilos de sombra para el círculo */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-}
-
-    .upload-icon:hover {
-        transform: scale(1.1); /* Efecto de escala al pasar el mouse */
-    }
 
 /* Estilos para pantallas m�s peque�as (m�viles) */
 @media only screen and (max-width: 768px) {

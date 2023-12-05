@@ -1,5 +1,5 @@
 import React from 'react';
-import SignupCard from '../components/templates/SignupCard'; 
+import SignupCard from '../components/SignupCard'; 
 import DgLogo from '../components/templates/dglogo';
 import ColorModeToggle from '../components/templates/colormodetoggle';
 

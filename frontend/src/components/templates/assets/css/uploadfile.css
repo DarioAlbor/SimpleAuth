@@ -1,0 +1,35 @@
+/* Estilos para el botón de subir archivo */
+.upload-button-mobile {
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px; /* Ajusta el margen según sea necesario */
+    /* Estilos para versiones móviles */
+    @media (max-width: 0px) {
+        margin-right: 0px; /* Ajusta el margen para versiones móviles */
+        margin-left: 0px;
+    }
+}
+
+/* Estilos para el ícono de subir archivo */
+.upload-icon {
+    font-size: 20px; /* Tamaño del icono */
+    color: lightslategray; /* Color del icono */
+    /* Estilos para el círculo de fondo */
+    background-color: none; /* Color del fondo del círculo */
+    border-radius: 50%; /* Hace que el fondo sea circular */
+    width: 30px; /* Tamaño del fondo del círculo */
+    height: 30px; /* Tamaño del fondo del círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Estilos de sombra para el círculo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    /* Personalización adicional */
+    /* Puedes agregar más estilos aquí para personalizar el ícono según tus necesidades */
+
+}
+
+    .upload-icon:hover {
+        transform: scale(1.1); /* Efecto de escala al pasar el mouse */
+    }

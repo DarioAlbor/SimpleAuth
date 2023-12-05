@@ -1,7 +1,7 @@
 // Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginCard from '../components/templates/LoginCard';
+import LoginCard from '../components/LoginCard';
 
 const Login = () => {
     const navigate = useNavigate();

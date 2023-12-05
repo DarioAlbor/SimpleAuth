@@ -13,7 +13,7 @@ exports.getUserInfo = async (req, res) => {
 
         // Busca al usuario por ID
         const user = await User.findByPk(userId, {
-            attributes: ['id', 'firstName', 'lastName', 'email'],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'role'],
         });
 
         if (!user) {
