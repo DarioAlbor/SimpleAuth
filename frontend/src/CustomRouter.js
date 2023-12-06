@@ -64,7 +64,12 @@ const CustomRouter = () => {
     };
 
     const DesignerRoute = ({ element }) => {
-        return userRole === 'Diseñador' ? element : <Navigate to="/404" />;
+        const allowedRoles = ['Diseñador', 'Developer'];
+
+        // Verificacion
+        const isAllowed = userRole && allowedRoles.includes(userRole);
+
+        return isAllowed ? element : <Navigate to="/404" />;
     };
 
     return (

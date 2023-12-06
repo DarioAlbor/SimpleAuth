@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Search from './assets/search';
 import UploadFile from './assets/uploadfile';
+import ButtonDeveloper from './assets/buttons/ButtonDeveloper';
+import ButtonDirector from './assets/buttons/ButtonDirector';
+import ButtonDesigner from './assets/buttons/ButtonDesigner';
 import {
   IconButton,
   Avatar,
@@ -45,6 +48,7 @@ import {
   FiX,
 } from 'react-icons/fi';
 import { TfiPencilAlt } from "react-icons/tfi";
+import { RiAdminFill } from "react-icons/ri";
 import DgLogo from './dglogo';
 import './css/sidebar.css'; // Importar el archivo CSS
 import { Link, Outlet, useNavigate } from 'react-router-dom';
@@ -89,13 +93,7 @@ const LinkItems: LinkItemProps[] = [
     { name: 'Configuración', icon: FiSettings, to: '/configuracion' },
 ];
 
-const RangoButtons: { [key: string]: React.ElementType } = {
-    Diseñador: TfiPencilAlt,
-    Developer: FiCode,
-    // Agrega más rangos según sea necesario
-};
-
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, ...rest }) => {
     const [isHovered, setIsHovered] = React.useState(false);
     const [isExpanded, setIsExpanded] = React.useState(false);
     const [role, setRole] = useState(null);
@@ -139,7 +137,24 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         fetchData();
     }, []); // Se ejecuta solo en el montaje inicial
 
-    const isDesigner = role === 'Diseñador';
+    const renderRoleButtons = () => {
+        switch (role) {
+            case 'Developer':
+                return (
+                    <>
+                        <ButtonDeveloper isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />
+                        <ButtonDirector isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />
+                        <ButtonDesigner isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />
+                    </>
+                );
+            case 'Director':
+                return <ButtonDirector isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />;
+            case 'Diseñador':
+                return <ButtonDesigner isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />;
+            default:
+                return null;
+        }
+    };
 
     return (
         <Box
@@ -152,7 +167,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             bg={useColorModeValue('white', 'gray.900')}
             borderRight="1px"
             borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-            className={isExpanded ? 'sidebar-expanded' : ''}
+            className={`sidebar ${isExpanded ? 'sidebar-expanded' : ''}`}
             zIndex={10}
             {...rest}
         >
@@ -171,16 +186,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     {link.name}
                 </NavItem>
             ))}
-            {role && RangoButtons[role] && (
-                <NavItem
-                    icon={RangoButtons[role]}
-                    isHovered={isHovered}
-                    setIsHovered={setIsHovered}
-                    setIsExpanded={setIsExpanded}
-                >
-                    {isExpanded ? role : null}
-                </NavItem>
-            )}
+            {role && renderRoleButtons()}
         </Box>
     );
 };

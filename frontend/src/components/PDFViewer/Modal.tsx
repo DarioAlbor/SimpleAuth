@@ -13,7 +13,7 @@ interface IModalProps {
 }
 
 const Modal = ({ modalShow, url, modalClose }: IModalProps): JSX.Element => {
-  const fileUrl2 = `/recources/${url}`;
+    const fileUrl2 = `http://localhost:3001/upload/pdf/viasalud.pdf`;
 
   const searchPluginInstance = searchPlugin();
   const pageNavigationPluginInstance = pageNavigationPlugin();

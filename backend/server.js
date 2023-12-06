@@ -14,7 +14,9 @@ app.use(session({
     credentials: true, // Asegúrate de incluir esto
 }));
 
-
+//EXPRESS
+app.use(express.static('assets'));
+//JS
 app.use(bodyParser.json());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // Permitir solicitudes desde el frontend
 
@@ -23,14 +25,25 @@ const registerRoutes = require('./routes/register');
 const checkEmailRoutes = require('./routes/checkEmail');
 const userRoutes = require('./routes/user');
 const logoutRoutes = require('./routes/logout');
-const checkAuthenticationRoutes = require('./routes/checkAuthentication'); // 
+const checkAuthenticationRoutes = require('./routes/checkAuthentication');
+const uploadPdfRoutes = require('./routes/uploadpdf');
+const getcarousel = require('./routes/getcarousel');
+    
+
+//////////////////////////////////////////////
 
 app.use('/api/register', registerRoutes);
 app.use('/api/checkEmail', checkEmailRoutes);
 app.use('/api/login', loginRoutes);
 app.use('/api/logout', logoutRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/user/checkAuthentication', checkAuthenticationRoutes); //
+app.use('/api/user/checkAuthentication', checkAuthenticationRoutes);
+app.use('/api/uploadpdf', uploadPdfRoutes);
+app.use('/api/getcarousel', getcarousel);
+
+//EXPRESS
+app.use('/upload/pdf', express.static('assets/recources')); // REVISTA VIA SALUD
+app.use('/upload/carousel', express.static('assets/carousel')); // IMAGENES DEL CAROUSEL
 
 const PORT = process.env.PORT || 3001;
 
