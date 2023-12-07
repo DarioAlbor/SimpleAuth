@@ -27,12 +27,12 @@ const Carousel = () => {
 
     return (
         <Flex direction="column" align="center">
-            <Flex direction="column" maxW="600px" overflow="hidden" mb="4">
+            <Flex direction="column" maxW="1000px" overflow="hidden" mb="10">
                 <Box position="relative">
                     {images.map((image, index) => (
                         <Image
                             key={index}
-                            src={`http://localhost:3001${image}`}
+                            src={image} // Aquí simplemente asignamos la URL base64 directamente
                             alt={`Banner ${index + 1}`}
                             display={index === currentIndex ? 'block' : 'none'}
                             w="100%"

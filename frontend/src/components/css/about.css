@@ -46,7 +46,7 @@
     flex-direction: column;
     align-items: center; /* Centra los elementos horizontalmente */
     margin-top: 0px; /* Ajusta según sea necesario */
-    margin-bottom: -20px; /* Ajusta según sea necesario */
+    margin-bottom: 20px; /* Ajusta según sea necesario */
     margin-left: center;
 
 }

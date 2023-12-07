@@ -35,32 +35,13 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 }
 
 export default function LargeWithLogoCentered() {
-  return (
+    return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}>
+          color={useColorModeValue('gray.700', 'gray.200')}>
       <Container as={Stack} maxW={'6xl'} py={10}>
+                <Flex align="center" justify="right">
         <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align={'flex-start'}>
-            <ListHeader>Tienda</ListHeader>
-            <Box as="a" href={'#'}>
-              Inicio
-            </Box>
-            <Stack direction={'row'} align={'center'} spacing={2}>
-              <Box as="a" href={'#'}>
-                Novedades
-              </Box>
-            </Stack>
-            <Box as="a" href={'#'}>
-              Tutorial
-            </Box>
-            <Box as="a" href={'#'}>
-              Catálogo
-            </Box>
-            <Box as="a" href={'#'}>
-              Lanzamientos
-            </Box>
-          </Stack>
           <Stack align={'flex-start'}>
             <ListHeader>Empresa</ListHeader>
             <Box as="a" href={'#'}>
@@ -106,8 +87,9 @@ export default function LargeWithLogoCentered() {
                 Nuevo
               </Tag>
               </Box>
-          </Stack>
-        </SimpleGrid>
+                        </Stack>
+                    </SimpleGrid>
+                </Flex>
       </Container>
       <Box py={10}>
         <Flex

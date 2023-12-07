@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
     Button,
     Flex,
@@ -39,7 +39,7 @@ const Card = ({ heading, description, icon, href }: CardProps) => {
                     </Text>
                 </Box>
                 <Button variant={'link'} colorScheme={'blue'} size={'sm'} className="cardButton">
-                    Learn more
+                    Quiero saber más
                 </Button>
             </Stack>
         </Box>
@@ -47,46 +47,46 @@ const Card = ({ heading, description, icon, href }: CardProps) => {
 };
 export default function GridListWith() {
     return (
-        <Box p={5} className="about-container">
+        <Box p={0} className="about-container">
             <Stack spacing={3} as={Container} maxW={'8xl'} textAlign={'center'}>
                 <Heading fontSize={{ base: '2xl', sm: '5xl' }} fontWeight={'bold'}>
-                    Short heading
+                    ¡Nos estamos renovando para vos!
                 </Heading>
                 <Text color={'gray.600'} fontSize={{ base: 'sm', sm: 'lg' }}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-                    obcaecati ut cupiditate pariatur, dignissimos, placeat amet officiis.
+                    Esté nuevo año lo queremos comenzar de la mejor manera,
+                    es por eso que hemos decidido sorprenderte. 😉
                 </Text>
             </Stack>
 
             <Box className="cardContainer">
                 <Card
-                    heading={'Heading'}
+                    heading={'Asistente virtual'}
                     icon={<Icon as={FcAssistant} w={10} h={10} />}
-                    description={'Lorem ipsum dolor sit amet catetur, adipisicing elit.'}
+                    description={'Contamos con un asistente virtual las 24 horas del día, lista para solucionar todos tus problemas.'}
                     href={'#'}
                 />  
                 <Card
-                    heading={'Heading'}
+                    heading={'Contacto directo'}
                     icon={<Icon as={FcCollaboration} w={10} h={10} />}
-                    description={'Lorem ipsum dolor sit amet catetur, adipisicing elit.'}
+                    description={'¿Hay algún problema con tu pedido? ¡Ningun problema! Ahora podes solucionarlo acá mismo.'}
                     href={'#'}
                 />
                 <Card
-                    heading={'Heading'}
+                    heading={'¡Necesito crédito!'}
                     icon={<Icon as={FcDonate} w={10} h={10} />}
-                    description={'Lorem ipsum dolor sit amet catetur, adipisicing elit.'}
+                    description={'Desde la nueva aplicación podrás solicitar crédito como así también consultarlo y la opción de saldarlo. ¿Qué esperas?'}
                     href={'#'}
                 />
                 <Card
-                    heading={'Heading'}
+                    heading={'Mi cuenta'}
                     icon={<Icon as={FcManager} w={10} h={10} />}
-                    description={'Lorem ipsum dolor sit amet catetur, adipisicing elit.'}
+                    description={'Ya no hace falta ponerte en contacto con nosotros para saber tu informe. Podes consultar el mismo desde la sección "Mi cuenta" en el extremo derecho.'}
                     href={'#'}
                 />
                 <Card
-                    heading={'Heading'}
+                    heading={'F.A.Q'}
                     icon={<Icon as={FcAbout} w={10} h={10} />}
-                    description={'Lorem ipsum dolor sit amet catetur, adipisicing elit.'}
+                    description={'¿No he sido lo bastante claro? Podes consultar nuestras preguntas frecuentes y resolver todas tus dudas, ¡Ahora mismo!.'}
                     href={'#'}
                 />
             </Box>

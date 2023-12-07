@@ -8,6 +8,7 @@ import Tienda from './pages/Tienda';
 import ViaSalud from './pages/ViaSalud';
 import NotFound from './pages/404';
 import DesignPage from './pages/design';
+import Chatbot from './components/Chatbot'; // 
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -74,14 +75,15 @@ const CustomRouter = () => {
 
     return (
         <Routes>
+            {/* PUBLICAS ACA */}
             <Route path="/register" element={<PublicRoute element={<Register />} />} />
             <Route path="/login" element={<PublicRoute element={<Login />} />} />
-
+            {/* PRIVADAS ACA */}
             <Route path="/inicio/*" element={<PrivateRoute><Inicio /></PrivateRoute>} />
             <Route path="/tienda" element={<PrivateRoute><Tienda /></PrivateRoute>} />
             <Route path="/viasalud" element={<PrivateRoute><ViaSalud /></PrivateRoute>} />
-
-            {/* Nueva ruta para la página de diseño */}
+            <Route path="/chatbot" element={<PrivateRoute><Chatbot /></PrivateRoute>} />
+            {/* PANEL DE DISEÑO */}
             <Route path="/design/*" element={<PrivateRoute><DesignerRoute element={<DesignPage />} /></PrivateRoute>} />
 
             <Route

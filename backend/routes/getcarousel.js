@@ -17,10 +17,14 @@ router.get('/', (req, res) => {
         // Filtra solo los archivos de imagen (puedes ajustar esto según tus extensiones de archivo)
         const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file));
 
-        // Construye las URLs completas de las imágenes
-        const imageUrls = imageFiles.map(file => `/upload/carousel/${file}`);
+        // Lee y codifica cada imagen a base64
+        const base64Images = imageFiles.map(file => {
+            const imagePath = path.join(carouselFolderPath, file);
+            const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' });
+            return `data:image/jpeg;base64,${imageBase64}`;
+        });
 
-        res.json({ images: imageUrls });
+        res.json({ images: base64Images });
     });
 });
 

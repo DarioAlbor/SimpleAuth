@@ -293,8 +293,8 @@ const MobileNav = ({ onOpen, handleLogout, handleMenuIconClick, ...rest }: Mobil
 
     return (
         <Flex
-            ml={{ base: -1, md: 0 }}
-            px={{ base: 4, md: 100 }}
+            ml={{ base: 0, md: 0 }}
+            px={{ base: 0, md: 150 }}
             height="20"
             alignItems="center"
             bg={useColorModeValue('white', 'gray.900')}
@@ -320,7 +320,7 @@ const MobileNav = ({ onOpen, handleLogout, handleMenuIconClick, ...rest }: Mobil
                 <UploadFile />
                 <Search />
                 <Box className="separator" />
-                <HStack spacing={{ base: '0', md: '6' }}>
+                <HStack spacing={{ base: '0', md: '5' }}>
                     <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell className="bell-icon" />} />
                     <Flex alignItems={'center'}>
                         <a onClick={onToggle}>
@@ -400,7 +400,7 @@ const SidebarWithHeader = () => {
             </Drawer>
             {/* Renderiza MobileNav fuera del Drawer */}
             <MobileNav onOpen={onOpen} handleLogout={handleLogout} />
-            <Flex ml={{ base: 0, md: 60 }} p="4" align="center" justify="center">
+            <Flex ml={{ base: 0, md: 0 }} p="0" align="center" justify="center">
                 <Outlet />
             </Flex>
         </Box>
