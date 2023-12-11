@@ -71,7 +71,9 @@ const LoginCard = ({ handleLoginClick, setEmail, setPassword, errorMessage, logi
                             justify={'space-between'}
                         >
                             <Checkbox>Recordarme</Checkbox>
-                            <Text color={'blue.500'}>Recuperar contraseña</Text>
+                            <Link to="/login/forgotpass">
+                                <Text color={'blue.500'}>Recuperar contraseña</Text>
+                            </Link>
                         </Stack>
                         {loginSuccess ? (
                             <Button colorScheme="green" leftIcon={<HiCheckCircle />}>

@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import ForgotPass from './pages/Forgotpass';
 import Inicio from './pages/Inicio';
 import Tienda from './pages/Tienda';
 import ViaSalud from './pages/ViaSalud';
 import NotFound from './pages/404';
 import DesignPage from './pages/design';
-import Chatbot from './components/Chatbot'; // 
+import UserConfig from './pages/user/Config';
+import Chatbot from './components/Chatbot';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -78,11 +80,13 @@ const CustomRouter = () => {
             {/* PUBLICAS ACA */}
             <Route path="/register" element={<PublicRoute element={<Register />} />} />
             <Route path="/login" element={<PublicRoute element={<Login />} />} />
+            <Route path="/login/forgotpass" element={<PublicRoute element={<ForgotPass />} />} />
             {/* PRIVADAS ACA */}
             <Route path="/inicio/*" element={<PrivateRoute><Inicio /></PrivateRoute>} />
             <Route path="/tienda" element={<PrivateRoute><Tienda /></PrivateRoute>} />
             <Route path="/viasalud" element={<PrivateRoute><ViaSalud /></PrivateRoute>} />
             <Route path="/chatbot" element={<PrivateRoute><Chatbot /></PrivateRoute>} />
+            <Route path="/user" element={<PrivateRoute><UserConfig /></PrivateRoute>} />
             {/* PANEL DE DISEÑO */}
             <Route path="/design/*" element={<PrivateRoute><DesignerRoute element={<DesignPage />} /></PrivateRoute>} />
 

@@ -28,7 +28,7 @@ const logoutRoutes = require('./routes/logout');
 const checkAuthenticationRoutes = require('./routes/checkAuthentication');
 const uploadPdfRoutes = require('./routes/uploadpdf');
 const getcarousel = require('./routes/getcarousel');
-    
+const uploadbannerRoutes = require('./routes/uploadbanner');
 
 //////////////////////////////////////////////
 
@@ -40,6 +40,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/user/checkAuthentication', checkAuthenticationRoutes);
 app.use('/api/uploadpdf', uploadPdfRoutes);
 app.use('/api/getcarousel', getcarousel);
+app.use('/api/uploadbanner', uploadbannerRoutes);
 
 //EXPRESS
 app.use('/upload/pdf', express.static('assets/recources')); // REVISTA VIA SALUD

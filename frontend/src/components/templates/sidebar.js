@@ -90,7 +90,6 @@ const LinkItems: LinkItemProps[] = [
     { name: 'Tienda', icon: FiShoppingCart, to: '/tienda' },
     { name: 'Via Salud', icon: FiBookOpen, to: '/viasalud' },
     { name: 'Pedidos', icon: FiClock, to: '/pedidos' },
-    { name: 'Configuración', icon: FiSettings, to: '/configuracion' },
 ];
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -369,7 +368,9 @@ const MobileNav = ({ onOpen, handleLogout, handleMenuIconClick, ...rest }: Mobil
                                         </MenuButton>
                                         <MenuList>
                                             <MenuItem>Perfil</MenuItem>
-                                            <MenuItem>Configuración</MenuItem>
+                                            <MenuItem>
+                                                <Link to="/user">Configuración</Link>
+                                            </MenuItem>
                                             <MenuItem>Estado de cuenta</MenuItem>
                                             <MenuDivider />
                                             <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
