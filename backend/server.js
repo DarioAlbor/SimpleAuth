@@ -16,6 +16,8 @@ app.use(session({
 
 //EXPRESS
 app.use(express.static('assets'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 //JS
 app.use(bodyParser.json());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // Permitir solicitudes desde el frontend

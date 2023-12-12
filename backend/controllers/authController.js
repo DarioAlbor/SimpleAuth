@@ -1,24 +1,28 @@
-  const User = require('../models/user');
-  const passport = require('passport');
+const User = require('../models/user');
+const passport = require('passport');
+const mailer = require('../utils/mailer');
 
-
-  exports.register = async (req, res) => {  
+exports.register = async (req, res) => {
     try {
-      const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
-      const existingUser = await User.findOne({ where: { email } });
+        const existingUser = await User.findOne({ where: { email } });
 
-      if (existingUser) {
-        return res.status(409).json({ message: 'El usuario ya existe' });
-      }
+        if (existingUser) {
+            return res.status(409).json({ message: 'El usuario ya existe' });
+        }
 
         const user = await User.create({ firstName, lastName, email, password, role: 'Cliente' });
-      res.json({ message: 'Usuario registrado exitosamente', user });
+
+        // Enviar correo de bienvenida
+        await mailer.sendWelcomeEmail(email);
+
+        res.json({ message: 'Usuario registrado exitosamente', user });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error al registrar el usuario' });
+        console.error(error);
+        res.status(500).json({ message: 'Error al registrar el usuario' });
     }
-  };
+};
 
   exports.checkEmail = async (req, res) => {
     try {
