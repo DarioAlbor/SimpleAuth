@@ -42,7 +42,7 @@ const ButtonDesigner = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) 
                     transition="visibility 0.1s"
                     className={`nav-item ${isExpanded ? 'sidebar-expanded' : 'nav-item-minimized'}`}
                 >
-                    Diseñador
+                    DiseÃ±ador
                 </Box>
             </Flex>
         </Link>

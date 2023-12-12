@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ForgotPassCard from '../components/ForgotPassCard';
+import axios from 'axios';
 
 const ForgotPass = () => {
     const navigate = useNavigate();
@@ -10,12 +11,11 @@ const ForgotPass = () => {
 
     const handleForgotPassClick = async () => {
         try {
-            // Lógica de recuperación de contraseña aquí
-            // Puedes manejar la lógica de backend similar a la de login
+            const response = await axios.post('http://localhost:3001/api/login/forgot-password', { email }); // Ajusta la URL
             setResetSuccess(true);
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Error al intentar restablecer la contraseña.');
+            setErrorMessage('Error al intentar restablecer la contraseÃ±a.');
         }
     };
 

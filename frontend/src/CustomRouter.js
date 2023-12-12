@@ -4,6 +4,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import ForgotPass from './pages/Forgotpass';
+import ResetPass from './pages/ResetPass';
 import Inicio from './pages/Inicio';
 import Tienda from './pages/Tienda';
 import ViaSalud from './pages/ViaSalud';
@@ -81,6 +82,7 @@ const CustomRouter = () => {
             <Route path="/register" element={<PublicRoute element={<Register />} />} />
             <Route path="/login" element={<PublicRoute element={<Login />} />} />
             <Route path="/login/forgotpass" element={<PublicRoute element={<ForgotPass />} />} />
+            <Route path="/login/resetpass/:token" element={<PublicRoute element={<ResetPass />} />} />
             {/* PRIVADAS ACA */}
             <Route path="/inicio/*" element={<PrivateRoute><Inicio /></PrivateRoute>} />
             <Route path="/tienda" element={<PrivateRoute><Tienda /></PrivateRoute>} />

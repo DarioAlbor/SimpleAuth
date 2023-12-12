@@ -31,7 +31,7 @@ const Config = () => {
                     id: data.user.id || '',
                 });
             } catch (error) {
-                console.error('Error al obtener información del usuario:', error);
+                console.error('Error al obtener informaciÃ³n del usuario:', error);
             }
         };
 
@@ -45,10 +45,10 @@ const Config = () => {
 
             <Flex direction="column" p={8} align="center">
 
-                {/* Título */}
+                {/* Tï¿½tulo */}
                 <Center mb={10}>
                     <Box>
-                        <Heading>Configuración</Heading>
+                        <Heading>ConfiguraciÃ³n</Heading>
                     </Box>
                 </Center>
 
@@ -59,7 +59,7 @@ const Config = () => {
                     </Box>
                 </Center>
 
-                {/* Información del Usuario */}
+                {/* Informaciï¿½n del Usuario */}
                 <Text mb={2} fontSize="3xl" fontWeight="bold" color="white">
                     {userInfo.firstName} {userInfo.lastName}
                 </Text>
@@ -70,21 +70,21 @@ const Config = () => {
                 {/* Divider */}
                 <Divider my={5} />
 
-                {/* Sección de Botones */}
+                {/* Secciï¿½n de Botones */}
                 <Flex direction="column" align="center">
                     <Button
                         leftIcon={<Icon as={HiKey} />}
                         colorScheme="teal"
                         mb={2}
-                        width="90%" // Ajusta el ancho del botón
+                        width="90%" // Ajusta el ancho del botï¿½n
                     >
-                        Cambiar Contraseña
+                        Cambiar ContraseÃ±a
                     </Button>
                     <Button
                         leftIcon={<Icon as={HiMail} />}
                         colorScheme="teal"
                         mb={2}
-                        width="80%" // Ajusta el ancho del botón
+                        width="80%" // Ajusta el ancho del botï¿½n
                     >
                         Cambiar Correo
                     </Button>
@@ -92,7 +92,7 @@ const Config = () => {
                         leftIcon={<Icon as={HiUserAdd} />}
                         colorScheme="teal"
                         mb={2}
-                        width="80%" // Ajusta el ancho del botón
+                        width="80%" // Ajusta el ancho del botï¿½n
                     >
                         Agregar Usuario
                     </Button>

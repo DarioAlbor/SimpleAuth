@@ -33,9 +33,9 @@ const ForgotPassCard = ({ handleForgotPassClick, setEmail, resetSuccess, errorMe
         <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
-                    <Heading fontSize={'2xl'}>Recuperar Contraseña</Heading>
+                    <Heading fontSize={'2xl'}>Recuperar ContraseÃ±a</Heading>
                     <FormControl id="email" isRequired>
-                        <FormLabel>Correo electrónico</FormLabel>
+                        <FormLabel>Correo electrÃ³nico</FormLabel>
                         <InputGroup>
                             <InputLeftElement pointerEvents="none" children={<HiOutlineMail color="gray.300" />} />
                             <Input
@@ -45,21 +45,21 @@ const ForgotPassCard = ({ handleForgotPassClick, setEmail, resetSuccess, errorMe
                             />
                         </InputGroup>
                         <Text mt={2} fontSize="sm" color="gray.500">
-                            Te enviaremos un mensaje con un enlace que te permitirá restablecer tu contraseña.
+                            Te enviaremos un mensaje con un enlace que te permitirÃ¡ restablecer tu contraseÃ±a.
                         </Text>
                     </FormControl>
                     <Stack spacing={6}>
                         {resetSuccess ? (
                             <Button colorScheme="green" leftIcon={<HiCheckCircle />}>
-                                ¡Restablecimiento de contraseña exitoso!
+                                Â¡Restablecimiento de contraseÃ±a exitoso!
                             </Button>
                         ) : (
                             <Button colorScheme={'blue'} variant={'solid'} onClick={handleForgotPassClick}>
-                                Restablecer Contraseña
+                                Restablecer ContraseÃ±a
                             </Button>
                         )}
                         <Button colorScheme={'gray'} variant={'solid'}>
-                            <Link to="/login">Volver al inicio de sesión</Link>
+                            <Link to="/login">Volver al inicio de sesiÃ³n</Link>
                         </Button>
                     </Stack>
                     {errorMessage && (
