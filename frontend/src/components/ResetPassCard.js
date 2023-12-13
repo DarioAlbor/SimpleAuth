@@ -40,23 +40,21 @@ const ResetPassCard = () => {
     }, [token]);
 
     const handleResetPassClick = async () => {
-        // Lógica para restablecer la contraseña
-        // Puedes usar las variables password y confirmPassword
-        // y realizar la lógica de reseteo aquí
-
         try {
-            // Ejemplo de cómo podrías hacer la llamada a la API para restablecer la contraseña
             const response = await axios.post('http://localhost:3001/api/login/reset-password', {
                 email: 'correo@example.com',
                 token,
                 newPassword: password,
             });
-
+    
             // Puedes manejar la respuesta de la API y actualizar el estado según sea necesario
             setResetSuccess(true);
         } catch (error) {
             console.error('Error resetting password:', error);
             setErrorMessage('Error al restablecer la contraseña.');
+    
+            // Agregar esta línea para ver más detalles sobre el error
+            console.log('Axios Error Details:', error.response);
         }
     };
 
