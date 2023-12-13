@@ -116,24 +116,24 @@ exports.resetPassword = async (req, res) => {
   const { email, token, newPassword } = req.body;
 
   try {
-      const user = await User.findOne({ where: { email, resetToken: token } });
+    const user = await User.findOne({ where: { email } });
 
-      if (!user) {
-          return res.status(400).json({ success: false, message: 'Token de restablecimiento no válido.' });
-      }
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Usuario no encontrado.' });
+    }
 
-      // Verifica la validez y el tiempo de expiración del token
-      const decodedToken = verifyToken(token);
-      if (!decodedToken) {
-          return res.status(400).json({ success: false, message: 'Token de restablecimiento no válido o ha expirado.' });
-      }
+    // Verifica la validez y el tiempo de expiración del token si es necesario
+    // const decodedToken = verifyToken(token);
+    // if (!decodedToken) {
+    //     return res.status(400).json({ success: false, message: 'Token de restablecimiento no válido o ha expirado.' });
+    // }
 
-      // Actualiza la contraseña en la base de datos
-      await user.update({ password: newPassword, resetToken: null });
+    // Actualiza la contraseña en la base de datos
+    await user.update({ password: newPassword });
 
-      res.json({ success: true, message: 'Contraseña restablecida con éxito.' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ success: false, message: 'Error al restablecer la contraseña.' });
+    res.json({ success: true, message: 'Contraseña restablecida con éxito.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error al restablecer la contraseña.' });
   }
 };
