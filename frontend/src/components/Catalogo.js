@@ -36,14 +36,14 @@ const Catalogo = () => {
     };
 
     const handleMenuItemClick = () => {
-        // No cerrar el menú al hacer clic en un elemento del menú
+        // No cerrar el menï¿½ al hacer clic en un elemento del menï¿½
     };
 
     const initialData = [
         { descripcion: 'Producto 1', laboratorio: 'Lab A', stock: 10, pvp: 20, precioConDesc: 18, minOfer: 2 },
         { descripcion: 'Producto 2', laboratorio: 'Lab B', stock: 3, pvp: 25, precioConDesc: 22, minOfer: 1 },
         { descripcion: 'Producto 3', laboratorio: 'Lab C', stock: 8, pvp: 18, precioConDesc: 16, minOfer: 3 },
-        // Agrega más datos según sea necesario
+        // Agrega mï¿½s datos segï¿½n sea necesario
     ];
 
     const [data, setData] = useState(initialData.map((item) => ({ ...item, cantidad: 0, showWarning: false })));
@@ -205,7 +205,7 @@ const Catalogo = () => {
                                         w="60px"
                                     />
                                     {producto.cantidad > maxCantidad && (
-                                        <Tooltip label="La cantidad máxima permitida es 100 por producto" placement="top" hasArrow>
+                                        <Tooltip label="La cantidad mï¿½xima permitida es 100 por producto" placement="top" hasArrow>
                                             <Box className="alert-box" position="absolute" top="-30px">
                                                 <Box className="alert alert-danger">
                                                     {/* Puedes agregar un icono de advertencia si lo deseas */}

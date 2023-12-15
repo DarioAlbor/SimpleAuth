@@ -42,7 +42,7 @@ const ResetPassCard = () => {
     const handleResetPassClick = async () => {
         try {
             const response = await axios.post('http://localhost:3001/api/login/reset-password', {
-                email: 'correo@example.com',
+                email: 'dario@vefixy.com',
                 token,
                 newPassword: password,
             });
