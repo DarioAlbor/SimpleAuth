@@ -1,6 +1,6 @@
 // ButtonDeveloper.js
 import React from 'react';
-import { Flex, Icon, Box } from '@chakra-ui/react';  // Asegúrate de importar estos componentes
+import { Flex, Icon, Box } from '@chakra-ui/react';
 import { FiCode } from 'react-icons/fi';
 
 const ButtonDeveloper = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => {

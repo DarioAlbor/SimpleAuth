@@ -1,9 +1,9 @@
-// ButtonDirector.js
+// ButtonSales.js
 import React from 'react';
-import { Flex, Icon, Box } from '@chakra-ui/react';  
-import { RiAdminFill } from 'react-icons/ri';
+import { Flex, Icon, Box } from '@chakra-ui/react';
+import { FiShoppingCart } from 'react-icons/fi'; 
 
-const ButtonDirector = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => {
+const ButtonSales = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => {
     return (
         <Flex
             onMouseEnter={() => {
@@ -31,7 +31,7 @@ const ButtonDirector = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) 
                 _groupHover={{
                     color: 'white',
                 }}
-                as={RiAdminFill}
+                as={FiShoppingCart} 
                 className={`icon`}
             />
             <Box
@@ -40,10 +40,10 @@ const ButtonDirector = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) 
                 transition="visibility 0.1s"
                 className={`nav-item ${isExpanded ? 'sidebar-expanded' : 'nav-item-minimized'}`}
             >
-                Director
+                Vendedor
             </Box>
         </Flex>
     );
 };
 
-export default ButtonDirector;
+export default ButtonSales;
