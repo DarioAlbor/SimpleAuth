@@ -52,6 +52,10 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciales incorrectas' });
         }
 
+        // Actualiza isActive a "1" al iniciar sesión
+        user.isActive = 1;
+        await user.save();
+
         // Guarda el ID del usuario en la sesión
         req.session.userId = user.id;
 
@@ -62,9 +66,34 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.logout = (req, res) => {
-    req.session.destroy(); // Destruye la sesión al cerrar sesión
-    res.json({ message: 'Cierre de sesión exitoso' });
+
+exports.logout = async (req, res) => {
+    try {
+        // Verifica si el usuario está autenticado
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Acceso no autorizado' });
+        }
+
+        // Obtiene el ID del usuario desde la sesión
+        const userId = req.session.userId;
+
+        // Busca al usuario por ID y actualiza isActive a "0"
+        const user = await User.findOne({ where: { id: userId } });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Actualiza isActive a "0"
+        user.isActive = 0;
+        await user.save();
+
+        req.session.destroy(); // Destruye la sesión al cerrar sesión
+        res.json({ message: 'Cierre de sesión exitoso' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al cerrar sesión' });
+    }
 };
 
 exports.forgotPassword = async (req, res) => {

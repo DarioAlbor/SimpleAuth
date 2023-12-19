@@ -2,9 +2,11 @@
 import React from 'react';
 import { Flex, Icon, Box } from '@chakra-ui/react';
 import { FiShoppingCart } from 'react-icons/fi'; 
+import { Link } from 'react-router-dom';
 
 const ButtonSales = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => {
     return (
+        <Link to="/sales">
         <Flex
             onMouseEnter={() => {
                 setIsHovered(true);
@@ -43,6 +45,7 @@ const ButtonSales = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => 
                 Vendedor
             </Box>
         </Flex>
+        </Link>
     );
 };
 

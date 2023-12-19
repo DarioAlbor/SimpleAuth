@@ -30,6 +30,14 @@ const User = sequelize.define('users', {
       allowNull: false,
       defaultValue: 'Cliente' // Setea automaticamente el rango a Cliente, por ahora solo se cambia manualmente en MYSQL
     },
-});
+    isActive: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        isIn: [[0, 1]],
+      },
+    },
+  });
 
 module.exports = User;

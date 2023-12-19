@@ -1,6 +1,30 @@
 // controllers/userController.js
 const User = require('../models/user');
 
+exports.isUserActive = async (req, res) => {
+    try {
+        // Verifica si el usuario está autenticado
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Acceso no autorizado' });
+        }
+
+        // Obtiene el ID del usuario desde la sesión
+        const userId = req.session.userId;
+
+        // Busca al usuario por ID y devuelve si está activo o no
+        const user = await User.findByPk(userId, { attributes: ['isActive'] });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.json({ isActive: user.isActive });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al verificar si el usuario está activo' });
+    }
+};
+
 exports.getUserInfo = async (req, res) => {
     try {
         // Verifica si el usuario está autenticado
@@ -13,7 +37,7 @@ exports.getUserInfo = async (req, res) => {
 
         // Busca al usuario por ID
         const user = await User.findByPk(userId, {
-            attributes: ['id', 'firstName', 'lastName', 'email', 'role'],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'role', 'isActive'],
         });
 
         if (!user) {

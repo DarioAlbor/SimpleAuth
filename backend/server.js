@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // Permitir solicitudes desde el frontend
 
 const loginRoutes = require('./routes/login');
+const rolesRoutes = require('./routes/roles');
 const registerRoutes = require('./routes/register');
 const checkEmailRoutes = require('./routes/checkEmail');
 const userRoutes = require('./routes/user');
@@ -31,6 +32,7 @@ const checkAuthenticationRoutes = require('./routes/checkAuthentication');
 const uploadPdfRoutes = require('./routes/uploadpdf');
 const getcarousel = require('./routes/getcarousel');
 const uploadbannerRoutes = require('./routes/uploadbanner');
+const messagesRoutes = require('./routes/messages');
 
 //////////////////////////////////////////////
 
@@ -43,6 +45,8 @@ app.use('/api/user/checkAuthentication', checkAuthenticationRoutes);
 app.use('/api/uploadpdf', uploadPdfRoutes);
 app.use('/api/getcarousel', getcarousel);
 app.use('/api/uploadbanner', uploadbannerRoutes);
+app.use('/api/roles', rolesRoutes);
+app.use('/api/messages', messagesRoutes);
 
 //EXPRESS
 app.use('/upload/pdf', express.static('assets/recources')); // REVISTA VIA SALUD

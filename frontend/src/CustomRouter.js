@@ -10,6 +10,8 @@ import Tienda from './pages/Tienda';
 import ViaSalud from './pages/ViaSalud';
 import NotFound from './pages/404';
 import DesignPage from './pages/design';
+import SalesPage from './pages/sales';
+import SalesChat from './pages/sales/chat';
 import UserConfig from './pages/user/Config';
 import Chatbot from './components/Chatbot';
 
@@ -66,9 +68,18 @@ const CustomRouter = () => {
     const PrivateRoute = ({ children }) => {
         return isAuthenticated ? children : <Navigate to="/login" />;
     };
-
+//DISEÑADORES
     const DesignerRoute = ({ element }) => {
         const allowedRoles = ['Diseñador', 'Developer'];
+
+        // Verificacion
+        const isAllowed = userRole && allowedRoles.includes(userRole);
+
+        return isAllowed ? element : <Navigate to="/404" />;
+    };
+//VENDORES
+    const SalesRoute = ({ element }) => {
+        const allowedRoles = ['Vendedor', 'Developer'];
 
         // Verificacion
         const isAllowed = userRole && allowedRoles.includes(userRole);
@@ -91,6 +102,9 @@ const CustomRouter = () => {
             <Route path="/user" element={<PrivateRoute><UserConfig /></PrivateRoute>} />
             {/* PANEL DE DISEÑO */}
             <Route path="/design/*" element={<PrivateRoute><DesignerRoute element={<DesignPage />} /></PrivateRoute>} />
+            {/* PANEL DE VENTAS */}
+            <Route path="/sales" element={<PrivateRoute><SalesRoute element={<SalesPage />} /></PrivateRoute>} />
+            <Route path="/sales/chat" element={<PrivateRoute><SalesRoute element={<SalesChat />} /></PrivateRoute>} />
 
             <Route
                 index
