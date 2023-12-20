@@ -1,5 +1,3 @@
-// chat/ChatPage.js
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Box, Flex, Input, Button, Text } from '@chakra-ui/react';
 import axios from 'axios';
@@ -10,6 +8,7 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState(''); // Nuevo estado para almacenar el ID del usuario
   const messagesContainerRef = useRef(null);
 
   useEffect(() => {
@@ -25,9 +24,11 @@ const ChatPage = () => {
     if (newMessage.trim() === '') return;
 
     try {
+      // Modificamos la llamada a la API para incluir la ID y el contenido del mensaje
       const response = await axios.post('http://localhost:3001/api/messages', {
-        senderId: username, // Puedes ajustar esto según tu lógica
-        text: newMessage,
+        userId: userId, // Asegúrate de tener el ID del usuario disponible en esta variable
+        usuario: username, // Puedes ajustar esto según tu lógica
+        contenido: newMessage,
       });
 
       console.log('Mensaje enviado con éxito:', response.data);
@@ -49,7 +50,7 @@ const ChatPage = () => {
     <Container mt="0" position="absolute" top="0" left="0" right="0">
       <Flex direction="row" justify="flex-start" align="stretch" h="100vh" ml="-180px" flex="1">
         <Box minW="200px" ml="1px" overflowY="auto" p="1">
-          <GetSellers setUsername={setUsername} />
+          <GetSellers setUsername={setUsername} setUserId={setUserId} />
           <SellerList />
         </Box>
         <Box w="full" position="relative">

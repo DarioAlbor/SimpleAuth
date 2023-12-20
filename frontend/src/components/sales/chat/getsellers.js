@@ -1,8 +1,6 @@
-// chat/getsellers.js
+import React, { useEffect } from 'react';
 
-import React, { useState, useEffect } from 'react';
-
-const GetSellers = ({ setUsername }) => {
+const GetSellers = ({ setUsername, setUserId }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -13,13 +11,14 @@ const GetSellers = ({ setUsername }) => {
 
         const data = await response.json();
         setUsername(data.user.firstName);
+        setUserId(data.user.id); // Añadir esto para establecer el ID del usuario
       } catch (error) {
         console.error('Error al obtener información del usuario:', error);
       }
     };
 
     fetchUserInfo();
-  }, [setUsername]);
+  }, [setUsername, setUserId]);
 
   return null; // Puedes devolver un componente vacío o cualquier otro componente necesario
 };
