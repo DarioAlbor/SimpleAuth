@@ -1,0 +1,80 @@
+.chat-container {
+  display: flex;
+  height: 100vh;
+  max-width: calc(100% - 50px); /* Resta el ancho de la barra lateral minimizada */
+  overflow: hidden;
+  margin-left: 50px; /* Añade un margen a la izquierda para la barra lateral minimizada */
+  transition: margin-left 0.3s ease; /* Agrega una transición al margen izquierdo */
+}
+
+.chat-container.expanded {
+  max-width: calc(100% - 200px); /* Resta el ancho de la barra lateral expandida */
+}
+
+.chat-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Asegura que el chat se expanda para ocupar el espacio restante */
+}
+
+.chat-header {
+  background-color: rgba(0, 38, 63, 0.8);
+  color: #fff;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+}
+
+.contact-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.chat-input {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 79, 102, 0.8);
+}
+
+.message-input {
+  flex-grow: 1;
+  resize: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.send-button {
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #1f3a59;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: rgba(0, 38, 63, 0.8);
+}

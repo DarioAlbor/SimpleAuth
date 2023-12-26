@@ -1,22 +1,21 @@
-// /models/message.js
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 const Message = sequelize.define('messages', {
-  id: {
+  idusuario: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+    unique: false, // Cambiado a false para permitir duplicados
     allowNull: false,
   },
   usuario: {
-    type: DataTypes.STRING, // Puedes ajustar el tipo de datos según tu esquema
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: false, // Cambiado a false para permitir duplicados
   },
   contenido: {
-    type: DataTypes.TEXT,
+    type: DataTypes.TEXT, 
     allowNull: false,
+    unique: false, // Cambiado a false para permitir duplicados
   },
   timestamp: {
     type: DataTypes.DATE,

@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
+const http = require('http');
+const socketIo = require('socket.io');
 const sequelize = require('./config/db');
 const app = express();
+const server = http.createServer(app);
 
 // Configuración de express-session
 app.use(session({
@@ -32,10 +35,11 @@ const checkAuthenticationRoutes = require('./routes/checkAuthentication');
 const uploadPdfRoutes = require('./routes/uploadpdf');
 const getcarousel = require('./routes/getcarousel');
 const uploadbannerRoutes = require('./routes/uploadbanner');
-const messagesRoutes = require('./routes/messages');
+const messagesRoutes = require('./routes/message');
 
 //////////////////////////////////////////////
 
+// Movemos las rutas de mensajes fuera del espacio de /api/messages
 app.use('/api/register', registerRoutes);
 app.use('/api/checkEmail', checkEmailRoutes);
 app.use('/api/login', loginRoutes);
@@ -55,7 +59,35 @@ app.use('/upload/carousel', express.static('assets/carousel')); // IMAGENES DEL 
 const PORT = process.env.PORT || 3001;
 
 sequelize.sync().then(() => {
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Servidor iniciado en el puerto ${PORT}`);
+  });
+});
+
+// Configurar Socket.io
+const io = socketIo(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+io.on('connection', (socket) => {
+  global.chatSocket = socket;
+  socket.on('add-user', (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on('send-msg', (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit('msg-recieve', data.msg);
+    }
+  });
+
+  // Nueva parte para emitir mensajes en tiempo real
+  socket.on('newMessage', () => {
+    io.emit('newMessage', 'Nuevo mensaje recibido');
   });
 });

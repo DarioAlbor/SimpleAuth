@@ -1,0 +1,31 @@
+.sidebar {
+    /* Estilos de la barra lateral */
+    width: 50px;
+    background-color: #333;
+    color: white;
+    padding: 4px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    transition: width 0.3s ease;
+  }
+  
+  .sidebar.expanded {
+    /* Estilos cuando la barra lateral está expandida */
+    width: 200px;
+  }
+  
+  .sidebar .sidebar-text {
+    /* Estilos para los textos en la barra lateral */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sidebar.expanded .sidebar-text {
+    /* Estilos cuando la barra lateral está expandida */
+    display: inline-block;
+    opacity: 1;
+  }

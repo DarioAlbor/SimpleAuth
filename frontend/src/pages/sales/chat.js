@@ -1,19 +1,17 @@
+// Chat.js
 import React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import SideBarSales from '../../components/sales/sidebarsales';
-import ChatPage from '../../components/sales/chatpage';
+import ChatContainer from './chat/ChatContainer';
+import SidebarSales from '../../components/sales/sidebarsales';
 
 const Chat = () => {
   return (
-    <ChakraProvider>
-      <div style={{ position: 'relative', height: '100vh' }}>
-        <SideBarSales style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }} />
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <ChatPage />
-        </div>
+    <div className="chat-app">
+      <div className="chat-content">
+        <SidebarSales />
+        <ChatContainer />
       </div>
-    </ChakraProvider>
+    </div>
   );
-};
+}
 
 export default Chat;
