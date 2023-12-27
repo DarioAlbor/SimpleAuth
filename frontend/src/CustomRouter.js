@@ -10,10 +10,13 @@ import Tienda from './pages/Tienda';
 import ViaSalud from './pages/ViaSalud';
 import NotFound from './pages/404';
 import DesignPage from './pages/design';
-import SalesPage from './pages/sales';
-import SalesChat from './pages/sales/chat';
 import UserConfig from './pages/user/Config';
 import Chatbot from './components/Chatbot';
+
+//VENTAS
+import SalesPage from './pages/sales';
+import SalesChat from './pages/sales/chat';
+import SalesRemitos from './pages/sales/remitos';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -105,6 +108,7 @@ const CustomRouter = () => {
             {/* PANEL DE VENTAS */}
             <Route path="/sales" element={<PrivateRoute><SalesRoute element={<SalesPage />} /></PrivateRoute>} />
             <Route path="/sales/chat" element={<PrivateRoute><SalesRoute element={<SalesChat />} /></PrivateRoute>} />
+            <Route path="/sales/remitos" element={<PrivateRoute><SalesRemitos element={<SalesRemitos />} /></PrivateRoute>} />
 
             <Route
                 index

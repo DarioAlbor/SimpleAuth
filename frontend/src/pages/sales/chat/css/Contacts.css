@@ -1,10 +1,11 @@
 /* Contacts.css */
+
 .contacts-container {
     background-color: #1e2125; /* Fondo oscuro */
     color: #fff; /* Texto blanco */
     height: 100%;
     overflow-y: auto;
-    padding: 10px;
+    padding: 20px;
     max-width: 200px; /* O ajusta según tus necesidades */
   }
   
@@ -17,7 +18,7 @@
   .contact-item {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-bottom: 1px solid #2c2f33; /* Línea separadora */
@@ -28,10 +29,11 @@
   }
   
   .status-indicator {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     margin-right: 10px;
+    flex-shrink: 0; /* No permitir que se encoja */
   }
   
   .online {
@@ -42,15 +44,16 @@
     background-color: #d9534f; /* Rojo para estado 'fuera de línea' */
   }
   
-  .contact-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+  .contact-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
   }
   
   .contact-details {
     flex-grow: 1;
+    text-align: left; /* Alinea el texto a la izquierda */
   }
   
   .typing-indicator {

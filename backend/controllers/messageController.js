@@ -1,22 +1,29 @@
 const User = require('../models/user');
 const Message = require('../models/message');
+const { Op } = require('sequelize');
 
-// Obtener mensajes
+// Obtener todos los mensajes desde 1 día antes hasta hoy
 exports.getMessages = async (req, res, next) => {
   try {
-    const { from, to } = req.query;
+    // Obtener la fecha de hace 1 día
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
     const messages = await Message.findAll({
       where: {
-        usuario: [from, to],
+        timestamp: {
+          [Op.gte]: oneDayAgo,
+          [Op.lte]: new Date(), // Fecha actual
+        },
       },
       order: [['timestamp', 'ASC']],
     });
 
     const projectedMessages = messages.map((msg) => {
       return {
-        fromSelf: msg.usuario === from,
-        message: msg.contenido,
+        usuario: msg.usuario,
+        id: msg.id, // Utiliza el campo "id" en lugar de "idusuario"
+        contenido: msg.contenido,
       };
     });
 
@@ -47,9 +54,9 @@ exports.addMessage = async (req, res, next) => {
         username: usuario,  // Pasar el nombre de usuario al frontend
       });
 
-      return res.json({ msg: 'Mensaje agregado exitosamente.' });
+      return res.status(200).send(); // OK
     } else {
-      return res.json({ msg: 'Error al agregar el mensaje a la base de datos.' });
+      return res.status(500).send(); // Internal Server Error
     }
   } catch (ex) {
     console.error('Error al agregar mensaje:', ex);

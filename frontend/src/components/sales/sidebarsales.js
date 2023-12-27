@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Flex, VStack, Box, Text, Icon, Divider, Button } from '@chakra-ui/react';
-import { FiHome, FiUser, FiArrowLeft, FiLifeBuoy, FiSettings } from 'react-icons/fi';
+import { FiHome, FiUser, FiArrowLeft, FiFileText, FiLifeBuoy, FiSettings } from 'react-icons/fi';
 import './css/SideBarSales.css'; // Importar el archivo CSS
 
 const SideBarSales = () => {
@@ -35,6 +35,7 @@ const SideBarSales = () => {
             </Text>
           </Flex>
         </Link>
+
         <Link to="/sales/chat">
           <Flex
             align="center"
@@ -48,6 +49,23 @@ const SideBarSales = () => {
             <Icon as={FiUser} fontSize="20px" />
             <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'}>
               Chat
+            </Text>
+          </Flex>
+        </Link>
+
+        <Link to="/sales/remitos">
+          <Flex
+            align="center"
+            _hover={{
+              bg: 'rgba(66, 153, 225, 0.8)',
+              borderRadius: 'md',
+            }}
+            transition="background 0.3s ease"
+            p="2"
+          >
+            <Icon as={FiFileText} fontSize="20px" />
+            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'}>
+              Remitos
             </Text>
           </Flex>
         </Link>
@@ -129,4 +147,4 @@ const SideBarSales = () => {
   );
 };
 
-export default SideBarSales;
+export default SideBarSales

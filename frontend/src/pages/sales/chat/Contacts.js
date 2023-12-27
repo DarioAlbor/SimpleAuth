@@ -21,7 +21,7 @@ const Contacts = () => {
 
   return (
     <div className="contacts-container">
-      <h2>Contactos</h2>
+      <h2>Vendedores</h2>
       <ul className="contacts-list">
         {Array.isArray(sellers) && sellers.length > 0 ? (
           sellers.map((seller) => (
@@ -29,7 +29,6 @@ const Contacts = () => {
               <div
                 className={`status-indicator ${seller.isActive === 1 ? 'online' : 'offline'}`}
               ></div>
-              <img src={seller.profileImage} alt={seller.firstname} className="contact-image" />
               <div className="contact-details">
                 <p>{`${seller.firstName || ''} ${seller.lastName || ''}`}</p>
                 {seller.isTyping && <span className="typing-indicator">Escribiendo...</span>}
