@@ -1,8 +1,31 @@
 // SideBarSales.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex, VStack, Box, Text, Icon, Divider, Button } from '@chakra-ui/react';
-import { FiHome, FiUser, FiArrowLeft, FiFileText, FiLifeBuoy, FiSettings } from 'react-icons/fi';
+import {
+  Flex,
+  VStack,
+  Box,
+  Text,
+  Icon,
+  Divider,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
+import {
+  FiHome,
+  FiUser,
+  FiArrowLeft,
+  FiFileText,
+  FiLifeBuoy,
+  FiSettings,
+  FiChevronDown,
+  FiFile, // Nuevo ícono para "Remito"
+  FiList, // Nuevo ícono para "Resumen"
+  FiUsers, // Nuevo ícono para "Clientes"
+} from 'react-icons/fi';
 import './css/SideBarSales.css'; // Importar el archivo CSS
 
 const SideBarSales = () => {
@@ -26,15 +49,57 @@ const SideBarSales = () => {
               bg: 'rgba(66, 153, 225, 0.8)',
               borderRadius: 'md',
             }}
-            transition="background 0.3s ease"
+            transition="background 0.1s ease"
             p="2"
           >
             <Icon as={FiHome} fontSize="20px" />
-            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'}>
+            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.3s ease">
               Inicio
             </Text>
           </Flex>
         </Link>
+
+        {/* Utilizar el componente Menu para "Remitos" */}
+        <Menu>
+          <MenuButton
+            as={Flex}
+            align="center"
+            _hover={{
+              bg: 'rgba(66, 153, 225, 0.8)',
+              borderRadius: 'md',
+            }}
+            transition="background 0.1s ease"
+            p="2"
+          >
+            <Icon as={FiFileText} fontSize="20px" />
+            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0s ease">
+              Remitos <Icon as={FiChevronDown} ml="2" />
+            </Text>
+          </MenuButton>
+          <MenuList
+            style={{
+              position: 'absolute',
+              zIndex: 1,
+              marginTop: '10px', // Ajusta según tu necesidad
+            }}
+          >
+            <Link to="/sales/remitos">
+              <MenuItem icon={<Icon as={FiFile} />} command="⌘O" transition="margin-left 0.1s ease">
+                Remito
+              </MenuItem>
+            </Link>
+            <Link to="/sales/remitos/resumen">
+              <MenuItem icon={<Icon as={FiList} />} command="⌘N" transition="margin-left 0.1s ease">
+                Resumen
+              </MenuItem>
+            </Link>
+            <Link to="/sales/remitos/clientes">
+              <MenuItem icon={<Icon as={FiUsers} />} command="⌘S" transition="margin-left 0.1s ease">
+                Clientes
+              </MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
 
         <Link to="/sales/chat">
           <Flex
@@ -47,25 +112,8 @@ const SideBarSales = () => {
             p="2"
           >
             <Icon as={FiUser} fontSize="20px" />
-            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'}>
+            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.1s ease">
               Chat
-            </Text>
-          </Flex>
-        </Link>
-
-        <Link to="/sales/remitos">
-          <Flex
-            align="center"
-            _hover={{
-              bg: 'rgba(66, 153, 225, 0.8)',
-              borderRadius: 'md',
-            }}
-            transition="background 0.3s ease"
-            p="2"
-          >
-            <Icon as={FiFileText} fontSize="20px" />
-            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'}>
-              Remitos
             </Text>
           </Flex>
         </Link>
@@ -84,7 +132,7 @@ const SideBarSales = () => {
             p="2"
           >
             <Icon as={FiArrowLeft} fontSize="20px" />
-            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'}>
+            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.1s ease">
               Volver a Garzón
             </Text>
           </Flex>

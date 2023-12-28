@@ -10,6 +10,8 @@
     bottom: 0;
     z-index: 1000;
     transition: width 0.3s ease;
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden; /* Oculta el texto desbordado */
   }
   
   .sidebar.expanded {
@@ -22,10 +24,16 @@
     display: none;
     opacity: 0;
     transition: opacity 0.3s ease;
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden; /* Oculta el texto desbordado */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos (...) cuando el texto se desborda */
   }
   
   .sidebar.expanded .sidebar-text {
     /* Estilos cuando la barra lateral está expandida */
     display: inline-block;
     opacity: 1;
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden; /* Oculta el texto desbordado */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos (...) cuando el texto se desborda */
   }

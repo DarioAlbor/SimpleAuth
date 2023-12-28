@@ -12,7 +12,7 @@ const validateToken = (token) => {
   try {
     const decoded = jwt.verify(token, secret);
     return true;
-  } catch (error) {
+  } catch (error) { 
     console.error('Error al verificar el token:', error);
     return false;
   }

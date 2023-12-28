@@ -37,6 +37,8 @@ const uploadPdfRoutes = require('./routes/uploadpdf');
 const getcarousel = require('./routes/getcarousel');
 const uploadbannerRoutes = require('./routes/uploadbanner');
 const messagesRoutes = require('./routes/message');
+const RemitosClientes = require('./routes/rclientes');
+const Remitos = require('./routes/remitos');
 
 // Movemos las rutas de mensajes fuera del espacio de /api/messages
 app.use('/api/register', registerRoutes);
@@ -50,6 +52,8 @@ app.use('/api/getcarousel', getcarousel);
 app.use('/api/uploadbanner', uploadbannerRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/messages', messagesRoutes);
+app.use('/api/remitos/clientes', RemitosClientes);
+app.use('/api/remitos', Remitos);
 
 // Express Static Routes
 app.use('/upload/pdf', express.static('assets/recources'));

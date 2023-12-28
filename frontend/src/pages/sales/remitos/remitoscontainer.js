@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Container, Box, Text, Input, Select } from '@chakra-ui/react';
-import { calcularTotal } from './remitosdata';
-import RemitosPrint from './remitosprint';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Container,
+  Box,
+  Text,
+  Input,
+  Select,
+  Button,
+} from '@chakra-ui/react';
+import { calcularTotal } from './data';
+import RemitosPrint from './print';
 import axios from 'axios';
 
 const RemitosContainer = () => {
@@ -15,6 +28,9 @@ const RemitosContainer = () => {
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const [importeTotal, setImporteTotal] = useState(0);
   const [username, setUsername] = useState('');
+  const [clientes, setClientes] = useState([]);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState('');
+  const [consultasRealizadas, setConsultasRealizadas] = useState(false); // Nuevo estado
 
   useEffect(() => {
     const nuevosTotales = datosRemitos.map((remito, index) => {
@@ -34,10 +50,20 @@ const RemitosContainer = () => {
     const nuevoImporteTotal = totalValues.reduce((total, value) => total + (parseFloat(value) || 0), 0);
     setImporteTotal(nuevoImporteTotal);
 
-    axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
-      .then(response => setUsername(response.data.username))
-      .catch(error => console.error('Error fetching username:', error));
-  }, [datosRemitos, uniValues, precioValues, ofertaValues, ivaValues, totalValues]);
+    // Realizar las consultas solo si aún no se han realizado
+    if (!consultasRealizadas) {
+      axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
+        .then(response => setUsername(response.data.username))
+        .catch(error => console.error('Error fetching username:', error));
+
+      axios.get('http://localhost:3001/api/remitos/clientes/traer')
+        .then(response => setClientes(response.data))
+        .catch(error => console.error('Error fetching clientes:', error));
+
+      // Marcar las consultas como realizadas
+      setConsultasRealizadas(true);
+    }
+  }, [datosRemitos, uniValues, precioValues, ofertaValues, ivaValues, totalValues, consultasRealizadas]);
 
   const handleUniChange = (index, value) => {
     const newUniValues = [...uniValues];
@@ -68,6 +94,42 @@ const RemitosContainer = () => {
     newIvaValues[index] = value;
     setIvaValues(newIvaValues);
   };
+
+  const handleClienteChange = (value) => {
+    setClienteSeleccionado(value);
+  };
+
+  const handleFormSubmit = async () => {
+    try {
+      // Validar que todos los itemValues sean cadenas
+      if (itemValues.some(value => typeof value !== 'string')) {
+        console.error('Error: itemValues debe contener solo cadenas');
+        return;
+      }
+  
+      // Construir el cuerpo de la solicitud con los datos necesarios
+      const requestBody = {
+        unidades: uniValues,
+        item: itemValues,
+        precio: precioValues,
+        oferta: ofertaValues,
+        total: totalValues,
+        iva: ivaValues,
+        cliente: clienteSeleccionado,
+        vendedor: username,
+      };
+  
+      // Realizar la solicitud POST al backend
+      await axios.post('http://localhost:3001/api/remitos/addrto', requestBody, { withCredentials: true });
+  
+      // Aquí puedes manejar el éxito de la creación del remito, por ejemplo, mostrar un mensaje al usuario
+      console.log('Remito creado exitosamente');
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+    }
+  };
+  
 
   return (
     <>
@@ -142,7 +204,7 @@ const RemitosContainer = () => {
                 </Td>
               </Tr>
             ))}
-            {/* Nueva fila para CANTIDAD TOTAL, IMPORTE TOTAL y username */}
+            {/* Nueva fila para CANTIDAD TOTAL, IMPORTE TOTAL, VENDEDOR y CLIENTE */}
             <Tr>
               <Td colSpan={4}>CANTIDAD TOTAL:</Td>
               <Td>{cantidadTotal}</Td>
@@ -157,8 +219,29 @@ const RemitosContainer = () => {
               <Td colSpan={4}>VENDEDOR:</Td>
               <Td colSpan={2}>{username}</Td>
             </Tr>
+            <Tr>
+              <Td colSpan={4}>CLIENTE:</Td>
+              <Td colSpan={2}>
+              <Select
+  value={clienteSeleccionado}  // Asegúrate de que el valor inicial sea la cadena que esperas
+  onChange={(e) => handleClienteChange(e.target.value)}
+  size="sm"
+  width="80%"
+>
+  {clientes.map((cliente) => (
+    <option key={cliente.id} value={`${cliente.nombre} - ${cliente.razonSocial}`}>
+      {cliente.nombre} - {cliente.razonSocial}
+    </option>
+  ))}
+</Select>
+              </Td>
+            </Tr>
           </Tbody>
         </Table>
+                {/* Agregar el botón de envío del formulario */}
+                <Button colorScheme="blue" onClick={handleFormSubmit} mt={4}>
+          Enviar Remito
+        </Button>
       </Container>
 
       <Container maxW="container.lg" mt={8}>
@@ -172,6 +255,7 @@ const RemitosContainer = () => {
           cantidadTotal={cantidadTotal}
           importeTotal={importeTotal}
           vendedor={username}
+          cliente={clienteSeleccionado}
           itemValues={itemValues}
         />
       </Container>

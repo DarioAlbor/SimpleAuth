@@ -17,6 +17,7 @@ import Chatbot from './components/Chatbot';
 import SalesPage from './pages/sales';
 import SalesChat from './pages/sales/chat';
 import SalesRemitos from './pages/sales/remitos';
+import SalesRemitosClientes from './pages/sales/remitosclientes';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -109,6 +110,7 @@ const CustomRouter = () => {
             <Route path="/sales" element={<PrivateRoute><SalesRoute element={<SalesPage />} /></PrivateRoute>} />
             <Route path="/sales/chat" element={<PrivateRoute><SalesRoute element={<SalesChat />} /></PrivateRoute>} />
             <Route path="/sales/remitos" element={<PrivateRoute><SalesRemitos element={<SalesRemitos />} /></PrivateRoute>} />
+            <Route path="/sales/remitos/clientes" element={<PrivateRoute><SalesRemitosClientes element={<SalesRemitosClientes />} /></PrivateRoute>} />
 
             <Route
                 index
