@@ -14,14 +14,14 @@ const Carousel = () => {
     };
 
     useEffect(() => {
-        // Hacer la solicitud al backend para obtener la lista de imágenes
-        fetch('http://localhost:3001/api/getcarousel')
+        // Hacer la solicitud al backend para obtener la lista de imï¿½genes
+        fetch('http://45.162.169.217:3001/api/getcarousel')
             .then((response) => response.json())
             .then((data) => {
                 setImages(data.images);
             })
             .catch((error) => {
-                console.error('Error al obtener la lista de imágenes:', error);
+                console.error('Error al obtener la lista de imï¿½genes:', error);
             });
     }, []); // Se ejecuta solo una vez al montar el componente
 
@@ -32,7 +32,7 @@ const Carousel = () => {
                     {images.map((image, index) => (
                         <Image
                             key={index}
-                            src={image} // Aquí simplemente asignamos la URL base64 directamente
+                            src={image} // Aquï¿½ simplemente asignamos la URL base64 directamente
                             alt={`Banner ${index + 1}`}
                             display={index === currentIndex ? 'block' : 'none'}
                             w="100%"

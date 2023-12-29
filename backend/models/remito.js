@@ -9,7 +9,7 @@ const Remito = sequelize.define('Remito', {
     allowNull: false,
   },
   item: {
-    type: DataTypes.STRING(255), // Establece una longitud máxima de 255 caracteres
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
   precio: {
@@ -28,8 +28,6 @@ const Remito = sequelize.define('Remito', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  // Agrega otras propiedades según sea necesario
-  // ...
   cliente: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -38,6 +36,8 @@ const Remito = sequelize.define('Remito', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  // 
 });
 
 module.exports = Remito;

@@ -127,7 +127,7 @@
         useEffect(() => {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true });
+                    const response = await axios.get('http://45.162.169.217:3001/api/user/getRole', { withCredentials: true });
                     setRole(response.data.role);
                 } catch (error) {
                     console.error('Error al obtener el rol del usuario:', error);

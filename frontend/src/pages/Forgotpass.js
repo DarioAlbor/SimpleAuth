@@ -11,7 +11,7 @@ const ForgotPass = () => {
 
     const handleForgotPassClick = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/api/login/forgot-password', { email }); // Ajusta la URL
+            const response = await axios.post('http://45.162.169.217:3001/api/login/forgot-password', { email }); // Ajusta la URL
             setResetSuccess(true);
         } catch (error) {
             console.error('Error:', error);

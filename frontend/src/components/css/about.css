@@ -4,7 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Centra los elementos horizontalmente */
-    gap: 20px; /* Ajusta según sea necesario */
+    gap: 20px; /* Ajusta segï¿½n sea necesario */
 }
 
 .card {
@@ -45,8 +45,8 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra los elementos horizontalmente */
-    margin-top: 0px; /* Ajusta según sea necesario */
-    margin-bottom: 20px; /* Ajusta según sea necesario */
+    margin-top: 0px; /* Ajusta segï¿½n sea necesario */
+    margin-bottom: 20px; /* Ajusta segï¿½n sea necesario */
     margin-left: center;
 
 }

@@ -9,7 +9,7 @@ const Contacts = () => {
   useEffect(() => {
     const fetchSellers = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/roles/getSellers');
+        const response = await axios.get('http://45.162.169.217:3001/api/roles/getSellers');
         setSellers(response.data.sellers || []); // Aseguramos que 'sellers' sea un array
       } catch (error) {
         console.error('Error al obtener la lista de vendedores:', error.message);
