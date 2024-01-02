@@ -1,7 +1,7 @@
 // APIRoutes.js
 import axios from 'axios';
 
-const baseURL = 'http://45.162.169.217:3001/'; // Rutas relativas en lugar de URL completa
+const baseURL = 'http://localhost:3001/'; // Rutas relativas en lugar de URL completa
 
 const APIRoutes = {
   checkAuthentication: () => axios.get(`${baseURL}/checkAuthentication`),

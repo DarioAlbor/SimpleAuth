@@ -20,7 +20,7 @@ const ChatContainer = () => {
   useEffect(() => {
     const fetchActiveUser = async () => {
       try {
-        const response = await axios.get('http://45.162.169.217:3001/api/user/getUsername', { withCredentials: true });
+        const response = await axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true });
         setActiveUser(response.data.username);
       } catch (error) {
         console.error('Error al obtener el nombre de usuario:', error.message);

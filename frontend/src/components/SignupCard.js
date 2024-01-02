@@ -37,7 +37,7 @@ function SignupCard({ handleSignUp }) {
 
   const checkEmailExists = async (email) => {
     try {
-      const response = await fetch(`http://45.162.169.217:3001/api/checkEmail/${email}`);
+      const response = await fetch(`http://localhost:3001/api/checkEmail/${email}`);
       const data = await response.json();
 
       if (data.exists === 'Si') {

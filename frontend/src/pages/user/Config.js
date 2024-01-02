@@ -30,7 +30,7 @@ const Config = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://45.162.169.217:3001/api/user/getUserinfo', {
+        const response = await fetch('http://localhost:3001/api/user/getUserinfo', {
           method: 'GET',
           credentials: 'include',
         });

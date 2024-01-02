@@ -57,11 +57,11 @@ const RemitosContainer = () => {
   
     // Realizar las consultas solo si aún no se han realizado
     if (!consultasRealizadas) {
-      axios.get('http://45.162.169.217:3001/api/user/getUsername', { withCredentials: true })
+      axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
         .then(response => setUsername(response.data.username))
         .catch(error => console.error('Error al obtener el nombre de usuario:', error));
   
-      axios.get('http://45.162.169.217:3001/api/remitos/clientes/traer')
+      axios.get('http://localhost:3001/api/remitos/clientes/traer')
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error al obtener clientes:', error));
   
@@ -135,7 +135,7 @@ const RemitosContainer = () => {
   
       
       // Realizar la solicitud POST al backend
-      await axios.post('http://45.162.169.217:3001/api/remitos/addrto', requestBody, { withCredentials: true });
+      await axios.post('http://localhost:3001/api/remitos/addrto', requestBody, { withCredentials: true });
 
   
       // Aquí puedes manejar el éxito de la creación del remito, por ejemplo, mostrar un mensaje al usuario

@@ -18,7 +18,7 @@ const RemitosPrint = ({ datosRemitos, uniValues, precioValues, cliente, ofertaVa
 
   const traerID = async () => {
     try {
-      const response = await axios.get('http://45.162.169.217:3001/api/remitos/resumen');  
+      const response = await axios.get('http://localhost:3001/api/remitos/resumen');  
       const lastRemitoId = response.data.length > 0 ? response.data[response.data.length - 1].id : null;
       console.log('Último ID:', lastRemitoId); // Agrega este log para depurar
   

@@ -15,7 +15,7 @@ const Carousel = () => {
 
     useEffect(() => {
         // Hacer la solicitud al backend para obtener la lista de im�genes
-        fetch('http://45.162.169.217:3001/api/getcarousel')
+        fetch('http://localhost:3001/api/getcarousel')
             .then((response) => response.json())
             .then((data) => {
                 setImages(data.images);

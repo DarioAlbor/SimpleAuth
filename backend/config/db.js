@@ -3,7 +3,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('dgweb', 'root', '', {
-  host: '45.162.169.217',
+  host: 'localhost',
   dialect: 'mysql', // Cambiar si se utiliza un dialecto diferente
 });
 

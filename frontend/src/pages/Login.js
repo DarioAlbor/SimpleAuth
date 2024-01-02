@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleLoginClick = async () => {
         try {
-            const response = await fetch('http://45.162.169.217:3001/api/login', {
+            const response = await fetch('http://localhost:3001/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
