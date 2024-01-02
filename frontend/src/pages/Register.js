@@ -1,6 +1,5 @@
 import React from 'react';
 import SignupCard from '../components/SignupCard'; 
-import DgLogo from '../components/templates/dglogo';
 import ColorModeToggle from '../components/templates/colormodetoggle';
 
 const Register = () => {
@@ -30,7 +29,6 @@ const Register = () => {
 
   return (
     <div>
-      <DgLogo />
       <SignupCard handleSignUp={handleSignUp} />
     </div>
   );

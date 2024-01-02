@@ -126,8 +126,8 @@ const handleSignUpClick = async () => {
           <Heading fontSize={'4xl'} textAlign={'center'}>
             Registro
           </Heading>
-          <Text fontSize={'lg'} color={'white.600'}>
-            De esta manera podrás recibir todas nuestras ofertas ✌️
+          <Text fontSize={'lg'} color={'white.600'} textAlign={'center'}>
+        ¡Mantenete enterado de todas nuestras novedades en Garzon! 💙
           </Text>
         </Stack>
         <Box rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={'lg'} p={8}>

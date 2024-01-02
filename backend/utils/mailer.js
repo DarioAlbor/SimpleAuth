@@ -41,7 +41,7 @@ const sendWelcomeEmail = async (email) => {
 
 const sendPasswordResetEmail = async (email, resetToken) => {
     try {
-        const resetUrl = `http://localhost:3000/login/resetpass/${resetToken}`;
+        const resetUrl = `http://45.162.169.217:3000/login/resetpass/${resetToken}`;
 
         const mailOptions = {
             from: 'notificaciones@drogueriagarzon.com',

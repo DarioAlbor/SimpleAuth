@@ -7,7 +7,7 @@ import { searchPlugin } from "@react-pdf-viewer/search";
 
 
 export default function TestViewer() {
-    const fileUrl = "http://localhost:3001/upload/pdf/viasalud.pdf";
+    const fileUrl = "http://45.162.169.217:3001/upload/pdf/viasalud.pdf";
 
   const searchPluginInstance = searchPlugin();
   const pageNavigationPluginInstance = pageNavigationPlugin();

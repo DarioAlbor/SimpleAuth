@@ -11,6 +11,7 @@ import {
   Text,
   Input,
   Select,
+  useColorModeValue,
   Button,
 } from '@chakra-ui/react';
 import { calcularTotal } from './data';
@@ -31,6 +32,10 @@ const RemitosContainer = () => {
   const [clientes, setClientes] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState('');
   const [consultasRealizadas, setConsultasRealizadas] = useState(false); // Nuevo estado
+
+  const textColor = useColorModeValue('black', 'white'); // Ajusta el color del texto según el modo de color
+  const tableBorderColor = useColorModeValue('gray.200', 'gray.600'); // Ajusta el color del borde de la tabla según el modo de color
+
 
   useEffect(() => {
     const nuevosTotales = datosRemitos.map((remito, index) => {
@@ -128,6 +133,7 @@ const RemitosContainer = () => {
         vendedor: username,
       };
   
+      
       // Realizar la solicitud POST al backend
       await axios.post('http://45.162.169.217:3001/api/remitos/addrto', requestBody, { withCredentials: true });
 
@@ -144,23 +150,23 @@ const RemitosContainer = () => {
     <>
       <Container maxW="container.lg" mt={8}>
         <Box mb={4}>
-          <Text fontSize="xl" fontWeight="bold">Detalle del Remito</Text>
+          <Text fontSize="xl" fontWeight="bold" color={textColor}>Detalle del Remito</Text>
         </Box>
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th borderTop="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderLeft="1px solid" borderColor="gray.200" width="10%">UNIDADES</Th>
-              <Th borderTop="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderColor="gray.200">ITEM</Th>
-              <Th borderTop="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderColor="gray.200" width="20%">PRECIO</Th>
-              <Th borderTop="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderColor="gray.200">OFERTA</Th>
-              <Th borderTop="1px solid" borderColor="gray.200" borderRight="1px solid" borderColor="gray.200">TOTAL</Th>
-              <Th borderTop="1px solid" borderColor="gray.200" borderRight="1px solid" borderColor="gray.200">IVA</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderLeft="1px solid" borderColor={tableBorderColor} width="10%">UNIDADES</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>ITEM</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor} width="20%">PRECIO</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>OFERTA</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>TOTAL</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>IVA</Th>
             </Tr>
           </Thead>
           <Tbody>
             {datosRemitos.map((remito, index) => (
               <Tr key={index}>
-                <Td borderBottom="1px solid" borderColor="gray.200" pr={2} borderLeft="1px solid" borderRight="1px solid" borderColor="gray.200">
+                <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderLeft="1px solid" borderRight="1px solid" borderColor={tableBorderColor}>
                   <Input
                     type="number"
                     value={uniValues[index]}
@@ -169,14 +175,14 @@ const RemitosContainer = () => {
                     width="80%"
                   />
                 </Td>
-                <Td borderBottom="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderColor="gray.200">
+                <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Input
                     value={itemValues[index]}
                     onChange={(e) => handleItemChange(index, e.target.value)}
                     size="sm" 
                   />
                 </Td>
-                <Td borderBottom="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderColor="gray.200">
+                <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Input
                     type="number"
                     value={precioValues[index]}
@@ -185,7 +191,7 @@ const RemitosContainer = () => {
                     width="80%"
                   />
                 </Td>
-                <Td borderBottom="1px solid" borderColor="gray.200" pr={2} borderRight="1px solid" borderColor="gray.200">
+                <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Select
                     value={ofertaValues[index]}
                     onChange={(e) => handleOfertaChange(index, e.target.value)}
@@ -197,10 +203,10 @@ const RemitosContainer = () => {
                     ))}
                   </Select>
                 </Td>
-                <Td borderBottom="1px solid" borderColor="gray.200" borderRight="1px solid" borderColor="gray.200">
+                <Td borderBottom="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>
                   {totalValues[index].toFixed(2)} $
                 </Td>
-                <Td borderBottom="1px solid" borderColor="gray.200" borderRight="1px solid" borderColor="gray.200">
+                <Td borderBottom="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Select
                     value={ivaValues[index]}
                     onChange={(e) => handleIvaChange(index, e.target.value)}

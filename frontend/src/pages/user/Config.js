@@ -1,109 +1,124 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Flex,
-    Box,
-    Heading,
-    Divider,
-    Text,
-    Button,
-    Icon,
-    Center,
+  Flex,
+  Box,
+  Heading,
+  Divider,
+  Text,
+  Button,
+  Icon,
+  useColorModeValue,
+  Center,
 } from '@chakra-ui/react';
-import { HiUserCircle, HiKey, HiMail, HiUserAdd } from 'react-icons/hi';
+import {
+  HiUserCircle,
+  HiKey,
+  HiMail,
+  HiUserAdd,
+} from 'react-icons/hi';
 import SidebarWithHeader from '../../components/templates/sidebar';
 import Chatbot from '../../components/Chatbot';
+import ColorModeToggle from './buttons/colormodetoggle';
 
 const Config = () => {
-    const [userInfo, setUserInfo] = useState({ firstName: '', lastName: '', id: '' });
+  const [userInfo, setUserInfo] = useState({
+    firstName: '',
+    lastName: '',
+    id: '',
+  });
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const response = await fetch('http://45.162.169.217:3001/api/user/getUserinfo', {
-                    method: 'GET',
-                    credentials: 'include',
-                });
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch('http://45.162.169.217:3001/api/user/getUserinfo', {
+          method: 'GET',
+          credentials: 'include',
+        });
 
-                const data = await response.json();
-                setUserInfo({
-                    firstName: data.user.firstName || '',
-                    lastName: data.user.lastName || '',
-                    id: data.user.id || '',
-                });
-            } catch (error) {
-                console.error('Error al obtener información del usuario:', error);
-            }
-        };
+        const data = await response.json();
+        setUserInfo({
+          firstName: data.user.firstName || '',
+          lastName: data.user.lastName || '',
+          id: data.user.id || '',
+        });
+      } catch (error) {
+        console.error('Error al obtener información del usuario:', error);
+      }
+    };
 
-        fetchUserInfo();
-    }, []);
+    fetchUserInfo();
+  }, []);
 
-    return (
-        <>
-            <SidebarWithHeader />
-            <Chatbot />
+  const buttonColorScheme = useColorModeValue('teal', 'teal'); // Ajusta el esquema de colores según el modo de color
+  const textColor = useColorModeValue('black', 'white'); // Ajusta el color del texto según el modo de color
 
-            <Flex direction="column" p={8} align="center">
+  return (
+    <>
+      <SidebarWithHeader />
+      <Chatbot />
 
-                {/* T�tulo */}
-                <Center mb={10}>
-                    <Box>
-                        <Heading>Configuración</Heading>
-                    </Box>
-                </Center>
+      <Flex direction="column" p={8} align="center">
 
-                {/* Icono de Usuario */}
-                <Center mb={4}>
-                    <Box>
-                        <Icon as={HiUserCircle} boxSize={150} color="teal.500" />
-                    </Box>
-                </Center>
+        {/* Título */}
+        <Center mb={10}>
+          <Box>
+            <Heading>Configuración</Heading>
+          </Box>
+        </Center>
 
-                {/* Informaci�n del Usuario */}
-                <Text mb={2} fontSize="3xl" fontWeight="bold" color="white">
-                    {userInfo.firstName} {userInfo.lastName}
-                </Text>
-                <Text mb={2} fontSize="md" fontFamily="Arial" color="gray.500">
-                    ID: {userInfo.id}
-                </Text>
+        {/* Icono de Usuario */}
+        <Center mb={4}>
+          <Box>
+            <Icon as={HiUserCircle} boxSize={150} color={buttonColorScheme} />
+          </Box>
+        </Center>
 
-                {/* Divider */}
-                <Divider my={5} />
+        {/* Información del Usuario */}
+        <Text mb={2} fontSize="3xl" fontWeight="bold" color={textColor}>
+          {userInfo.firstName} {userInfo.lastName}
+        </Text>
+        <Text mb={2} fontSize="md" fontFamily="Arial" color="gray.500">
+          ID: {userInfo.id}
+        </Text>
 
-                {/* Secci�n de Botones */}
-                <Flex direction="column" align="center">
-                    <Button
-                        leftIcon={<Icon as={HiKey} />}
-                        colorScheme="teal"
-                        mb={2}
-                        width="90%" // Ajusta el ancho del bot�n
-                    >
-                        Cambiar Contraseña
-                    </Button>
-                    <Button
-                        leftIcon={<Icon as={HiMail} />}
-                        colorScheme="teal"
-                        mb={2}
-                        width="80%" // Ajusta el ancho del bot�n
-                    >
-                        Cambiar Correo
-                    </Button>
-                    <Button
-                        leftIcon={<Icon as={HiUserAdd} />}
-                        colorScheme="teal"
-                        mb={2}
-                        width="80%" // Ajusta el ancho del bot�n
-                    >
-                        Agregar Usuario
-                    </Button>
-                </Flex>
+        {/* Divider */}
+        <Divider my={5} />
 
-                {/* Divider */}
-                <Divider my={5} />
+        {/* Sección de Botones */}
+        <Flex direction="column" align="center">
+          <Button
+            leftIcon={<Icon as={HiKey} />}
+            colorScheme={buttonColorScheme}
+            mb={2}
+            width="90%" // Ajusta el ancho del botón
+          >
+            Cambiar Contraseña
+          </Button>
+          <Button
+            leftIcon={<Icon as={HiMail} />}
+            colorScheme={buttonColorScheme}
+            mb={2}
+            width="80%" // Ajusta el ancho del botón
+          >
+            Cambiar Correo
+          </Button>
+          <Button
+            leftIcon={<Icon as={HiUserAdd} />}
+            colorScheme={buttonColorScheme}
+            mb={2}
+            width="80%" // Ajusta el ancho del botón
+          >
+            Agregar Usuario
+          </Button>
+        </Flex>
+        <ColorModeToggle />
 
-            </Flex>
-        </>
-    );
+        {/* Divider */}
+        <Divider my={5} />
+
+      </Flex>
+    </>
+  );
 };
 
 export default Config;
