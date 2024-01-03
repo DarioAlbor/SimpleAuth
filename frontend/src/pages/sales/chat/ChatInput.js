@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 const ChatInput = ({ currentUser, onMessageSent, onHistoryMessages }) => {
   const [message, setMessage] = useState('');
-  const socket = io('http://localhost:3001', {
+  const socket = io('http://drogueriagarzon.com:3001', {
     transports: ['websocket'],  // Intenta usar solo WebSocket para una mejor eficiencia
   });
 
@@ -12,7 +12,7 @@ const ChatInput = ({ currentUser, onMessageSent, onHistoryMessages }) => {
   useEffect(() => {
     const loadMessages = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/messages/getmsg');
+        const response = await axios.get('http://drogueriagarzon.com:3001/api/messages/getmsg');
 
         const historyMessages = response.data.map((msg) => ({
           usuario: msg.usuario,
@@ -50,7 +50,7 @@ const ChatInput = ({ currentUser, onMessageSent, onHistoryMessages }) => {
 
   const sendMessage = async () => {
     try {
-      const userInfoResponse = await axios.get('http://localhost:3001/api/user/getUserinfo', { withCredentials: true });
+      const userInfoResponse = await axios.get('http://drogueriagarzon.com:3001/api/user/getUserinfo', { withCredentials: true });
       const user = userInfoResponse.data.user;
 
       if (!user) {
@@ -66,7 +66,7 @@ const ChatInput = ({ currentUser, onMessageSent, onHistoryMessages }) => {
         return;
       }
 
-      await axios.post('http://localhost:3001/api/messages/addmsg', {
+      await axios.post('http://drogueriagarzon.com:3001/api/messages/addmsg', {
         idusuario: id,
         usuario: firstName,
         contenido: message,

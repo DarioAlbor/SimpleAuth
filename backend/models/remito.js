@@ -4,28 +4,32 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db'); // Asegúrate de tener configurada tu instancia de Sequelize
 
 const Remito = sequelize.define('Remito', {
-  unidades: {
+  nroRemito: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  unidades: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   item: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING,
     allowNull: false,
   },
   precio: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   oferta: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   total: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   iva: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   cliente: {
@@ -36,8 +40,6 @@ const Remito = sequelize.define('Remito', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-}, {
-  // 
 });
 
 module.exports = Remito;

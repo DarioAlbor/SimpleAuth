@@ -18,16 +18,17 @@ const RemitosPrint = ({ datosRemitos, uniValues, precioValues, cliente, ofertaVa
 
   const traerID = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/remitos/resumen');  
-      const lastRemitoId = response.data.length > 0 ? response.data[response.data.length - 1].id : null;
-      console.log('Último ID:', lastRemitoId); // Agrega este log para depurar
+      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/resumen');  
+      const lastRemitoId = response.data.length > 0 ? response.data[response.data.length - 1].nroRemito : null; // Cambio aquí
+      console.log('Último Número de Remito:', lastRemitoId); // Cambio aquí
   
       return lastRemitoId;
     } catch (error) {
-      console.error('Error al obtener el último ID:', error);
+      console.error('Error al obtener el último Número de Remito:', error); // Cambio aquí
       return null;
     }
   };
+  
   
 
   const handleGeneratePDF = async () => {
@@ -213,16 +214,18 @@ resolve();
 });
 };
 
-return (
-<Flex justifyContent="center" mt={4}>
-  <Button
-    colorScheme="teal"
-    variant="outline"
-    onClick={handleGeneratePDF}
-  >
-    Generar y Descargar PDF
-  </Button>
-</Flex>
-);
+  return (
+    <Flex justifyContent="center" mt={4}>
+      <Button
+        colorScheme="teal"
+        variant="outline"
+        onClick={handleGeneratePDF}
+        // Deshabilita el botón si no hay cliente seleccionado
+        isDisabled={!cliente}
+      >
+        Generar y Descargar PDF
+      </Button>
+    </Flex>
+  );
 };
 export default RemitosPrint;

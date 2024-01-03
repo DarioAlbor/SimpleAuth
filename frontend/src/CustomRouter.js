@@ -18,6 +18,7 @@ import SalesPage from './pages/sales';
 import SalesChat from './pages/sales/chat';
 import SalesRemitos from './pages/sales/remitos';
 import SalesRemitosClientes from './pages/sales/remitosclientes';
+import ResumenRemitos from './pages/sales/remitosresumen';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,7 +29,7 @@ const CustomRouter = () => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/user/checkAuthentication', {
+                const response = await fetch('http://drogueriagarzon.com:3001/api/user/checkAuthentication', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -43,7 +44,7 @@ const CustomRouter = () => {
 
         const fetchUserRole = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/user/getRole', {
+                const response = await fetch('http://drogueriagarzon.com:3001/api/user/getRole', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -111,6 +112,7 @@ const CustomRouter = () => {
             <Route path="/sales/chat" element={<PrivateRoute><SalesRoute element={<SalesChat />} /></PrivateRoute>} />
             <Route path="/sales/remitos" element={<PrivateRoute><SalesRemitos element={<SalesRemitos />} /></PrivateRoute>} />
             <Route path="/sales/remitos/clientes" element={<PrivateRoute><SalesRemitosClientes element={<SalesRemitosClientes />} /></PrivateRoute>} />
+            <Route path="/sales/remitos/resumen" element={<PrivateRoute><ResumenRemitos element={<ResumenRemitos />} /></PrivateRoute>} />
 
             <Route
                 index

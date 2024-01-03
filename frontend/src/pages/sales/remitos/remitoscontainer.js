@@ -57,11 +57,11 @@ const RemitosContainer = () => {
   
     // Realizar las consultas solo si aún no se han realizado
     if (!consultasRealizadas) {
-      axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
+      axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true })
         .then(response => setUsername(response.data.username))
         .catch(error => console.error('Error al obtener el nombre de usuario:', error));
   
-      axios.get('http://localhost:3001/api/remitos/clientes/traer')
+      axios.get('http://drogueriagarzon.com:3001/api/remitos/clientes/traer')
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error al obtener clientes:', error));
   
@@ -121,30 +121,36 @@ const RemitosContainer = () => {
         return;
       }
   
-      // Construir el cuerpo de la solicitud solo con las filas completadas
+      // Convertir todos los valores a cadenas antes de construir el cuerpo de la solicitud
       const requestBody = {
-        unidades: filasCompletadas.map((remito, index) => uniValues[index]),
-        item: filasCompletadas.map((remito, index) => itemValues[index]),
-        precio: filasCompletadas.map((remito, index) => precioValues[index]),
-        oferta: filasCompletadas.map((remito, index) => ofertaValues[index]),
-        total: filasCompletadas.map((remito, index) => totalValues[index]),
-        iva: filasCompletadas.map((remito, index) => ivaValues[index]),
+        remitos: filasCompletadas.map((remito, index) => ({
+          unidades: uniValues[index],
+          item: itemValues[index],
+          precio: precioValues[index],
+          oferta: ofertaValues[index],
+          total: totalValues[index],
+          iva: ivaValues[index],
+        })),
         cliente: clienteSeleccionado,
         vendedor: username,
       };
   
-      
       // Realizar la solicitud POST al backend
-      await axios.post('http://localhost:3001/api/remitos/addrto', requestBody, { withCredentials: true });
-
+      const response = await axios.post('http://drogueriagarzon.com:3001/api/remitos/addrto', requestBody, { withCredentials: true });
   
-      // Aquí puedes manejar el éxito de la creación del remito, por ejemplo, mostrar un mensaje al usuario
-      console.log('Remito creado exitosamente');
+      // Verificar la respuesta del backend
+      if (response.status === 201) {
+        // Aquí puedes manejar el éxito de la creación del remito, por ejemplo, mostrar un mensaje al usuario
+        console.log('Remito creado exitosamente');
+      } else {
+        console.error('Error al crear el remito. Estado:', response.status);
+      }
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
       // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje de error al usuario
     }
-  };  
+  };
+  
 
   return (
     <>
@@ -233,45 +239,51 @@ const RemitosContainer = () => {
             <Tr>
               <Td colSpan={4}>VENDEDOR:</Td>
               <Td colSpan={2}>{username}</Td>
-            </Tr>
+            </Tr> 
             <Tr>
-              <Td colSpan={4}>CLIENTE:</Td>
-              <Td colSpan={2}>
-              <Select
-  value={clienteSeleccionado}  // Asegúrate de que el valor inicial sea la cadena que esperas
-  onChange={(e) => handleClienteChange(e.target.value)}
-  size="sm"
-  width="80%"
->
-  {clientes.map((cliente) => (
-    <option key={cliente.id} value={`${cliente.nombre} - ${cliente.razonSocial}`}>
-      {cliente.nombre} - {cliente.razonSocial}
-    </option>
-  ))}
-</Select>
-              </Td>
-            </Tr>
-          </Tbody>
-        </Table>
-                </Container>
+          <Td colSpan={4}>
+            <span style={{ color: 'red', marginLeft: '0px' }}>*</span> CLIENTE:
+          </Td>
+          <Td colSpan={2}>
+            <Select
+              value={clienteSeleccionado}
+              onChange={(e) => handleClienteChange(e.target.value)}
+              size="sm"
+              width="80%"
+              isRequired
+            >
+              <option value="" disabled hidden>
+                Seleccionar..
+              </option>
+              {clientes.map((cliente) => (
+                <option key={cliente.id} value={`${cliente.nombre} - ${cliente.razonSocial}`}>
+                  {cliente.nombre} - {cliente.razonSocial}
+                </option>
+              ))}
+            </Select>
+          </Td>
+        </Tr>
+      </Tbody>
+    </Table>
+  </Container>
 
-<Container maxW="container.lg" mt={8}>
-  <RemitosPrint
-    datosRemitos={datosRemitos}
-    uniValues={uniValues}
-    precioValues={precioValues}
-    ofertaValues={ofertaValues}
-    ivaValues={ivaValues}
-    totalValues={totalValues}
-    cantidadTotal={cantidadTotal}
-    importeTotal={importeTotal}
-    vendedor={username}
-    cliente={clienteSeleccionado}
-    itemValues={itemValues}
-    onSubmit={handleFormSubmit}
-        />
-    </Container>
-  </>
+  <Container maxW="container.lg" mt={8}>
+    <RemitosPrint
+      datosRemitos={datosRemitos}
+      uniValues={uniValues}
+      precioValues={precioValues}
+      ofertaValues={ofertaValues}
+      ivaValues={ivaValues}
+      totalValues={totalValues}
+      cantidadTotal={cantidadTotal}
+      importeTotal={importeTotal}
+      vendedor={username}
+      cliente={clienteSeleccionado}
+      itemValues={itemValues}
+      onSubmit={handleFormSubmit}
+    />
+  </Container>
+</>
 );
 };
 

@@ -15,7 +15,7 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true });
+        const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
         setUserRole(response.data.role);
       } catch (error) {
         console.error('Error al obtener el rol del usuario:', error);
@@ -56,23 +56,29 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
         variant="link"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
-          color: 'white',
+          bg: 'black.400',
+          color: 'cyan',
         }}
-        ml="4"
-        mt="2"
-        mb="2"
-        px="3"
-        py="2"
+        ml="2"
+        mt="7"
+        mb="0"
+        px="0"
+        py="0"
       >
         <Flex align="center">
-          <Icon as={RiAdminFill} fontSize="xl" mr="2" />
+          <Icon as={RiAdminFill} fontSize="xl" mr="0" />
           <Icon as={FiChevronDown} />
         </Flex>
       </MenuButton>
-      <MenuList>
-        {ButtonComponent}
-      </MenuList>
+      <MenuList
+  style={{
+    backgroundColor: 'transparent',
+    color: 'red', // Cambia el color del texto a negro u otro color que sea visible
+  }}
+>
+  {ButtonComponent}
+</MenuList>
+
     </Menu>
   );
 };

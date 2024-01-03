@@ -23,23 +23,23 @@ const ButtonSales = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => 
             role="group"
             cursor="pointer"
             _hover={{
-                bg: 'cyan.400',
-                color: 'white',
+                bg: 'red.400',
+                color: 'black',
             }}
         >
             <Icon
-                mr="4"
+                mr="0"
                 fontSize="16"
                 _groupHover={{
-                    color: 'white',
+                    color: 'black',
                 }}
                 as={FiShoppingCart} 
                 className={`icon`}
             />
             <Box
                 ml={2}
-                visibility={isHovered ? 'visible' : 'hidden'}
-                transition="visibility 0.1s"
+                opacity={isHovered ? '1' : '0'}  
+                // Ajusté aquí
                 className={`nav-item ${isExpanded ? 'sidebar-expanded' : 'nav-item-minimized'}`}
             >
                 Vendedor

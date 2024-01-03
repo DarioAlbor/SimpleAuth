@@ -79,7 +79,7 @@
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:3001/api/logout', null, { withCredentials: true });
+            await axios.post('http://drogueriagarzon.com:3001/api/logout', null, { withCredentials: true });
             window.location.reload();
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
@@ -127,7 +127,7 @@
         useEffect(() => {
           const fetchData = async () => {
             try {
-              const response = await axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true });
+              const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
               setRole(response.data.role);
             } catch (error) {
               console.error('Error al obtener el rol del usuario:', error);
@@ -262,14 +262,14 @@
         useEffect(() => {
           const fetchData = async () => {
             try {
-              const response = await axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true });
+              const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true });
               setUsername(response.data.username);
             } catch (error) {
               console.error('Error al obtener el nombre de usuario:', error);
             }
       
             try {
-              const response = await axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true });
+              const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
               setRole(response.data.role);
             } catch (error) {
               console.error('Error al obtener el rol del usuario:', error);
@@ -281,8 +281,8 @@
           } else {
             axios
               .all([
-                axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true }),
-                axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true }),
+                axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true }),
+                axios.get('http://drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true }),
               ])
               .then((responses) => {
                 setUsername(responses[0].data.username);
@@ -344,10 +344,10 @@
                         boxShadow="0px 0px 5px rgba(0, 255, 255, 0.5)"
                       />
                       <Box borderLeft="1px" borderColor={useColorModeValue('gray.200', 'gray.700')} height="24px" mx="4" />
-                      <Icon as={FiUser} fontSize="xl" color={useColorModeValue('gray.600', 'white')} />
+                      <Icon as={FiUser} fontSize="xl" color={useColorModeValue('blue.600', 'blue.600')} />
                       <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                         <Text fontSize="sm">{username}</Text>
-                        <Text fontSize="xs" color={useColorModeValue('gray.600', 'white')}>
+                        <Text fontSize="xs" color={useColorModeValue('gray.600', 'white.600')}>
                           {role}
                         </Text>
                       </VStack>
@@ -369,10 +369,6 @@
                             cursor="pointer"
                             position="relative"
                             zIndex="1"
-                            _hover={{
-                              boxShadow: '1px 1px 20px rgba(0, 255, 255, 0.5)',
-                              bg: useColorModeValue('gray.100', 'gray.700'),
-                            }}
                             paddingLeft="3"
                             paddingRight="1"
                             onClick={(e) => {
