@@ -5,7 +5,7 @@ const session = require('express-session');
 const http = require('http');
 const socketIo = require('socket.io');
 const sequelize = require('./config/db');
-const Message = require('./models/Message'); // Importa el modelo Message
+const Message = require('./models/message'); // Importa el modelo Message
 const app = express();
 const server = http.createServer(app);
 

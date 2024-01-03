@@ -1,4 +1,4 @@
-const Remito = require('../models/Remito');
+const Remito = require('../models/remito');
 
 let currentRemitoNumber = null;
 

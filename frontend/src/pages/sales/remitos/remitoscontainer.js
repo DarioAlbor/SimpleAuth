@@ -12,13 +12,14 @@ import {
   Input,
   Select,
   useColorModeValue,
-  Button,
 } from '@chakra-ui/react';
 import { calcularTotal } from './data';
-import RemitosPrint from './print';
-import axios from 'axios';
 
-const RemitosContainer = () => {
+import axios from 'axios';
+import RemitosPrint from './print';
+
+
+const RemitosContainer = ({ generatePDF }) => {
   const [datosRemitos, setDatosRemitos] = useState(Array(10).fill({}));
   const [uniValues, setUniValues] = useState(Array(10).fill(''));
   const [itemValues, setItemValues] = useState(Array(10).fill(''));
@@ -31,11 +32,10 @@ const RemitosContainer = () => {
   const [username, setUsername] = useState('');
   const [clientes, setClientes] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState('');
-  const [consultasRealizadas, setConsultasRealizadas] = useState(false); // Nuevo estado
+  const [consultasRealizadas, setConsultasRealizadas] = useState(false);
 
-  const textColor = useColorModeValue('black', 'white'); // Ajusta el color del texto según el modo de color
-  const tableBorderColor = useColorModeValue('gray.200', 'gray.600'); // Ajusta el color del borde de la tabla según el modo de color
-
+  const textColor = useColorModeValue('black', 'white');
+  const tableBorderColor = useColorModeValue('gray.200', 'gray.600');
 
   useEffect(() => {
     const nuevosTotales = datosRemitos.map((remito, index) => {
@@ -46,26 +46,24 @@ const RemitosContainer = () => {
         parseFloat(ivaValues[index])
       );
     });
-  
+
     setTotalValues(nuevosTotales);
-  
+
     const nuevaCantidadTotal = uniValues.reduce((total, value) => total + (parseFloat(value) || 0), 0);
     setCantidadTotal(nuevaCantidadTotal);
-  
+
     const nuevoImporteTotal = nuevosTotales.reduce((total, value) => total + (parseFloat(value) || 0), 0);
     setImporteTotal(nuevoImporteTotal);
-  
-    // Realizar las consultas solo si aún no se han realizado
+
     if (!consultasRealizadas) {
       axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true })
         .then(response => setUsername(response.data.username))
         .catch(error => console.error('Error al obtener el nombre de usuario:', error));
-  
+
       axios.get('http://drogueriagarzon.com:3001/api/remitos/clientes/traer')
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error al obtener clientes:', error));
-  
-      // Marcar las consultas como realizadas
+
       setConsultasRealizadas(true);
     }
   }, [datosRemitos, uniValues, precioValues, ofertaValues, ivaValues, consultasRealizadas]);
@@ -106,7 +104,6 @@ const RemitosContainer = () => {
 
   const handleFormSubmit = async () => {
     try {
-      // Filtrar solo las filas que han sido completadas por el usuario
       const filasCompletadas = datosRemitos.filter((remito, index) => (
         uniValues[index] !== '' &&
         itemValues[index] !== '' &&
@@ -115,13 +112,11 @@ const RemitosContainer = () => {
         ivaValues[index] !== ''
       ));
   
-      // Validar que al menos una fila haya sido completada
       if (filasCompletadas.length === 0) {
         console.error('Error: Debes completar al menos una fila.');
         return;
       }
   
-      // Convertir todos los valores a cadenas antes de construir el cuerpo de la solicitud
       const requestBody = {
         remitos: filasCompletadas.map((remito, index) => ({
           unidades: uniValues[index],
@@ -135,22 +130,20 @@ const RemitosContainer = () => {
         vendedor: username,
       };
   
-      // Realizar la solicitud POST al backend
       const response = await axios.post('http://drogueriagarzon.com:3001/api/remitos/addrto', requestBody, { withCredentials: true });
   
-      // Verificar la respuesta del backend
       if (response.status === 201) {
-        // Aquí puedes manejar el éxito de la creación del remito, por ejemplo, mostrar un mensaje al usuario
         console.log('Remito creado exitosamente');
+  
+        // Ahora, después de que se ha creado el remito, generamos el PDF
+        generatePDF();
       } else {
         console.error('Error al crear el remito. Estado:', response.status);
       }
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
-      // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje de error al usuario
     }
   };
-  
 
   return (
     <>
@@ -165,7 +158,7 @@ const RemitosContainer = () => {
               <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>ITEM</Th>
               <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor} width="20%">PRECIO</Th>
               <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>OFERTA</Th>
-              <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>TOTAL</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="s solid" borderColor={tableBorderColor}>TOTAL</Th>
               <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>IVA</Th>
             </Tr>
           </Thead>
@@ -241,49 +234,47 @@ const RemitosContainer = () => {
               <Td colSpan={2}>{username}</Td>
             </Tr> 
             <Tr>
-          <Td colSpan={4}>
-            <span style={{ color: 'red', marginLeft: '0px' }}>*</span> CLIENTE:
-          </Td>
-          <Td colSpan={2}>
-            <Select
-              value={clienteSeleccionado}
-              onChange={(e) => handleClienteChange(e.target.value)}
-              size="sm"
-              width="80%"
-              isRequired
-            >
-              <option value="" disabled hidden>
-                Seleccionar..
+        <Td colSpan={4}><span style={{ color: 'red', marginLeft: '0px' }}>*</span> CLIENTE:</Td>
+        <Td colSpan={2}>
+          <Select
+            value={clienteSeleccionado}
+            onChange={(e) => handleClienteChange(e.target.value)}
+            size="sm"
+            width="80%"
+            isRequired
+          >
+            <option value="" disabled hidden>
+              Seleccionar..
+            </option>
+            {clientes.map((cliente) => (
+              <option key={cliente.id} value={`${cliente.nombre} - ${cliente.razonSocial}`}>
+                {cliente.nombre} - {cliente.razonSocial}
               </option>
-              {clientes.map((cliente) => (
-                <option key={cliente.id} value={`${cliente.nombre} - ${cliente.razonSocial}`}>
-                  {cliente.nombre} - {cliente.razonSocial}
-                </option>
-              ))}
-            </Select>
-          </Td>
-        </Tr>
-      </Tbody>
-    </Table>
-  </Container>
+            ))}
+          </Select>
+        </Td>
+      </Tr>
+          </Tbody>
+        </Table>
+                </Container>
 
-  <Container maxW="container.lg" mt={8}>
-    <RemitosPrint
-      datosRemitos={datosRemitos}
-      uniValues={uniValues}
-      precioValues={precioValues}
-      ofertaValues={ofertaValues}
-      ivaValues={ivaValues}
-      totalValues={totalValues}
-      cantidadTotal={cantidadTotal}
-      importeTotal={importeTotal}
-      vendedor={username}
-      cliente={clienteSeleccionado}
-      itemValues={itemValues}
-      onSubmit={handleFormSubmit}
-    />
-  </Container>
-</>
+<Container maxW="container.lg" mt={8}>
+  <RemitosPrint
+    datosRemitos={datosRemitos}
+    uniValues={uniValues}
+    precioValues={precioValues}
+    ofertaValues={ofertaValues}
+    ivaValues={ivaValues}
+    totalValues={totalValues}
+    cantidadTotal={cantidadTotal}
+    importeTotal={importeTotal}
+    vendedor={username}
+    cliente={clienteSeleccionado}
+    itemValues={itemValues}
+    onSubmit={handleFormSubmit}
+        />
+    </Container>
+  </>
 );
 };
 

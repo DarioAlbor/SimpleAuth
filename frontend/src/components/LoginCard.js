@@ -100,7 +100,7 @@ const LoginCard = ({ handleLoginClick, setEmail, setPassword, errorMessage, logi
                 <Image
                     alt={'Login Image'}
                     objectFit={'cover'}
-                    src={'http://portal.drogueriagarzon.com/images/garzonfront.jpg  '}
+                    src={'http://portal.localhost/images/garzonfront.jpg  '}
                 />
             </Flex>
         </Stack>
