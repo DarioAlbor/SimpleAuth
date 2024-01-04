@@ -13,7 +13,7 @@ const ResetPass = () => {
         // Lógica para verificar el token, por ejemplo, haciendo una solicitud al servidor
         const validateToken = async () => {
             try {
-                const response = await axios.post('http://drogueriagarzon.com:3001/api/login/validate-reset-token', { token });
+                const response = await axios.post('http://localhost:3001/api/login/validate-reset-token', { token });
                 if (response.data.valid) {
                     // Token válido, puedes hacer más cosas aquí si es necesario
                     setEmail(response.data.email); // Suponiendo que el servidor devuelve el email asociado con el token
@@ -32,7 +32,7 @@ const ResetPass = () => {
     const handleResetPassClick = async (newPassword) => {
         // Lógica para restablecer la contraseña, por ejemplo, haciendo una solicitud al servidor
         try {
-            const response = await axios.post('http://drogueriagarzon.com:3001/api/login/reset-password', {
+            const response = await axios.post('http://localhost:3001/api/login/reset-password', {
                 email,
                 token,
                 newPassword,

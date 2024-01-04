@@ -1,4 +1,4 @@
-// controllers/rolesController.js
+const User = require('../models/user');
 
 exports.getSellers = async (req, res) => {
     try {

@@ -7,11 +7,11 @@ const { generateToken } = require('./token');
 const jwt = require('jsonwebtoken');
 
 const transporter = nodemailer.createTransport({
-    host: 'mail.drogueriagarzon.com',
+    host: 'mail.localhost',
     port: 587,
     secure: false,
     auth: {
-        user: 'notificaciones@drogueriagarzon.com',
+        user: 'notificaciones@localhost',
         pass: 'CqMEwy9xxt2w',
     },
     tls: {
@@ -27,7 +27,7 @@ const readTemplate = (templateName) => {
 const sendWelcomeEmail = async (email) => {
     try {
         const mailOptions = {
-            from: 'notificaciones@drogueriagarzon.com',
+            from: 'notificaciones@localhost',
             to: email,
             subject: 'Te damos la bienvenida a Garzón 💙',
             html: readTemplate('welcome'),
@@ -41,10 +41,10 @@ const sendWelcomeEmail = async (email) => {
 
 const sendPasswordResetEmail = async (email, resetToken) => {
     try {
-        const resetUrl = `http://drogueriagarzon.com:3000/login/resetpass/${resetToken}`;
+        const resetUrl = `http://localhost:3000/login/resetpass/${resetToken}`;
 
         const mailOptions = {
-            from: 'notificaciones@drogueriagarzon.com',
+            from: 'notificaciones@localhost',
             to: email,
             subject: 'Restablecimiento de contraseña',
             html: `<p>Para restablecer tu contraseña, haz clic en el siguiente enlace: <a href="${resetUrl}">Restablecer contraseña</a></p>`,

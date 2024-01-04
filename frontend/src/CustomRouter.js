@@ -29,7 +29,7 @@ const CustomRouter = () => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const response = await fetch('http://drogueriagarzon.com:3001/api/user/checkAuthentication', {
+                const response = await fetch('http://localhost:3001/api/user/checkAuthentication', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -44,7 +44,7 @@ const CustomRouter = () => {
 
         const fetchUserRole = async () => {
             try {
-                const response = await fetch('http://drogueriagarzon.com:3001/api/user/getRole', {
+                const response = await fetch('http://localhost:3001/api/user/getRole', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -99,20 +99,23 @@ const CustomRouter = () => {
             <Route path="/login" element={<PublicRoute element={<Login />} />} />
             <Route path="/login/forgotpass" element={<PublicRoute element={<ForgotPass />} />} />
             <Route path="/login/resetpass/:token" element={<PublicRoute element={<ResetPass />} />} />
+            
             {/* PRIVADAS ACA */}
             <Route path="/inicio/*" element={<PrivateRoute><Inicio /></PrivateRoute>} />
             <Route path="/tienda" element={<PrivateRoute><Tienda /></PrivateRoute>} />
             <Route path="/viasalud" element={<PrivateRoute><ViaSalud /></PrivateRoute>} />
             <Route path="/chatbot" element={<PrivateRoute><Chatbot /></PrivateRoute>} />
             <Route path="/user" element={<PrivateRoute><UserConfig /></PrivateRoute>} />
+
             {/* PANEL DE DISEÑO */}
             <Route path="/design/*" element={<PrivateRoute><DesignerRoute element={<DesignPage />} /></PrivateRoute>} />
+
             {/* PANEL DE VENTAS */}
             <Route path="/sales" element={<PrivateRoute><SalesRoute element={<SalesPage />} /></PrivateRoute>} />
             <Route path="/sales/chat" element={<PrivateRoute><SalesRoute element={<SalesChat />} /></PrivateRoute>} />
-            <Route path="/sales/remitos" element={<PrivateRoute><SalesRemitos element={<SalesRemitos />} /></PrivateRoute>} />
-            <Route path="/sales/remitos/clientes" element={<PrivateRoute><SalesRemitosClientes element={<SalesRemitosClientes />} /></PrivateRoute>} />
-            <Route path="/sales/remitos/resumen" element={<PrivateRoute><ResumenRemitos element={<ResumenRemitos />} /></PrivateRoute>} />
+            <Route path="/sales/remitos" element={<PrivateRoute><SalesRoute element={<SalesRemitos />} /></PrivateRoute>} />
+            <Route path="/sales/remitos/clientes" element={<PrivateRoute><SalesRoute element={<SalesRemitosClientes />} /></PrivateRoute>} />
+            <Route path="/sales/remitos/resumen" element={<PrivateRoute><SalesRoute element={<ResumenRemitos />} /></PrivateRoute>} />
 
             <Route
                 index

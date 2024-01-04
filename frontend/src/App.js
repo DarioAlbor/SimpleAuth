@@ -18,7 +18,6 @@ function App() {
                 </Router>
                 <Footer />
                 <ToastContainer />
-                <Snowfall />
             </div>
         </ChakraProvider>
     );

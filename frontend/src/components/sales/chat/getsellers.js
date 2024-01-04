@@ -4,7 +4,7 @@ const GetSellers = ({ setUsername, setUserId }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://drogueriagarzon.com:3001/api/user/getuserinfo', {
+        const response = await fetch('http://localhost:3001/api/user/getuserinfo', {
           method: 'GET',
           credentials: 'include',
         });

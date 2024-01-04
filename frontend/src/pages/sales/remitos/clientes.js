@@ -51,7 +51,7 @@ const RemitosClientes = () => {
 
     try {
       // Realizar la solicitud POST al servidor
-      const response = await axios.post('http://drogueriagarzon.com:3001/api/remitos/clientes/guardar', clienteData);
+      const response = await axios.post('http://localhost:3001/api/remitos/clientes/guardar', clienteData);
 
       // Manejar la respuesta del servidor si es necesario
       console.log('Respuesta del servidor:', response.data);
@@ -75,7 +75,7 @@ const RemitosClientes = () => {
   const cargarClientes = async () => {
     try {
       // Realizar la solicitud GET al servidor para obtener todos los clientes
-      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/clientes/traer');
+      const response = await axios.get('http://localhost:3001/api/remitos/clientes/traer');
 
       // Actualizar el estado de los clientes con los datos obtenidos
       setClientes(response.data);
