@@ -30,6 +30,7 @@
     "react-pageflip": "^2.0.3",
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
+    "react-scrollbar": "^0.5.6",
     "react-simple-chatbot": "^0.6.1",
     "react-snowfall": "^1.2.1",
     "react-toastify": "^9.1.3",

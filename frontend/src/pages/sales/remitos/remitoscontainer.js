@@ -20,13 +20,13 @@ import RemitosPrint from './print';
 
 
 const RemitosContainer = ({ generatePDF }) => {
-  const [datosRemitos, setDatosRemitos] = useState(Array(10).fill({}));
-  const [uniValues, setUniValues] = useState(Array(10).fill(''));
-  const [itemValues, setItemValues] = useState(Array(10).fill(''));
-  const [precioValues, setPrecioValues] = useState(Array(10).fill(''));
-  const [ofertaValues, setOfertaValues] = useState(Array(10).fill('0'));
-  const [ivaValues, setIvaValues] = useState(Array(10).fill('0'));
-  const [totalValues, setTotalValues] = useState(Array(10).fill(0));
+  const [datosRemitos, setDatosRemitos] = useState(Array(15).fill({}));
+  const [uniValues, setUniValues] = useState(Array(15).fill(''));
+  const [itemValues, setItemValues] = useState(Array(15).fill(''));
+  const [precioValues, setPrecioValues] = useState(Array(15).fill(''));
+  const [ofertaValues, setOfertaValues] = useState(Array(15).fill('0'));
+  const [ivaValues, setIvaValues] = useState(Array(15).fill('0'));
+  const [totalValues, setTotalValues] = useState(Array(15).fill(0));
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const [importeTotal, setImporteTotal] = useState(0);
   const [username, setUsername] = useState('');
@@ -247,8 +247,8 @@ const RemitosContainer = ({ generatePDF }) => {
               Seleccionar..
             </option>
             {clientes.map((cliente) => (
-              <option key={cliente.id} value={`${cliente.nombre} - ${cliente.razonSocial}`}>
-                {cliente.nombre} - {cliente.razonSocial}
+        <option key={cliente.id} value={`${cliente.nombre} RAZON SOCIAL: ${cliente.razonSocial} ID: ${cliente.numeroCuenta} DIRECCION: ${cliente.direccionEntrega}`}>
+        {`${cliente.nombre} - ${cliente.razonSocial} - ${cliente.numeroCuenta} - ${cliente.direccionEntrega}`}
               </option>
             ))}
           </Select>

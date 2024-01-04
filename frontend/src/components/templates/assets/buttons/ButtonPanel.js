@@ -4,6 +4,7 @@ import { Menu, MenuButton, MenuList, Button, Icon, Flex } from '@chakra-ui/react
 import { FiChevronDown } from 'react-icons/fi';
 import { RiAdminFill } from 'react-icons/ri';
 import axios from 'axios';
+import Scrollbar from 'react-scrollbar';
 import ButtonDeveloper from './ButtonDeveloper';
 import ButtonDirector from './ButtonDirector';
 import ButtonDesigner from './ButtonDesigner';
@@ -29,25 +30,28 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
     return null; // No renderizar nada si el rol es "Cliente"
   }
 
-  let ButtonComponent;
+  let ButtonComponents = [];
 
   switch (userRole?.toLowerCase()) {
     case 'developer':
-      ButtonComponent = <ButtonDeveloper isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />;
+      ButtonComponents.push(<ButtonDeveloper key="developer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'director':
-      ButtonComponent = <ButtonDirector isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />;
+      ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'diseñador':
-      ButtonComponent = <ButtonDesigner isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />;
+      ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'vendedor':
-      ButtonComponent = <ButtonSales isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />;
+      ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     default:
-      ButtonComponent = null; // No renderizar nada si el rol no coincide con los casos anteriores
+      break;
   }
-
+  
   return (
     <Menu>
       <MenuButton
@@ -71,14 +75,17 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
         </Flex>
       </MenuButton>
       <MenuList
-  style={{
-    backgroundColor: 'transparent',
-    color: 'red', // Cambia el color del texto a negro u otro color que sea visible
-  }}
->
-  {ButtonComponent}
-</MenuList>
-
+        style={{
+          backgroundColor: 'transparent',
+          color: 'red', // Cambia el color del texto a negro u otro color que sea visible
+        }}
+      >
+        <Scrollbar style={{ maxHeight: '200px' }}> {/* Ajusta la altura máxima según sea necesario */}
+          {ButtonComponents.map((ButtonComponent) => (
+            <React.Fragment key={ButtonComponent.key}>{ButtonComponent}</React.Fragment>
+          ))}
+        </Scrollbar>
+      </MenuList>
     </Menu>
   );
 };

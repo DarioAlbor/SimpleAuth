@@ -26,34 +26,31 @@ const generatePDF = (
   importeTotal,
   vendedor,
   onSubmit,
-  lastRemitoId
+  lastRemitoId,
 ) => {
     const pdf = new jsPDF();
-    let y = 10;
+    let y = 5;
     const spacing = 10;
     const marginLeft = 5;
     const cellWidths = [31, 34, 35, 35, 35, 30];
     const cellMargin = 1;
   
-    // Agregar la imagen en la parte superior
-    const logoImg = new Image();
-    logoImg.src = `${process.env.PUBLIC_URL}/images/logonegro.jpg`;
-  
-    pdf.addImage(logoImg, 'JPEG', 60, 10, 80, 30);
   
     // Añadir líneas horizontales
     pdf.setLineWidth(0.1);
     pdf.line(marginLeft, y, 200, y);
 
     // Añadir nombre del VENDEDOR, FECHA y HORA en la misma línea
-    y += 40; // Ajustar la posición después de la imagen
+    y += 5; // Ajustar la posición después de la imagen
     pdf.setFontSize(12);
     pdf.text(`VENDEDOR: ${vendedor}`, marginLeft, y, { align: 'left' });
     pdf.text(`FECHA: ${fechaGeneracion()}`, 100, y, { align: 'center' });
     pdf.text(`HORA: ${horaGeneracion()}`, 200, y, { align: 'right' });
-
+    y += 6;
+    pdf.setFontSize(12);
+    pdf.text(`REMITO: ${lastRemitoId}`, 100, y, { align: 'center' });
     // Añadir líneas horizontales
-    y += spacing;
+    y += 5;
     pdf.setLineWidth(0.1);
     pdf.line(marginLeft, y, 200, y);
 
@@ -61,11 +58,6 @@ const generatePDF = (
     y += 6;
     pdf.setFontSize(12);
     pdf.text(`CLIENTE: ${cliente}`, 100, y, { align: 'center' });
-    
-    // Añadir el REMITO
-    y += 6;
-    pdf.setFontSize(12);
-    pdf.text(`REMITO: ${lastRemitoId}`, 100, y, { align: 'center' });
 
   // Añadir encabezados de la tabla
   y += spacing;
@@ -157,7 +149,7 @@ addCell(`${totalValues[index] || ''}`, marginLeft + 21 + 75 + 35 + 20, 50, true)
 
 // Añadir totales
 y += spacing;
-addCell(`CANTIDAD TOTAL: ${cantidadTotal || ''}`, marginLeft, 200);
+addCell(`UNIDADES TOTALES: ${cantidadTotal || ''}`, marginLeft, 200);
 
 y += spacing;
 addCell(`IMPORTE TOTAL: ${convertirImporteTotal(importeTotal)}`, marginLeft, 200);
@@ -182,9 +174,9 @@ pdf.setLineWidth(0.1);
 pdf.line(marginLeft, y, 200, y); // Ajusta la longitud de la línea según tus necesidades
 y += spacing * 0.5;
 pdf.setFontSize(8);
-pdf.text(`info@drogueriagarzon.com`, marginLeft, y, { align: 'left' });
-pdf.text(`www.drogueriagarzon.com`, 100, y, { align: 'center' });
-pdf.text(`4635-9600`, 200, y, { align: 'right' });
+pdf.text(`ESTE DOCUMENTO NO TIENE VALIDEZ ALGUNA`, marginLeft, y, { align: 'left' });
+pdf.text(`ESTE DOCUMENTO NO TIENE VALIDEZ ALGUNA`, 100, y, { align: 'center' });
+pdf.text(`ESTE DOCUMENTO NO TIENE VALIDEZ ALGUNA`, 200, y, { align: 'right' });
 
 // Descargar PDF
     pdf.save('remito.pdf');
