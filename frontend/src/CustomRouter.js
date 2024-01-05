@@ -29,7 +29,7 @@ const CustomRouter = () => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const response = await fetch('http://drogueriagarzon.com:3001/api/user/checkAuthentication', {
+                const response = await fetch('http://localhost:3001/api/user/checkAuthentication', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -44,7 +44,7 @@ const CustomRouter = () => {
 
         const fetchUserRole = async () => {
             try {
-                const response = await fetch('http://drogueriagarzon.com:3001/api/user/getRole', {
+                const response = await fetch('http://localhost:3001/api/user/getRole', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -75,7 +75,7 @@ const CustomRouter = () => {
     };
 //DISEÑADORES
     const DesignerRoute = ({ element }) => {
-        const allowedRoles = ['Diseñador', 'Developer'];
+        const allowedRoles = ['Diseñador', 'Developer', 'Director'];
 
         // Verificacion
         const isAllowed = userRole && allowedRoles.includes(userRole);
@@ -84,7 +84,7 @@ const CustomRouter = () => {
     };
 //VENDORES
     const SalesRoute = ({ element }) => {
-        const allowedRoles = ['Vendedor', 'Developer'];
+        const allowedRoles = ['Vendedor', 'Developer', 'Director'];
 
         // Verificacion
         const isAllowed = userRole && allowedRoles.includes(userRole);

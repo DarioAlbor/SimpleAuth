@@ -3,7 +3,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('dgweb', 'root', '', {
-  host: 'drogueriagarzon.com',
+  host: 'localhost',
   dialect: 'mysql', // Cambiar si se utiliza un dialecto diferente
 });
 

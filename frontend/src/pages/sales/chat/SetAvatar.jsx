@@ -23,7 +23,7 @@ export default function SetAvatar() {
   };
 
   useEffect(async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_drogueriagarzon.com_KEY))
+    if (!localStorage.getItem(process.env.REACT_APP_localhost_KEY))
       navigate("/login");
   }, []);
 
@@ -32,7 +32,7 @@ export default function SetAvatar() {
       toast.error("Por favor, selecciona un avatar", toastOptions);
     } else {
       const user = await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_drogueriagarzon.com_KEY)
+        localStorage.getItem(process.env.REACT_APP_localhost_KEY)
       );
 
       const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
@@ -43,7 +43,7 @@ export default function SetAvatar() {
         user.isAvatarImageSet = true;
         user.avatarImage = data.image;
         localStorage.setItem(
-          process.env.REACT_APP_drogueriagarzon.com_KEY,
+          process.env.REACT_APP_localhost_KEY,
           JSON.stringify(user)
         );
         navigate("/");

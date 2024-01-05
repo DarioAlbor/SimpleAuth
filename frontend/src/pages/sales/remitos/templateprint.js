@@ -56,7 +56,7 @@ const generatePDF = (
 
     // Añadir el nombre del CLIENTE
     y += 6;
-    pdf.setFontSize(12);
+    pdf.setFontSize(7);
     pdf.text(`CLIENTE: ${cliente}`, 100, y, { align: 'center' });
 
   // Añadir encabezados de la tabla

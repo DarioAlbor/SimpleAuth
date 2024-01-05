@@ -17,6 +17,9 @@ const RemitosClientes = sequelize.define('RemitosClientes', {
   direccionEntrega: {
     type: DataTypes.STRING,
   },
+  horario: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = RemitosClientes;

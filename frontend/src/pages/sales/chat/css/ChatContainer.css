@@ -50,7 +50,7 @@
 
 .message-self {
   align-self: flex-end;
-  background-color: #DCF8C6;
+  background-color: #427e1a;
   margin: 5px;
   padding: 10px;
   border-radius: 10px;
@@ -58,7 +58,7 @@
 
 .message-other {
   align-self: flex-start;
-  background-color: #EDEDED;
+  background-color: #3b3b3b;
   margin: 5px;
   padding: 10px;
   border-radius: 10px;

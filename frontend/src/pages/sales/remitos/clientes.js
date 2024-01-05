@@ -23,6 +23,7 @@ const RemitosClientes = () => {
     razonSocial: '',
     numeroCuenta: '',
     direccionEntrega: '',
+    horario: '',
   });
 
   const [errorNombre, setErrorNombre] = useState('');
@@ -51,7 +52,7 @@ const RemitosClientes = () => {
 
     try {
       // Realizar la solicitud POST al servidor
-      const response = await axios.post('http://drogueriagarzon.com:3001/api/remitos/clientes/guardar', clienteData);
+      const response = await axios.post('http://localhost:3001/api/remitos/clientes/guardar', clienteData);
 
       // Manejar la respuesta del servidor si es necesario
       console.log('Respuesta del servidor:', response.data);
@@ -69,13 +70,14 @@ const RemitosClientes = () => {
       razonSocial: '',
       numeroCuenta: '',
       direccionEntrega: '',
+      horario: '',
     });
   };
 
   const cargarClientes = async () => {
     try {
       // Realizar la solicitud GET al servidor para obtener todos los clientes
-      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/clientes/traer');
+      const response = await axios.get('http://localhost:3001/api/remitos/clientes/traer');
 
       // Actualizar el estado de los clientes con los datos obtenidos
       setClientes(response.data);
@@ -134,6 +136,15 @@ const RemitosClientes = () => {
             onChange={handleChange}
           />
         </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Horario</FormLabel>
+          <Input
+            type="text"
+            name="horario"
+            value={clienteData.horario}
+            onChange={handleChange}
+          />
+        </FormControl>
         <Button type="submit" colorScheme="teal">
           Agregar Cliente
         </Button>
@@ -149,6 +160,7 @@ const RemitosClientes = () => {
               <Th>Razón Social</Th>
               <Th>Nº Cuenta</Th>
               <Th>Dirección de Entrega</Th>
+              <Th>Horario</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -158,6 +170,7 @@ const RemitosClientes = () => {
                 <Td>{cliente.razonSocial}</Td>
                 <Td>{cliente.numeroCuenta}</Td>
                 <Td>{cliente.direccionEntrega}</Td>
+                <Td>{cliente.horario}</Td>
               </Tr>
             ))}
           </Tbody>

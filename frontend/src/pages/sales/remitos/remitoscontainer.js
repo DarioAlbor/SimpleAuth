@@ -14,102 +14,117 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { calcularTotal } from './data';
-
 import axios from 'axios';
 import RemitosPrint from './print';
 
-
 const RemitosContainer = ({ generatePDF }) => {
-  const [datosRemitos, setDatosRemitos] = useState(Array(15).fill({}));
-  const [uniValues, setUniValues] = useState(Array(15).fill(''));
-  const [itemValues, setItemValues] = useState(Array(15).fill(''));
-  const [precioValues, setPrecioValues] = useState(Array(15).fill(''));
-  const [ofertaValues, setOfertaValues] = useState(Array(15).fill('0'));
-  const [ivaValues, setIvaValues] = useState(Array(15).fill('0'));
-  const [totalValues, setTotalValues] = useState(Array(15).fill(0));
-  const [cantidadTotal, setCantidadTotal] = useState(0);
-  const [importeTotal, setImporteTotal] = useState(0);
-  const [username, setUsername] = useState('');
-  const [clientes, setClientes] = useState([]);
-  const [clienteSeleccionado, setClienteSeleccionado] = useState('');
-  const [consultasRealizadas, setConsultasRealizadas] = useState(false);
+  const initialState = {
+    datosRemitos: Array(15).fill({}),
+    uniValues: Array(15).fill(''),
+    itemValues: Array(15).fill(''),
+    precioValues: Array(15).fill(''),
+    ofertaValues: Array(15).fill('0'),
+    ivaValues: Array(15).fill('0'),
+    totalValues: Array(15).fill(0),
+    cantidadTotal: 0,
+    importeTotal: 0,
+    username: '',
+    clientes: [],
+    clienteSeleccionado: '',
+    consultasRealizadas: false,
+  };
+
+  const [state, setState] = useState(initialState);
 
   const textColor = useColorModeValue('black', 'white');
-  const tableBorderColor = useColorModeValue('gray.200', 'gray.600');
+  const tableBorderColor = useColorModeValue('black', 'white');
 
   useEffect(() => {
-    const nuevosTotales = datosRemitos.map((remito, index) => {
+    const nuevosTotales = state.datosRemitos.map((remito, index) => {
       return calcularTotal(
-        parseFloat(uniValues[index]),
-        parseFloat(precioValues[index]),
-        parseFloat(ofertaValues[index]),
-        parseFloat(ivaValues[index])
+        parseFloat(state.uniValues[index]),
+        parseFloat(state.precioValues[index]),
+        parseFloat(state.ofertaValues[index]),
+        parseFloat(state.ivaValues[index])
       );
     });
 
-    setTotalValues(nuevosTotales);
+    setState((prevState) => ({
+      ...prevState,
+      totalValues: nuevosTotales,
+      cantidadTotal: state.uniValues.reduce((total, value) => total + (parseFloat(value) || 0), 0),
+      importeTotal: nuevosTotales.reduce((total, value) => total + (parseFloat(value) || 0), 0),
+    }));
 
-    const nuevaCantidadTotal = uniValues.reduce((total, value) => total + (parseFloat(value) || 0), 0);
-    setCantidadTotal(nuevaCantidadTotal);
-
-    const nuevoImporteTotal = nuevosTotales.reduce((total, value) => total + (parseFloat(value) || 0), 0);
-    setImporteTotal(nuevoImporteTotal);
-
-    if (!consultasRealizadas) {
-      axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true })
-        .then(response => setUsername(response.data.username))
+    if (!state.consultasRealizadas) {
+      axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
+        .then(response => setState((prevState) => ({ ...prevState, username: response.data.username })))
         .catch(error => console.error('Error al obtener el nombre de usuario:', error));
 
-      axios.get('http://drogueriagarzon.com:3001/api/remitos/clientes/traer')
-        .then(response => setClientes(response.data))
+      axios.get('http://localhost:3001/api/remitos/clientes/traer')
+        .then(response => setState((prevState) => ({ ...prevState, clientes: response.data })))
         .catch(error => console.error('Error al obtener clientes:', error));
 
-      setConsultasRealizadas(true);
+      setState((prevState) => ({ ...prevState, consultasRealizadas: true }));
     }
-  }, [datosRemitos, uniValues, precioValues, ofertaValues, ivaValues, consultasRealizadas]);
+  }, [state.datosRemitos, state.uniValues, state.precioValues, state.ofertaValues, state.ivaValues, state.consultasRealizadas]);
 
   const handleUniChange = (index, value) => {
-    const newUniValues = [...uniValues];
-    newUniValues[index] = value;
-    setUniValues(newUniValues);
+    setState((prevState) => {
+      const newUniValues = [...prevState.uniValues];
+      newUniValues[index] = value;
+      return { ...prevState, uniValues: newUniValues };
+    });
+  };
+
+  const resetForm = () => {
+    setState(initialState);
   };
 
   const handleItemChange = (index, value) => {
-    const newItemValues = [...itemValues];
-    newItemValues[index] = value;
-    setItemValues(newItemValues);
+    setState((prevState) => {
+      const newItemValues = [...prevState.itemValues];
+      newItemValues[index] = value;
+      return { ...prevState, itemValues: newItemValues };
+    });
   };
 
   const handlePrecioChange = (index, value) => {
-    const newPrecioValues = [...precioValues];
-    newPrecioValues[index] = value;
-    setPrecioValues(newPrecioValues);
+    setState((prevState) => {
+      const newPrecioValues = [...prevState.precioValues];
+      newPrecioValues[index] = value;
+      return { ...prevState, precioValues: newPrecioValues };
+    });
   };
 
   const handleOfertaChange = (index, value) => {
-    const newOfertaValues = [...ofertaValues];
-    newOfertaValues[index] = value;
-    setOfertaValues(newOfertaValues);
+    setState((prevState) => {
+      const newOfertaValues = [...prevState.ofertaValues];
+      newOfertaValues[index] = value;
+      return { ...prevState, ofertaValues: newOfertaValues };
+    });
   };
 
   const handleIvaChange = (index, value) => {
-    const newIvaValues = [...ivaValues];
-    newIvaValues[index] = value;
-    setIvaValues(newIvaValues);
+    setState((prevState) => {
+      const newIvaValues = [...prevState.ivaValues];
+      newIvaValues[index] = value;
+      return { ...prevState, ivaValues: newIvaValues };
+    });
   };
 
   const handleClienteChange = (value) => {
-    setClienteSeleccionado(value);
+    setState((prevState) => ({ ...prevState, clienteSeleccionado: value }));
   };
 
   const handleFormSubmit = async () => {
     try {
-      const filasCompletadas = datosRemitos.filter((remito, index) => (
-        uniValues[index] !== '' &&
-        itemValues[index] !== '' &&
-        precioValues[index] !== '' &&
-        ofertaValues[index] !== '' &&
-        ivaValues[index] !== ''
+      const filasCompletadas = state.datosRemitos.filter((remito, index) => (
+        state.uniValues[index] !== '' &&
+        state.itemValues[index] !== '' &&
+        state.precioValues[index] !== '' &&
+        state.ofertaValues[index] !== '' &&
+        state.ivaValues[index] !== ''
       ));
   
       if (filasCompletadas.length === 0) {
@@ -119,18 +134,18 @@ const RemitosContainer = ({ generatePDF }) => {
   
       const requestBody = {
         remitos: filasCompletadas.map((remito, index) => ({
-          unidades: uniValues[index],
-          item: itemValues[index],
-          precio: precioValues[index],
-          oferta: ofertaValues[index],
-          total: totalValues[index],
-          iva: ivaValues[index],
+          unidades: state.uniValues[index],
+          item: state.itemValues[index],
+          precio: state.precioValues[index],
+          oferta: state.ofertaValues[index],
+          total: state.totalValues[index],
+          iva: state.ivaValues[index],
         })),
-        cliente: clienteSeleccionado,
-        vendedor: username,
+        cliente: state.clienteSeleccionado,
+        vendedor: state.username,
       };
   
-      const response = await axios.post('http://drogueriagarzon.com:3001/api/remitos/addrto', requestBody, { withCredentials: true });
+      const response = await axios.post('http://localhost:3001/api/remitos/addrto', requestBody, { withCredentials: true });
   
       if (response.status === 201) {
         console.log('Remito creado exitosamente');
@@ -158,17 +173,17 @@ const RemitosContainer = ({ generatePDF }) => {
               <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>ITEM</Th>
               <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor} width="20%">PRECIO</Th>
               <Th borderTop="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>OFERTA</Th>
-              <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="s solid" borderColor={tableBorderColor}>TOTAL</Th>
+              <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>TOTAL</Th>
               <Th borderTop="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>IVA</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {datosRemitos.map((remito, index) => (
+            {state.datosRemitos.map((remito, index) => (
               <Tr key={index}>
                 <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderLeft="1px solid" borderRight="1px solid" borderColor={tableBorderColor}>
                   <Input
                     type="number"
-                    value={uniValues[index]}
+                    value={state.uniValues[index]}
                     onChange={(e) => handleUniChange(index, e.target.value)}
                     size="sm" 
                     width="80%"
@@ -176,7 +191,7 @@ const RemitosContainer = ({ generatePDF }) => {
                 </Td>
                 <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Input
-                    value={itemValues[index]}
+                    value={state.itemValues[index]}
                     onChange={(e) => handleItemChange(index, e.target.value)}
                     size="sm" 
                   />
@@ -184,7 +199,7 @@ const RemitosContainer = ({ generatePDF }) => {
                 <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Input
                     type="number"
-                    value={precioValues[index]}
+                    value={state.precioValues[index]}
                     onChange={(e) => handlePrecioChange(index, e.target.value)}
                     size="sm" 
                     width="80%"
@@ -192,22 +207,22 @@ const RemitosContainer = ({ generatePDF }) => {
                 </Td>
                 <Td borderBottom="1px solid" borderColor={tableBorderColor} pr={2} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Select
-                    value={ofertaValues[index]}
+                    value={state.ofertaValues[index]}
                     onChange={(e) => handleOfertaChange(index, e.target.value)}
                     size="sm"
                     width="80%"
                   >
-                    {[...Array(21).keys()].map((percent) => (
+                    {[...Array(101).keys()].map((percent) => (
                       <option key={percent + 0} value={(percent + 0).toString()}>{`${percent + 0}% Descuento`}</option>
                     ))}
                   </Select>
                 </Td>
                 <Td borderBottom="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>
-                  {totalValues[index].toFixed(2)} $
+                  {state.totalValues[index].toFixed(2)} $
                 </Td>
                 <Td borderBottom="1px solid" borderColor={tableBorderColor} borderRight="1px solid" borderColor={tableBorderColor}>
                   <Select
-                    value={ivaValues[index]}
+                    value={state.ivaValues[index]}
                     onChange={(e) => handleIvaChange(index, e.target.value)}
                     size="sm"
                     width="80%"
@@ -221,61 +236,62 @@ const RemitosContainer = ({ generatePDF }) => {
             {/* Nueva fila para CANTIDAD TOTAL, IMPORTE TOTAL, VENDEDOR y CLIENTE */}
             <Tr>
               <Td colSpan={4}>CANTIDAD TOTAL:</Td>
-              <Td>{cantidadTotal}</Td>
+              <Td>{state.cantidadTotal}</Td>
               <Td colSpan={1}></Td>
             </Tr>
             <Tr>
               <Td colSpan={4}>IMPORTE TOTAL:</Td>
-              <Td>{importeTotal.toFixed(2)} $</Td>
+              <Td>{state.importeTotal.toFixed(2)} $</Td>
               <Td colSpan={1}></Td>
             </Tr>
             <Tr>
               <Td colSpan={4}>VENDEDOR:</Td>
-              <Td colSpan={2}>{username}</Td>
+              <Td colSpan={2}>{state.username}</Td>
             </Tr> 
             <Tr>
-        <Td colSpan={4}><span style={{ color: 'red', marginLeft: '0px' }}>*</span> CLIENTE:</Td>
-        <Td colSpan={2}>
-          <Select
-            value={clienteSeleccionado}
-            onChange={(e) => handleClienteChange(e.target.value)}
-            size="sm"
-            width="80%"
-            isRequired
-          >
-            <option value="" disabled hidden>
-              Seleccionar..
-            </option>
-            {clientes.map((cliente) => (
-        <option key={cliente.id} value={`${cliente.nombre} RAZON SOCIAL: ${cliente.razonSocial} ID: ${cliente.numeroCuenta} DIRECCION: ${cliente.direccionEntrega}`}>
-        {`${cliente.nombre} - ${cliente.razonSocial} - ${cliente.numeroCuenta} - ${cliente.direccionEntrega}`}
-              </option>
-            ))}
-          </Select>
-        </Td>
-      </Tr>
+              <Td colSpan={4}><span style={{ color: 'red', marginLeft: '0px' }}>*</span> CLIENTE:</Td>
+              <Td colSpan={2}>
+                <Select
+                  value={state.clienteSeleccionado}
+                  onChange={(e) => handleClienteChange(e.target.value)}
+                  size="sm"
+                  width="80%"
+                  isRequired
+                >
+                  <option value="" disabled hidden>
+                    Seleccionar..
+                  </option>
+                  {state.clientes.map((cliente) => (
+                    <option key={cliente.id} value={`${cliente.nombre}        CUENTA: ${cliente.numeroCuenta}        DIRECCION: ${cliente.direccionEntrega}      HORARIO:  ${cliente.horario}`}>
+                      {`${cliente.nombre} - ${cliente.razonSocial}`}
+                    </option>
+                  ))}
+                </Select>
+              </Td>
+            </Tr>
           </Tbody>
         </Table>
-                </Container>
+      </Container>
 
-<Container maxW="container.lg" mt={8}>
-  <RemitosPrint
-    datosRemitos={datosRemitos}
-    uniValues={uniValues}
-    precioValues={precioValues}
-    ofertaValues={ofertaValues}
-    ivaValues={ivaValues}
-    totalValues={totalValues}
-    cantidadTotal={cantidadTotal}
-    importeTotal={importeTotal}
-    vendedor={username}
-    cliente={clienteSeleccionado}
-    itemValues={itemValues}
-    onSubmit={handleFormSubmit}
+      <Container maxW="container.lg" mt={8}>
+        <RemitosPrint
+          datosRemitos={state.datosRemitos}
+          uniValues={state.uniValues}
+          precioValues={state.precioValues}
+          ofertaValues={state.ofertaValues}
+          ivaValues={state.ivaValues}
+          totalValues={state.totalValues}
+          cantidadTotal={state.cantidadTotal}
+          importeTotal={state.importeTotal}
+          vendedor={state.username}
+          cliente={state.clienteSeleccionado}
+          itemValues={state.itemValues}
+          onSubmit={handleFormSubmit}
+          resetForm={resetForm}
         />
-    </Container>
-  </>
-);
+      </Container>
+    </>
+  );
 };
 
 export default RemitosContainer;

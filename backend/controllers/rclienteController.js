@@ -7,13 +7,14 @@ let cachedClientes = null;
 
 exports.guardarCliente = async (req, res) => {
   try {
-    const { nombre, razonSocial, numeroCuenta, direccionEntrega } = req.body;
+    const { nombre, razonSocial, numeroCuenta, direccionEntrega, horario } = req.body;
 
     const nuevoCliente = await RemitosClientes.create({
       nombre,
       razonSocial,
       numeroCuenta,
       direccionEntrega,
+      horario,
     });
 
     // Limpiar la caché cuando se agrega un nuevo cliente
@@ -31,7 +32,7 @@ exports.traerCliente = async (req, res) => {
     // Consultar la base de datos solo si la caché está vacía
     if (cachedClientes === null) {
       cachedClientes = await RemitosClientes.findAll({
-        attributes: ['id', 'nombre', 'razonSocial', 'numeroCuenta', 'direccionEntrega'],
+        attributes: ['id', 'nombre', 'razonSocial', 'numeroCuenta', 'direccionEntrega', 'horario'],
       });
     }
 

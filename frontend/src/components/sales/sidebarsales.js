@@ -92,7 +92,7 @@ const SideBarSales = () => {
                 }}
               >
                 <Icon as={FiFile} fontSize="20px" />
-                <Text className="sidebar-text" color={textColor}>
+                <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
                   Remito
                 </Text>
               </Flex>
@@ -106,7 +106,7 @@ const SideBarSales = () => {
                 }}
               >
                 <Icon as={FiList} fontSize="20px" />
-                <Text className="sidebar-text" color={textColor}>
+                <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
                   Resumen
                 </Text>
               </Flex>
@@ -120,7 +120,7 @@ const SideBarSales = () => {
                 }}
               >
                 <Icon as={FiUsers} fontSize="20px" />
-                <Text className="sidebar-text" color={textColor}>
+                <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
                   Clientes
                 </Text>
               </Flex>
@@ -181,7 +181,7 @@ const SideBarSales = () => {
       {/* Botones de contacto y configuración */}
       <Button
   as="a"
-  href="mailto:soporte@drogueriagarzon.com"
+  href="mailto:soporte@localhost"
   target="_blank"
   rel="noopener noreferrer"
   leftIcon={<Icon as={FiLifeBuoy} />}

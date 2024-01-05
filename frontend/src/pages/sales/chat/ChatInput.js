@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 const ChatInput = ({ onMessageSent, onHistoryMessages }) => {
   const [message, setMessage] = useState('');
   const [lastLoadTime, setLastLoadTime] = useState(null);
-  const socket = io('http://drogueriagarzon.com:3001', {
+  const socket = io('http://localhost:3001', {
     transports: ['websocket'],
   });
 
@@ -15,7 +15,7 @@ const ChatInput = ({ onMessageSent, onHistoryMessages }) => {
         const currentTime = new Date();
         // Verificar si ha pasado al menos 15 segundos desde la última carga
         if (!lastLoadTime || currentTime - lastLoadTime > 15000) {
-          const response = await axios.get('http://drogueriagarzon.com:3001/api/messages/getmsg');
+          const response = await axios.get('http://localhost:3001/api/messages/getmsg');
 
           const historyMessages = response.data.map((msg) => ({
             usuario: msg.usuario,
@@ -56,8 +56,38 @@ const ChatInput = ({ onMessageSent, onHistoryMessages }) => {
 
   const sendMessage = async () => {
     try {
-      // ... (código para enviar mensajes)
-      setLastLoadTime(null); // Forzar la carga de mensajes en el próximo intervalo
+      const userInfoResponse = await axios.get('http://localhost:3001/api/user/getUserinfo', { withCredentials: true });
+      const user = userInfoResponse.data.user;
+
+      if (!user) {
+        console.error('Error: Usuario no definido.');
+        return;
+      }
+
+      const { id, firstName } = user;
+      const timestamp = new Date();
+
+      if (!id || !firstName) {
+        console.error('Error: ID o firstName no definidos.');
+        return;
+      }
+
+      await axios.post('http://localhost:3001/api/messages/addmsg', {
+        idusuario: id,
+        usuario: firstName,
+        contenido: message,
+        timestamp: timestamp,
+      });
+
+      const newMessage = {
+        usuario: firstName,
+        contenido: message,
+        id: timestamp.getTime(),
+      };
+
+      onMessageSent((prevMessages) => [...prevMessages, newMessage]);
+
+      setMessage('');
     } catch (error) {
       console.error('Error al enviar el mensaje:', error.message);
     }
