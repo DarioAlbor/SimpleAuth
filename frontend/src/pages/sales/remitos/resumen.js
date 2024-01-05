@@ -19,7 +19,7 @@ const ResumenRemitos = () => {
   const cargarVendedorUsername = async () => {
     try {
       // Realizar la solicitud GET al servidor para obtener el nombre de usuario del vendedor
-      const response = await axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true })
+      const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true })
 
       // Actualizar el estado con el nombre de usuario del vendedor
       setVendedorUsername(response.data.username);
@@ -37,7 +37,7 @@ const ResumenRemitos = () => {
       }
 
       // Realizar la solicitud GET al servidor para obtener todos los remitos
-      const response = await axios.get('http://localhost:3001/api/remitos/resumen', { withCredentials: true })
+      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/resumen', { withCredentials: true })
 
       // Filtrar los remitos por el vendedor actual
       const remitosDelVendedor = response.data.filter(remito => remito.vendedor === vendedorUsername);

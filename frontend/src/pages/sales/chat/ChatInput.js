@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 const ChatInput = ({ onMessageSent, onHistoryMessages }) => {
   const [message, setMessage] = useState('');
   const [lastLoadTime, setLastLoadTime] = useState(null);
-  const socket = io('http://localhost:3001', {
+  const socket = io('http://drogueriagarzon.com:3001', {
     transports: ['websocket'],
   });
 
@@ -15,7 +15,7 @@ const ChatInput = ({ onMessageSent, onHistoryMessages }) => {
         const currentTime = new Date();
         // Verificar si ha pasado al menos 15 segundos desde la última carga
         if (!lastLoadTime || currentTime - lastLoadTime > 15000) {
-          const response = await axios.get('http://localhost:3001/api/messages/getmsg');
+          const response = await axios.get('http://drogueriagarzon.com:3001/api/messages/getmsg');
 
           const historyMessages = response.data.map((msg) => ({
             usuario: msg.usuario,

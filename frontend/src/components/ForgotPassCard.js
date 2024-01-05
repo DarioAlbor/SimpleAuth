@@ -74,7 +74,7 @@ const ForgotPassCard = ({ handleForgotPassClick, setEmail, resetSuccess, errorMe
                 <Image
                     alt={'Forgot Password Image'}
                     objectFit={'cover'}
-                    src={'http://portal.localhost/images/garzonfront.jpg'}
+                    src={'http://portal.drogueriagarzon.com/images/garzonfront.jpg'}
                 />
             </Flex>
         </Stack>

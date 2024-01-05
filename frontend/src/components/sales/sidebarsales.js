@@ -181,7 +181,7 @@ const SideBarSales = () => {
       {/* Botones de contacto y configuración */}
       <Button
   as="a"
-  href="mailto:soporte@localhots"
+  href="mailto:soporte@drogueriagarzon.com"
   target="_blank"
   rel="noopener noreferrer"
   leftIcon={<Icon as={FiLifeBuoy} />}
