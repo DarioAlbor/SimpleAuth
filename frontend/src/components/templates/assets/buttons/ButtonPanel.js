@@ -40,7 +40,10 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
       ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'director':
+      ButtonComponents.push(<ButtonDeveloper key="developer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'diseñador':
       ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);

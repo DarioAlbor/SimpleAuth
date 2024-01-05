@@ -22,6 +22,7 @@ import {
   FiList,
   FiUsers,
   FiChevronDown,
+  FiMail,
 } from 'react-icons/fi';
 import './css/SideBarSales.css'; // Importar el archivo CSS
 
@@ -46,7 +47,8 @@ const SideBarSales = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Contenido de la barra lateral */}
-      <VStack spacing="4" align="center">
+
+      <VStack spacing="5" align="center">
         <Link to="/sales">
           <Flex
             align="center"
@@ -54,8 +56,6 @@ const SideBarSales = () => {
               bg: 'rgba(66, 153, 225, 0.8)',
               borderRadius: 'md',
             }}
-            transition="background 0.1s ease"
-            p="2"
           >
             <Icon as={FiHome} fontSize="20px" />
             <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.3s ease" color={textColor}>
@@ -72,8 +72,6 @@ const SideBarSales = () => {
               bg: 'rgba(66, 153, 225, 0.8)',
               borderRadius: 'md',
             }}
-            transition="background 0.1s ease"
-            p="2"
           >
             <Icon as={FiFileText} fontSize="20px" />
             <Text className="sidebar-text menu-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
@@ -84,7 +82,7 @@ const SideBarSales = () => {
 
         {/* Submenú fijo de "Remitos" */}
         {isSubMenuExpanded && (
-          <VStack spacing="2" align="center">
+          <VStack spacing="5" align="center">
             <Link to="/sales/remitos">
               <Flex
                 align="center"
@@ -92,9 +90,6 @@ const SideBarSales = () => {
                   bg: 'rgba(66, 153, 225, 0.8)',
                   borderRadius: 'md',
                 }}
-                transition="background 0.1s ease"
-                p="2"
-                ml="2"
               >
                 <Icon as={FiFile} fontSize="20px" />
                 <Text className="sidebar-text" color={textColor}>
@@ -109,9 +104,6 @@ const SideBarSales = () => {
                   bg: 'rgba(66, 153, 225, 0.8)',
                   borderRadius: 'md',
                 }}
-                transition="background 0.1s ease"
-                p="2"
-                ml="2"
               >
                 <Icon as={FiList} fontSize="20px" />
                 <Text className="sidebar-text" color={textColor}>
@@ -126,9 +118,6 @@ const SideBarSales = () => {
                   bg: 'rgba(66, 153, 225, 0.8)',
                   borderRadius: 'md',
                 }}
-                transition="background 0.1s ease"
-                p="2"
-                ml="2"
               >
                 <Icon as={FiUsers} fontSize="20px" />
                 <Text className="sidebar-text" color={textColor}>
@@ -138,7 +127,7 @@ const SideBarSales = () => {
             </Link>
           </VStack>
         )}
-
+          <VStack spacing="5" align="center">
         <Link to="/sales/chat">
           <Flex
             align="center"
@@ -146,8 +135,6 @@ const SideBarSales = () => {
               bg: 'rgba(66, 153, 225, 0.8)',
               borderRadius: 'md',
             }}
-            transition="background 0.3s ease"
-            p="2"
           >
             <Icon as={FiUser} fontSize="20px" />
             <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.1s ease" color={textColor}>
@@ -156,7 +143,22 @@ const SideBarSales = () => {
           </Flex>
         </Link>
       </VStack>
-
+      <VStack spacing="5" align="center">
+      <a href="https://vefixy.com/webmail2/" target="_blank" rel="noopener noreferrer">
+  <Flex
+    align="center"
+    _hover={{
+      bg: 'rgba(66, 153, 225, 0.8)',
+      borderRadius: 'md',
+    }}
+  >
+    <Icon as={FiMail} fontSize="20px" />
+    <Text className="sidebar-text" ml={isHovered ? '2' : '-200px'} transition="margin-left 0.1s ease" color={textColor}>
+      Mail
+    </Text>
+  </Flex>
+</a>
+</VStack>      </VStack>
       {/* Botones inferiores */}
       <Box mt="auto">
         <Link to="/">
@@ -166,8 +168,6 @@ const SideBarSales = () => {
               bg: 'rgba(66, 153, 225, 0.8)',
               borderRadius: 'md',
             }}
-            transition="background 0.3s ease"
-            p="2"
           >
             <Icon as={FiArrowLeft} fontSize="20px" />
             <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.1s ease" color={textColor}>
@@ -176,37 +176,37 @@ const SideBarSales = () => {
           </Flex>
         </Link>
       </Box>
-      <Divider my="2" borderColor="gray.300" />
+      <Divider my="3" borderColor="gray.300" />
 
       {/* Botones de contacto y configuración */}
       <Button
-        as="a"
-        href="mailto:soporte@localhost"
-        target="_blank"
-        rel="noopener noreferrer"
-        leftIcon={<Icon as={FiLifeBuoy} />}
-        colorScheme="teal"
-        variant="solid"
-        mb="2"
-        _hover={{
-          bg: 'rgba(255, 255, 255, 0.1)',
-        }}
-      >
-        {!isHovered && <Text className="sidebar-text">Necesito Ayuda</Text>}
-      </Button>
-      <Link to="/user">
-        <Button
-          leftIcon={<Icon as={FiSettings} />}
-          colorScheme="teal"
-          variant="solid"
-          mb="2"
-          _hover={{
-            bg: 'rgba(255, 255, 255, 0.1)',
-          }}
-        >
-          {!isHovered && <Text className="sidebar-text">Configuración</Text>}
-        </Button>
-      </Link>
+  as="a"
+  href="mailto:soporte@localhots"
+  target="_blank"
+  rel="noopener noreferrer"
+  leftIcon={<Icon as={FiLifeBuoy} />}
+  colorScheme="teal"
+  variant="solid"
+  mb="3"
+  maxWidth="150px" // Ajusta este valor según tu preferencia
+  _hover={{
+    bg: 'rgba(255, 255, 255, 0.1)',
+  }}
+></Button>
+
+<Link to="/user">
+  <Button
+    leftIcon={<Icon as={FiSettings} />}
+    colorScheme="teal"
+    variant="solid"
+    mb="3"
+    maxWidth="150px" // Ajusta este valor según tu preferencia
+    _hover={{
+      bg: 'rgba(255, 255, 255, 0.1)',
+    }}
+  ></Button>
+</Link>
+
 
       {/* Línea blanca al final del lado derecho de la barra */}
       <Box

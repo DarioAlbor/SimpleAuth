@@ -25,7 +25,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+
+    /* Ajusta el tamaño de la fuente según tus necesidades */
+    font-size: 16px; /* Puedes cambiar este valor */
+}
+
   
   .sidebar.expanded .sidebar-text {
     display: inline-block;
@@ -45,7 +49,7 @@
   
   .menu-item:hover {
     background-color: rgba(66, 153, 225, 0.8); /* Color de fondo al pasar el mouse */
-    border-radius: 8px; /* Borde redondeado */
+    border-radius: 5px; /* Borde redondeado */
   }
   
   .menu-icon {
