@@ -75,7 +75,7 @@ const CustomRouter = () => {
     };
 //DISEÑADORES
     const DesignerRoute = ({ element }) => {
-        const allowedRoles = ['Diseñador', 'Developer', 'Director'];
+        const allowedRoles = ['Designer', 'Developer', 'Director'];
 
         // Verificacion
         const isAllowed = userRole && allowedRoles.includes(userRole);

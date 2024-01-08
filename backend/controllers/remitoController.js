@@ -1,6 +1,7 @@
 const Remito = require('../models/remito');
 
-let currentRemitoNumber = null;
+// Variable para almacenar el número autoincremental de remitos
+let currentRemitoCounter = 0;
 
 exports.createRemito = async (req, res) => {
   try {
@@ -9,11 +10,6 @@ exports.createRemito = async (req, res) => {
     // Verificar que las propiedades necesarias estén presentes en req.body
     if (!remitos || !cliente || !vendedor) {
       return res.status(400).json({ error: 'Faltan propiedades en la solicitud' });
-    }
-
-    // Generación automática de nroRemito único para la petición actual
-    if (currentRemitoNumber === null) {
-      currentRemitoNumber = generateRandomRemitoNumber();
     }
 
     // Método create para insertar un remito por cada conjunto de datos
@@ -33,7 +29,7 @@ exports.createRemito = async (req, res) => {
       }
 
       await Remito.create({
-        nroRemito: currentRemitoNumber,
+        nroRemito: await generateRemitoNumber(),
         unidades,
         item,
         precio,
@@ -45,9 +41,6 @@ exports.createRemito = async (req, res) => {
       });
     }
 
-    // Resetear el número de remito después de completar la petición
-    currentRemitoNumber = null;
-
     res.status(201).json({ mensaje: 'Remito(s) creado(s) exitosamente' });
   } catch (error) {
     console.error('Error al crear el remito:', error);
@@ -55,11 +48,15 @@ exports.createRemito = async (req, res) => {
   }
 };
 
-// Función para generar un número de remito aleatorio
-const generateRandomRemitoNumber = () => {
-  // Lógica para generar un número de remito único (puedes adaptarla según tus necesidades)
-  return Math.floor(Math.random() * 1000000) + 1;
+// Función para generar un número de remito en el formato deseado (año-número)
+const generateRemitoNumber = async () => {
+  const currentYear = new Date().getFullYear();
+  const formattedCounter = currentRemitoCounter.toString().padStart(6, '0');
+  const remitoNumber = `${currentYear}-${formattedCounter}`;
+  currentRemitoCounter += 1;
+  return remitoNumber;
 };
+
 
 
 

@@ -42,3 +42,54 @@ exports.traerCliente = async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor.' });
   }
 };
+
+exports.editarCliente = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nombre, razonSocial, numeroCuenta, direccionEntrega, horario } = req.body;
+
+    const clienteExistente = await RemitosClientes.findByPk(id);
+
+    if (!clienteExistente) {
+      return res.status(404).json({ error: 'Cliente no encontrado.' });
+    }
+
+    await clienteExistente.update({
+      nombre,
+      razonSocial,
+      numeroCuenta,
+      direccionEntrega,
+      horario,
+    });
+
+    // Limpiar la caché después de editar
+    cachedClientes = null;
+
+    res.status(200).json({ mensaje: 'Cliente editado correctamente.' });
+  } catch (error) {
+    console.error('Error al editar el cliente:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+};
+
+exports.eliminarCliente = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const clienteExistente = await RemitosClientes.findByPk(id);
+
+    if (!clienteExistente) {
+      return res.status(404).json({ error: 'Cliente no encontrado.' });
+    }
+
+    await clienteExistente.destroy();
+
+    // Limpiar la caché después de eliminar
+    cachedClientes = null;
+
+    res.status(200).json({ mensaje: 'Cliente eliminado correctamente.' });
+  } catch (error) {
+    console.error('Error al eliminar el cliente:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+};

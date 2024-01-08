@@ -90,8 +90,32 @@ const DesignPage = () => {
             } catch (error) {
                 console.error('Error al subir el archivo de imagen:', error);
             }
+        } else if (file && /\.pdf$/i.test(file.name)) {
+            handlePDFChange(file);
         } else {
-            alert('Por favor, seleccione un archivo de imagen (jpeg, png, gif).');
+            alert('Por favor, seleccione un archivo de documento (PDF).');
+        }
+    };
+
+    const handlePDFChange = async (file) => {
+        const formData = new FormData();
+        formData.append('pdf', file);
+
+        try {
+            const response = await fetch('http://localhost:3001/api/uploadpdf', {
+                method: 'POST',
+                credentials: 'include',
+                body: formData,
+            });
+
+            if (response.ok) {
+                console.log('Archivo PDF subido exitosamente.');
+                // Mostrar el mensaje de éxito, si es necesario
+            } else {
+                console.error('Error al subir el archivo PDF.');
+            }
+        } catch (error) {
+            console.error('Error al subir el archivo PDF:', error);
         }
     };
 

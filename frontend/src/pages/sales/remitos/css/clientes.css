@@ -1,0 +1,19 @@
+/* cliente.css */
+
+.action-icon {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-right: 8px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .action-icon:hover {
+    color: #63b3ed; /* Cambia el color al pasar el mouse */
+  }
+  
+  /* Agrega espaciado entre los iconos */
+  .icon-container {
+    display: flex;
+    gap: 8px;
+  }
+  

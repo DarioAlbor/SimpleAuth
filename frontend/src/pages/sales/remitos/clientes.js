@@ -1,3 +1,5 @@
+// RemitosClientes.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -15,7 +17,9 @@ import {
   Tr,
   Th,
   Td,
+  IconButton,
 } from '@chakra-ui/react';
+import { EditIcon, CheckIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons';
 
 const RemitosClientes = () => {
   const [clienteData, setClienteData] = useState({
@@ -28,6 +32,8 @@ const RemitosClientes = () => {
 
   const [errorNombre, setErrorNombre] = useState('');
   const [clientes, setClientes] = useState([]);
+  const [editMode, setEditMode] = useState(null);
+  const [editedData, setEditedData] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +41,6 @@ const RemitosClientes = () => {
       ...prevData,
       [name]: value,
     }));
-    // Limpiar el mensaje de error cuando el usuario edita el campo de nombre
     if (name === 'nombre') {
       setErrorNombre('');
     }
@@ -43,28 +48,19 @@ const RemitosClientes = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Verificar si el nombre del cliente está presente
     if (!clienteData.nombre.trim()) {
       setErrorNombre('El nombre del cliente es obligatorio.');
       return;
     }
 
     try {
-      // Realizar la solicitud POST al servidor
       const response = await axios.post('http://localhost:3001/api/remitos/clientes/guardar', clienteData);
-
-      // Manejar la respuesta del servidor si es necesario
       console.log('Respuesta del servidor:', response.data);
-
-      // Actualizar la lista de clientes después de agregar uno nuevo
       cargarClientes();
     } catch (error) {
-      // Manejar errores en caso de que la solicitud falle
       console.error('Error al enviar datos del cliente:', error);
     }
 
-    // Luego puedes restablecer el formulario si es necesario
     setClienteData({
       nombre: '',
       razonSocial: '',
@@ -76,20 +72,47 @@ const RemitosClientes = () => {
 
   const cargarClientes = async () => {
     try {
-      // Realizar la solicitud GET al servidor para obtener todos los clientes
       const response = await axios.get('http://localhost:3001/api/remitos/clientes/traer');
-
-      // Actualizar el estado de los clientes con los datos obtenidos
       setClientes(response.data);
     } catch (error) {
       console.error('Error al obtener clientes:', error);
     }
   };
 
+  const handleEditCliente = (clienteId) => {
+    setEditMode(clienteId);
+    setEditedData(clientes.find((cliente) => cliente.id === clienteId));
+  };
+
+  const handleConfirmEdit = async (clienteId) => {
+    try {
+      const response = await axios.put(`http://localhost:3001/api/remitos/clientes/editar/${clienteId}`, editedData);
+      console.log('Respuesta del servidor al confirmar edición:', response.data);
+      setEditMode(null);
+      cargarClientes();
+    } catch (error) {
+      console.error('Error al confirmar edición:', error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditMode(null);
+    setEditedData({});
+  };
+
+  const handleDeleteCliente = async (clienteId) => {
+    try {
+      const response = await axios.delete(`http://localhost:3001/api/remitos/clientes/eliminar/${clienteId}`);
+      console.log('Respuesta del servidor al eliminar cliente:', response.data);
+      cargarClientes();
+    } catch (error) {
+      console.error('Error al eliminar cliente:', error);
+    }
+  };
+
   useEffect(() => {
-    // Cargar la lista de clientes al montar el componente
     cargarClientes();
-  }, []); // El segundo parámetro vacío asegura que se ejecute solo una vez al montar el componente
+  }, []);
 
   return (
     <Container maxW="container.lg" mt={8}>
@@ -150,9 +173,10 @@ const RemitosClientes = () => {
         </Button>
       </form>
 
-      {/* Tabla para mostrar los clientes */}
       <Box mt={8}>
-        <Text fontSize="xl" fontWeight="bold">Lista de Clientes</Text>
+        <Text fontSize="xl" fontWeight="bold">
+          Lista de Clientes
+        </Text>
         <Table mt={4} variant="striped" colorScheme="teal">
           <Thead>
             <Tr>
@@ -161,16 +185,106 @@ const RemitosClientes = () => {
               <Th>Nº Cuenta</Th>
               <Th>Dirección de Entrega</Th>
               <Th>Horario</Th>
+              <Th>Acciones</Th>
             </Tr>
           </Thead>
           <Tbody>
             {clientes.map((cliente) => (
               <Tr key={cliente.id}>
-                <Td>{cliente.nombre}</Td>
-                <Td>{cliente.razonSocial}</Td>
-                <Td>{cliente.numeroCuenta}</Td>
-                <Td>{cliente.direccionEntrega}</Td>
-                <Td>{cliente.horario}</Td>
+                <Td>
+                  {editMode === cliente.id ? (
+                    <Input
+                      type="text"
+                      name="nombre"
+                      value={editedData.nombre}
+                      onChange={(e) => setEditedData({ ...editedData, nombre: e.target.value })}
+                    />
+                  ) : (
+                    cliente.nombre
+                  )}
+                </Td>
+                <Td>
+                  {editMode === cliente.id ? (
+                    <Input
+                      type="text"
+                      name="razonSocial"
+                      value={editedData.razonSocial}
+                      onChange={(e) => setEditedData({ ...editedData, razonSocial: e.target.value })}
+                    />
+                  ) : (
+                    cliente.razonSocial
+                  )}
+                </Td>
+                <Td>
+                  {editMode === cliente.id ? (
+                    <Input
+                      type="text"
+                      name="numeroCuenta"
+                      value={editedData.numeroCuenta}
+                      onChange={(e) => setEditedData({ ...editedData, numeroCuenta: e.target.value })}
+                    />
+                  ) : (
+                    cliente.numeroCuenta
+                  )}
+                </Td>
+                <Td>
+                  {editMode === cliente.id ? (
+                    <Textarea
+                      name="direccionEntrega"
+                      value={editedData.direccionEntrega}
+                      onChange={(e) => setEditedData({ ...editedData, direccionEntrega: e.target.value })}
+                    />
+                  ) : (
+                    cliente.direccionEntrega
+                  )}
+                </Td>
+                <Td>
+                  {editMode === cliente.id ? (
+                    <Input
+                      type="text"
+                      name="horario"
+                      value={editedData.horario}
+                      onChange={(e) => setEditedData({ ...editedData, horario: e.target.value })}
+                    />
+                  ) : (
+                    cliente.horario
+                  )}
+                </Td>
+                <Td>
+                  {editMode === cliente.id ? (
+                    <>
+                      <IconButton
+                        colorScheme="green"
+                        size="sm"
+                        icon={<CheckIcon />}
+                        onClick={() => handleConfirmEdit(cliente.id)}
+                      />
+                      <IconButton
+                        colorScheme="red"
+                        size="sm"
+                        ml={0}
+                        icon={<CloseIcon />}
+                        onClick={handleCancelEdit}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <IconButton
+                        colorScheme="teal"
+                        size="sm"
+                        icon={<EditIcon />}
+                        onClick={() => handleEditCliente(cliente.id)}
+                      />
+                      <IconButton
+                        colorScheme="red"
+                        size="sm"
+                        ml={0}
+                        icon={<DeleteIcon />}
+                        onClick={() => handleDeleteCliente(cliente.id)}
+                      />
+                    </>
+                  )}
+                </Td>
               </Tr>
             ))}
           </Tbody>
