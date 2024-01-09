@@ -5,7 +5,7 @@ const sequelize = require('../config/db'); // Asegúrate de tener configurada tu
 
 const Remito = sequelize.define('Remito', {
   nroRemito: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   unidades: {

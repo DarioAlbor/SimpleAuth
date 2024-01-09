@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Box, Text, Table, Divider, Tbody, Tr, Td, Th, Thead, IconButton, Icon } from '@chakra-ui/react';
-import { FaAngleDown } from 'react-icons/fa';
+import { FaAngleDown, FaEdit, FaTrash } from 'react-icons/fa';
 
 const ResumenRemitos = () => {
   const [remitos, setRemitos] = useState([]);
   const [vendedorUsername, setVendedorUsername] = useState('');
-  const [remitosDelVendedor, setRemitosDelVendedor] = useState([]); // Agregamos el estado de remitosDelVendedor
+  const [remitosDelVendedor, setRemitosDelVendedor] = useState([]);
+  const [expandedRow, setExpandedRow] = useState(null);
+  const [detalleRemito, setDetalleRemito] = useState({});
 
   const cargarVendedorUsername = async () => {
     try {
@@ -27,10 +29,7 @@ const ResumenRemitos = () => {
       const response = await axios.get('http://localhost:3001/api/remitos/resumen', { withCredentials: true });
       const remitosDelVendedor = response.data.filter(remito => remito.vendedor === vendedorUsername);
 
-      // Utilizar un conjunto para almacenar los números de remito únicos
       const remitosUnicos = new Set();
-
-      // Filtrar remitos duplicados y almacenar los números de remito únicos
       const remitosFiltrados = remitosDelVendedor.filter(remito => {
         if (!remitosUnicos.has(remito.nroRemito)) {
           remitosUnicos.add(remito.nroRemito);
@@ -39,10 +38,9 @@ const ResumenRemitos = () => {
         return false;
       });
 
-      // Actualizar el estado solo si ha cambiado
       if (JSON.stringify(remitosFiltrados) !== JSON.stringify(remitos)) {
         setRemitos(remitosFiltrados);
-        setRemitosDelVendedor(remitosDelVendedor); // Actualizamos el estado de remitosDelVendedor
+        setRemitosDelVendedor(remitosDelVendedor);
       }
     } catch (error) {
       console.error(`Error al obtener remitos del vendedor ${vendedorUsername}:`, error);
@@ -57,10 +55,17 @@ const ResumenRemitos = () => {
     cargarRemitos();
   }, [vendedorUsername]);
 
-  const [expandedRow, setExpandedRow] = useState(null);
-
-  const handleRowClick = (index) => {
+  const handleRowClick = (index, remito) => {
     setExpandedRow(expandedRow === index ? null : index);
+    setDetalleRemito(remito);
+  };
+
+  const handleEditRemito = (remitoId) => {
+    console.log('Editar Remito con ID:', remitoId);
+  };
+
+  const handleDeleteRemito = (remitoId) => {
+    console.log('Borrar Remito con ID:', remitoId);
   };
 
   return (
@@ -74,7 +79,7 @@ const ResumenRemitos = () => {
           <Tr>
             <Th>Número de Remito</Th>
             <Th>Cliente</Th>
-            <Th></Th> {/* Celda adicional para el icono */}
+            <Th></Th> 
           </Tr>
         </Thead>
         <Tbody>
@@ -87,7 +92,7 @@ const ResumenRemitos = () => {
                   <IconButton
                     aria-label="Expandir Detalles"
                     icon={<Icon as={FaAngleDown} />}
-                    onClick={() => handleRowClick(index)}
+                    onClick={() => handleRowClick(index, remito)}
                     variant="ghost"
                     colorScheme="teal"
                   />
@@ -95,7 +100,7 @@ const ResumenRemitos = () => {
               </Tr>
               {expandedRow === index && (
                 <Tr>
-                  <Td colSpan={3}>
+                  <Td colSpan={4}>
                     <Box p={4}>
                       <Text fontSize="lg" fontWeight="bold">Detalles del Remito</Text>
                       <Table variant="striped" colorScheme="teal">
@@ -104,31 +109,48 @@ const ResumenRemitos = () => {
                             <Th>Unidades</Th>
                             <Th>Item</Th>
                             <Th>Precio</Th>
-                            {/* Agrega más encabezados según tus necesidades */}
+                            <Th>Acción</Th> 
                           </Tr>
                         </Thead>
                         <Tbody>
-                          {/* Mostrar detalles específicos de cada remito */}
                           {remitosDelVendedor
-                            .filter(r => r.nroRemito === remito.nroRemito)
+                            .filter(r => r.nroRemito === detalleRemito.nroRemito)
                             .map((renglon, idx) => (
                               <Tr key={idx}>
                                 <Td>{renglon.unidades}</Td>
                                 <Td>{renglon.item}</Td>
                                 <Td>{parseFloat(renglon.total).toFixed(2)}</Td>
-                                {/* Agrega más celdas según tus necesidades */}
+                                <Td>
+                                  <IconButton
+                                    aria-label="Editar Renglón"
+                                    icon={<Icon as={FaEdit} />}
+                                    onClick={() => handleEditRemito(renglon.id)}
+                                    variant="ghost"
+                                    colorScheme="teal"
+                                  />
+                                  <IconButton
+                                    aria-label="Borrar Renglón"
+                                    icon={<Icon as={FaTrash} />}
+                                    onClick={() => handleDeleteRemito(renglon.id)}
+                                    variant="ghost"
+                                    colorScheme="red"
+                                  />
+                                </Td>
                               </Tr>
                             ))}
                         </Tbody>
                       </Table>
                       <Divider mt={4} mb={2} />
-                      {/* Agregar la suma total y cantidad total para el remito seleccionado */}
                       <Box>
                         <Text fontSize="sm" fontWeight="bold">
-                          Importe Total: {parseFloat(remito.total).toFixed(2)}
+                          Importe Total: {remitosDelVendedor
+                            .filter(r => r.nroRemito === detalleRemito.nroRemito)
+                            .reduce((total, detalle) => total + parseFloat(detalle.total), 0).toFixed(2)}
                         </Text>
                         <Text fontSize="sm" fontWeight="bold">
-                          Cantidades Totales: {parseInt(remito.unidades)}
+                          Cantidades Totales: {remitosDelVendedor
+                            .filter(r => r.nroRemito === detalleRemito.nroRemito)
+                            .reduce((total, detalle) => total + parseInt(detalle.unidades), 0)}
                         </Text>
                       </Box>
                     </Box>

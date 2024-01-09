@@ -1,8 +1,5 @@
 const Remito = require('../models/remito');
 
-// Variable para almacenar el número autoincremental de remitos
-let currentRemitoCounter = 0;
-
 exports.createRemito = async (req, res) => {
   try {
     const { remitos, cliente, vendedor } = req.body;
@@ -50,15 +47,29 @@ exports.createRemito = async (req, res) => {
 
 // Función para generar un número de remito en el formato deseado (año-número)
 const generateRemitoNumber = async () => {
-  const currentYear = new Date().getFullYear();
-  const formattedCounter = currentRemitoCounter.toString().padStart(6, '0');
-  const remitoNumber = `${currentYear}-${formattedCounter}`;
-  currentRemitoCounter += 1;
-  return remitoNumber;
+  try {
+    // Obtener el último remito de la base de datos ordenando por id de manera descendente
+    const lastRemito = await Remito.findOne({ order: [['id', 'DESC']] });
+
+    console.log('lastRemito:', lastRemito);
+
+    // Si no hay remitos en la base de datos, comenzar desde 1
+    const lastRemitoNumber = lastRemito
+      ? parseInt(lastRemito.nroRemito.split('-')[1], 10) + 1
+      : 1;
+
+    // Generar el próximo número de remito
+    const currentYear = new Date().getFullYear();
+    const nextRemitoNumber = lastRemitoNumber.toString().padStart(6, '0');
+
+    const remitoNumber = `${currentYear}-${nextRemitoNumber}`;
+
+    return remitoNumber;
+  } catch (error) {
+    console.error('Error al generar el número de remito:', error);
+    throw error;
+  }
 };
-
-
-
 
 exports.getResumen = async (req, res) => {
   try {
