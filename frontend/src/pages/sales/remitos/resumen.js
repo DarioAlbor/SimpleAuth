@@ -1,7 +1,24 @@
+// ResumenRemitos.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Box, Text, Table, Divider, Tbody, Tr, Td, Th, Thead, IconButton, Icon } from '@chakra-ui/react';
+import {
+  Container,
+  Box,
+  Text,
+  Table,
+  Divider,
+  Tbody,
+  Tr,
+  Td,
+  Th,
+  Thead,
+  IconButton,
+  Icon,
+  Input,
+} from '@chakra-ui/react';
 import { FaAngleDown, FaEdit, FaTrash } from 'react-icons/fa';
+import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
 const ResumenRemitos = () => {
   const [remitos, setRemitos] = useState([]);
@@ -9,10 +26,14 @@ const ResumenRemitos = () => {
   const [remitosDelVendedor, setRemitosDelVendedor] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
   const [detalleRemito, setDetalleRemito] = useState({});
+  const [editMode, setEditMode] = useState(null);
+  const [editedData, setEditedData] = useState({});
 
   const cargarVendedorUsername = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/user/getUsername', { withCredentials: true });
+      const response = await axios.get('http://localhost:3001/api/user/getUsername', {
+        withCredentials: true,
+      });
       setVendedorUsername(response.data.username);
     } catch (error) {
       console.error('Error al obtener el nombre de usuario del vendedor:', error);
@@ -26,11 +47,15 @@ const ResumenRemitos = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:3001/api/remitos/resumen', { withCredentials: true });
-      const remitosDelVendedor = response.data.filter(remito => remito.vendedor === vendedorUsername);
+      const response = await axios.get('http://localhost:3001/api/remitos/resumen', {
+        withCredentials: true,
+      });
+      const remitosDelVendedor = response.data.filter(
+        (remito) => remito.vendedor === vendedorUsername
+      );
 
       const remitosUnicos = new Set();
-      const remitosFiltrados = remitosDelVendedor.filter(remito => {
+      const remitosFiltrados = remitosDelVendedor.filter((remito) => {
         if (!remitosUnicos.has(remito.nroRemito)) {
           remitosUnicos.add(remito.nroRemito);
           return true;
@@ -47,6 +72,48 @@ const ResumenRemitos = () => {
     }
   };
 
+  const handleRowClick = (index, remito) => {
+    setExpandedRow(expandedRow === index ? null : index);
+    setDetalleRemito(remito);
+  };
+
+  const handleEditRemito = (remitoId) => {
+    setEditMode(remitoId);
+    setEditedData(remitosDelVendedor.find((remito) => remito.id === remitoId));
+  };
+
+  const handleConfirmEdit = async (remitoId) => {
+    try {
+      const response = await axios.put(`http://localhost:3001/api/remitos/editar/${remitoId}`, {
+        unidades: editedData.unidades,
+        item: editedData.item,
+        total: editedData.total,
+        // Include other properties as needed
+      });
+
+      console.log('Respuesta del servidor al confirmar edición:', response.data);
+      setEditMode(null);
+      cargarRemitos();
+    } catch (error) {
+      console.error('Error al confirmar edición:', error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditMode(null);
+    setEditedData({});
+  };
+
+  const handleDeleteRemito = async (remitoId) => {
+    try {
+      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/${remitoId}`);
+      console.log('Respuesta del servidor al eliminar remito:', response.data);
+      cargarRemitos();
+    } catch (error) {
+      console.error('Error al eliminar remito:', error);
+    }
+  };
+
   useEffect(() => {
     cargarVendedorUsername();
   }, []);
@@ -55,23 +122,12 @@ const ResumenRemitos = () => {
     cargarRemitos();
   }, [vendedorUsername]);
 
-  const handleRowClick = (index, remito) => {
-    setExpandedRow(expandedRow === index ? null : index);
-    setDetalleRemito(remito);
-  };
-
-  const handleEditRemito = (remitoId) => {
-    console.log('Editar Remito con ID:', remitoId);
-  };
-
-  const handleDeleteRemito = (remitoId) => {
-    console.log('Borrar Remito con ID:', remitoId);
-  };
-
   return (
     <Container maxW="container.lg" mt={8}>
       <Box mb={4}>
-        <Text fontSize="xl" fontWeight="bold">Resumen de Remitos - Vendedor {vendedorUsername}</Text>
+        <Text fontSize="xl" fontWeight="bold">
+          Resumen de Remitos - Vendedor {vendedorUsername}
+        </Text>
       </Box>
 
       <Table variant="striped" colorScheme="teal">
@@ -79,7 +135,7 @@ const ResumenRemitos = () => {
           <Tr>
             <Th>Número de Remito</Th>
             <Th>Cliente</Th>
-            <Th></Th> 
+            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -102,39 +158,109 @@ const ResumenRemitos = () => {
                 <Tr>
                   <Td colSpan={4}>
                     <Box p={4}>
-                      <Text fontSize="lg" fontWeight="bold">Detalles del Remito</Text>
+                      <Text fontSize="lg" fontWeight="bold">
+                        Detalles del Remito
+                      </Text>
                       <Table variant="striped" colorScheme="teal">
                         <Thead>
                           <Tr>
                             <Th>Unidades</Th>
                             <Th>Item</Th>
                             <Th>Precio</Th>
-                            <Th>Acción</Th> 
+                            <Th>Acción</Th>
                           </Tr>
                         </Thead>
                         <Tbody>
                           {remitosDelVendedor
-                            .filter(r => r.nroRemito === detalleRemito.nroRemito)
+                            .filter((r) => r.nroRemito === detalleRemito.nroRemito)
                             .map((renglon, idx) => (
                               <Tr key={idx}>
-                                <Td>{renglon.unidades}</Td>
-                                <Td>{renglon.item}</Td>
-                                <Td>{parseFloat(renglon.total).toFixed(2)}</Td>
                                 <Td>
-                                  <IconButton
-                                    aria-label="Editar Renglón"
-                                    icon={<Icon as={FaEdit} />}
-                                    onClick={() => handleEditRemito(renglon.id)}
-                                    variant="ghost"
-                                    colorScheme="teal"
-                                  />
-                                  <IconButton
-                                    aria-label="Borrar Renglón"
-                                    icon={<Icon as={FaTrash} />}
-                                    onClick={() => handleDeleteRemito(renglon.id)}
-                                    variant="ghost"
-                                    colorScheme="red"
-                                  />
+                                  {editMode === renglon.id ? (
+                                    <Input
+                                      type="text"
+                                      name="unidades"
+                                      value={editedData.unidades}
+                                      onChange={(e) =>
+                                        setEditedData({
+                                          ...editedData,
+                                          unidades: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  ) : (
+                                    renglon.unidades
+                                  )}
+                                </Td>
+                                <Td>
+                                  {editMode === renglon.id ? (
+                                    <Input
+                                      type="text"
+                                      name="item"
+                                      value={editedData.item}
+                                      onChange={(e) =>
+                                        setEditedData({
+                                          ...editedData,
+                                          item: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  ) : (
+                                    renglon.item
+                                  )}
+                                </Td>
+                                <Td>
+                                  {editMode === renglon.id ? (
+                                    <Input
+                                      type="text"
+                                      name="total"
+                                      value={editedData.total}
+                                      onChange={(e) =>
+                                        setEditedData({
+                                          ...editedData,
+                                          total: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  ) : (
+                                    parseFloat(renglon.total).toFixed(2)
+                                  )}
+                                </Td>
+                                <Td>
+                                  {editMode === renglon.id ? (
+                                    <>
+                                      <IconButton
+                                        colorScheme="green"
+                                        size="sm"
+                                        icon={<CheckIcon />}
+                                        onClick={() => handleConfirmEdit(renglon.id)}
+                                      />
+                                      <IconButton
+                                        colorScheme="red"
+                                        size="sm"
+                                        ml={0}
+                                        icon={<CloseIcon />}
+                                        onClick={handleCancelEdit}
+                                      />
+                                    </>
+                                  ) : (
+                                    <>
+                                      <IconButton
+                                        aria-label="Editar Renglón"
+                                        icon={<Icon as={FaEdit} />}
+                                        onClick={() => handleEditRemito(renglon.id)}
+                                        variant="ghost"
+                                        colorScheme="teal"
+                                      />
+                                      <IconButton
+                                        aria-label="Borrar Renglón"
+                                        icon={<Icon as={FaTrash} />}
+                                        onClick={() => handleDeleteRemito(renglon.id)}
+                                        variant="ghost"
+                                        colorScheme="red"
+                                      />
+                                    </>
+                                  )}
                                 </Td>
                               </Tr>
                             ))}
@@ -144,12 +270,13 @@ const ResumenRemitos = () => {
                       <Box>
                         <Text fontSize="sm" fontWeight="bold">
                           Importe Total: {remitosDelVendedor
-                            .filter(r => r.nroRemito === detalleRemito.nroRemito)
-                            .reduce((total, detalle) => total + parseFloat(detalle.total), 0).toFixed(2)}
+                            .filter((r) => r.nroRemito === detalleRemito.nroRemito)
+                            .reduce((total, detalle) => total + parseFloat(detalle.total), 0)
+                            .toFixed(2)}
                         </Text>
                         <Text fontSize="sm" fontWeight="bold">
                           Cantidades Totales: {remitosDelVendedor
-                            .filter(r => r.nroRemito === detalleRemito.nroRemito)
+                            .filter((r) => r.nroRemito === detalleRemito.nroRemito)
                             .reduce((total, detalle) => total + parseInt(detalle.unidades), 0)}
                         </Text>
                       </Box>

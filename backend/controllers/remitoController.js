@@ -75,7 +75,7 @@ exports.getResumen = async (req, res) => {
   try {
     // Consultar la base de datos para obtener el resumen de remitos
     const remitos = await Remito.findAll({
-      attributes: ['id', 'unidades', 'item', 'total', 'cliente', 'vendedor', 'nroRemito'],
+      attributes: ['id', 'unidades', 'item', 'total', 'cliente', 'vendedor', 'oferta', 'iva', 'nroRemito'],
     });
 
     // Mapear los resultados para construir el resumen final
@@ -87,6 +87,8 @@ exports.getResumen = async (req, res) => {
       cliente: remito.cliente,
       vendedor: remito.vendedor,
       nroRemito: remito.nroRemito,
+      oferta: remito.oferta,
+      iva: remito.iva,
     }));
 
     res.status(200).json(resumenRemitos);
