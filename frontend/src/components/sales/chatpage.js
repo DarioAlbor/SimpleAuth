@@ -25,7 +25,7 @@ const ChatPage = () => {
 
     try {
       // Modificamos la llamada a la API para incluir la ID y el contenido del mensaje
-      const response = await axios.post('http://localhost:3001/api/messages', {
+      const response = await axios.post('http://drogueriagarzon.com:3001/api/messages', {
         userId: userId, // Asegúrate de tener el ID del usuario disponible en esta variable
         usuario: username, // Puedes ajustar esto según tu lógica
         contenido: newMessage,

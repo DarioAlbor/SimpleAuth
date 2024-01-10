@@ -31,7 +31,7 @@ const ResumenRemitos = () => {
 
   const cargarVendedorUsername = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/user/getUsername', {
+      const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', {
         withCredentials: true,
       });
       setVendedorUsername(response.data.username);
@@ -47,7 +47,7 @@ const ResumenRemitos = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:3001/api/remitos/resumen', {
+      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/resumen', {
         withCredentials: true,
       });
       const remitosDelVendedor = response.data.filter(
@@ -84,7 +84,7 @@ const ResumenRemitos = () => {
 
   const handleConfirmEdit = async (remitoId) => {
     try {
-      const response = await axios.put(`http://localhost:3001/api/remitos/editar/${remitoId}`, {
+      const response = await axios.put(`http://drogueriagarzon.com:3001/api/remitos/editar/${remitoId}`, {
         unidades: editedData.unidades,
         item: editedData.item,
         total: editedData.total,
@@ -106,7 +106,7 @@ const ResumenRemitos = () => {
 
   const handleDeleteRemito = async (remitoId) => {
     try {
-      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/${remitoId}`);
+      const response = await axios.delete(`http://drogueriagarzon.com:3001/api/remitos/eliminar/${remitoId}`);
       console.log('Respuesta del servidor al eliminar remito:', response.data);
       cargarRemitos();
     } catch (error) {
