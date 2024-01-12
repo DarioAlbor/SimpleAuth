@@ -1,7 +1,7 @@
 // APIRoutes.js
 import axios from 'axios';
 
-const baseURL = 'http://drogueriagarzon.com:3001/'; // Rutas relativas en lugar de URL completa
+const baseURL = 'http://localhost:3001/'; // Rutas relativas en lugar de URL completa
 
 const APIRoutes = {
   checkAuthentication: () => axios.get(`${baseURL}/checkAuthentication`),

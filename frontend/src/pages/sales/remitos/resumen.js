@@ -16,9 +16,19 @@ import {
   IconButton,
   Icon,
   Input,
+  Select,
 } from '@chakra-ui/react';
 import { FaAngleDown, FaEdit, FaTrash } from 'react-icons/fa';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
+
+// Agregamos la función calcularTotal
+const calcularTotal = (unidades, precio, oferta, iva) => {
+  const precioConDescuento = precio * (1 - oferta / 100);
+  const subtotal = unidades * precioConDescuento;
+  const totalConIVA = iva === 0 ? subtotal : subtotal * 1.21;
+  const totalFormateado = isNaN(totalConIVA) ? 0.00 : totalConIVA.toFixed(2);
+  return `$${totalFormateado}`;
+};
 
 const ResumenRemitos = () => {
   const [remitos, setRemitos] = useState([]);
@@ -31,7 +41,7 @@ const ResumenRemitos = () => {
 
   const cargarVendedorUsername = async () => {
     try {
-      const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getUsername', {
+      const response = await axios.get('http://localhost:3001/api/user/getUsername', {
         withCredentials: true,
       });
       setVendedorUsername(response.data.username);
@@ -47,7 +57,7 @@ const ResumenRemitos = () => {
         return;
       }
 
-      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/resumen', {
+      const response = await axios.get('http://localhost:3001/api/remitos/resumen', {
         withCredentials: true,
       });
       const remitosDelVendedor = response.data.filter(
@@ -84,11 +94,13 @@ const ResumenRemitos = () => {
 
   const handleConfirmEdit = async (remitoId) => {
     try {
-      const response = await axios.put(`http://drogueriagarzon.com:3001/api/remitos/editar/${remitoId}`, {
+      const response = await axios.put(`http://localhost:3001/api/remitos/editar/${remitoId}`, {
         unidades: editedData.unidades,
         item: editedData.item,
-        total: editedData.total,
-        // Include other properties as needed
+        precio: editedData.precio,
+        iva: editedData.iva,
+        oferta: editedData.oferta,
+        // Incluir otras propiedades según sea necesario
       });
 
       console.log('Respuesta del servidor al confirmar edición:', response.data);
@@ -106,7 +118,7 @@ const ResumenRemitos = () => {
 
   const handleDeleteRemito = async (remitoId) => {
     try {
-      const response = await axios.delete(`http://drogueriagarzon.com:3001/api/remitos/eliminar/${remitoId}`);
+      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/${remitoId}`);
       console.log('Respuesta del servidor al eliminar remito:', response.data);
       cargarRemitos();
     } catch (error) {
@@ -156,7 +168,7 @@ const ResumenRemitos = () => {
               </Tr>
               {expandedRow === index && (
                 <Tr>
-                  <Td colSpan={4}>
+                  <Td colSpan={7}>
                     <Box p={4}>
                       <Text fontSize="lg" fontWeight="bold">
                         Detalles del Remito
@@ -167,6 +179,9 @@ const ResumenRemitos = () => {
                             <Th>Unidades</Th>
                             <Th>Item</Th>
                             <Th>Precio</Th>
+                            <Th>IVA</Th>
+                            <Th>Oferta</Th>
+                            <Th>Total</Th>
                             <Th>Acción</Th>
                           </Tr>
                         </Thead>
@@ -213,17 +228,79 @@ const ResumenRemitos = () => {
                                   {editMode === renglon.id ? (
                                     <Input
                                       type="text"
-                                      name="total"
-                                      value={editedData.total}
+                                      name="precio"
+                                      value={editedData.precio}
                                       onChange={(e) =>
                                         setEditedData({
                                           ...editedData,
-                                          total: e.target.value,
+                                          precio: e.target.value,
                                         })
                                       }
                                     />
                                   ) : (
-                                    parseFloat(renglon.total).toFixed(2)
+                                    `$${parseFloat(renglon.precio).toFixed(2)}`
+                                  )}
+                                </Td>
+                                <Td>
+                                  {editMode === renglon.id ? (
+                                    <Select
+                                      name="iva"
+                                      value={editedData.iva}
+                                      onChange={(e) =>
+                                        setEditedData({
+                                          ...editedData,
+                                          iva: e.target.value,
+                                        })
+                                      }
+                                    >
+                                      <option value="21">21%</option>
+                                      <option value="0">0%</option>
+                                    </Select>
+                                  ) : (
+                                    `${renglon.iva}%`
+                                  )}
+                                </Td>
+                                <Td>
+                                  {editMode === renglon.id ? (
+                                    <Select
+                                      name="oferta"
+                                      value={editedData.oferta}
+                                      onChange={(e) =>
+                                        setEditedData({
+                                          ...editedData,
+                                          oferta: e.target.value,
+                                        })
+                                      }
+                                    >
+                                      {[...Array(101).keys()].map((value) => (
+                                        <option key={value} value={value}>
+                                          {`${value}%`}
+                                        </option>
+                                      ))}
+                                    </Select>
+                                  ) : (
+                                    `${renglon.oferta}%`
+                                  )}
+                                </Td>
+                                <Td>
+                                  {editMode === renglon.id ? (
+                                    <Text>
+                                      {calcularTotal(
+                                        editedData.unidades,
+                                        editedData.precio,
+                                        editedData.oferta,
+                                        editedData.iva
+                                      )}
+                                    </Text>
+                                  ) : (
+                                    <Text>
+                                      {calcularTotal(
+                                        renglon.unidades,
+                                        renglon.precio,
+                                        renglon.oferta,
+                                        renglon.iva
+                                      )}
+                                    </Text>
                                   )}
                                 </Td>
                                 <Td>
@@ -292,4 +369,4 @@ const ResumenRemitos = () => {
   );
 };
 
-export default ResumenRemitos;
+export default ResumenRemitos;  

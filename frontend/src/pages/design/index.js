@@ -36,7 +36,7 @@ const DesignPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://drogueriagarzon.com:3001/api/user/getuserinfo', {
+                const response = await fetch('http://localhost:3001/api/user/getuserinfo', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -68,7 +68,7 @@ const DesignPage = () => {
             formData.append('bannerName', selectedBanner ? selectedBanner.replace('Banner ', '') : '');
 
             try {
-                const response = await fetch('http://drogueriagarzon.com:3001/api/uploadbanner', {
+                const response = await fetch('http://localhost:3001/api/uploadbanner', {
                     method: 'POST',
                     credentials: 'include',
                     body: formData,
@@ -102,7 +102,7 @@ const DesignPage = () => {
         formData.append('pdf', file);
 
         try {
-            const response = await fetch('http://drogueriagarzon.com:3001/api/uploadpdf', {
+            const response = await fetch('http://localhost:3001/api/uploadpdf', {
                 method: 'POST',
                 credentials: 'include',
                 body: formData,

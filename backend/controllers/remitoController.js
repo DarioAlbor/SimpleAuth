@@ -75,7 +75,7 @@ exports.getResumen = async (req, res) => {
   try {
     // Consultar la base de datos para obtener el resumen de remitos
     const remitos = await Remito.findAll({
-      attributes: ['id', 'unidades', 'item', 'total', 'cliente', 'vendedor', 'oferta', 'iva', 'nroRemito'],
+      attributes: ['id', 'unidades', 'item', 'precio', 'total', 'cliente', 'vendedor', 'oferta', 'iva', 'nroRemito'],
     });
 
     // Mapear los resultados para construir el resumen final
@@ -89,11 +89,41 @@ exports.getResumen = async (req, res) => {
       nroRemito: remito.nroRemito,
       oferta: remito.oferta,
       iva: remito.iva,
+      precio: remito.precio,
     }));
 
     res.status(200).json(resumenRemitos);
   } catch (error) {
     console.error('Error al obtener el resumen de remitos:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+exports.editarRemito = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { unidades, item, precio, iva, oferta, total } = req.body;
+
+    // Buscar el remito por su ID
+    const remitoExistente = await Remito.findByPk(id);
+
+    if (!remitoExistente) {
+      return res.status(404).json({ error: 'Remito no encontrado.' });
+    }
+
+    // Actualizar las columnas deseadas
+    await remitoExistente.update({
+      unidades,
+      item,
+      precio,
+      iva,
+      oferta,
+      total,
+    });
+
+    res.status(200).json({ mensaje: 'Remito editado correctamente.' });
+  } catch (error) {
+    console.error('Error al editar el remito:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
   }
 };
