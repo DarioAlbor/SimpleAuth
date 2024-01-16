@@ -13,4 +13,10 @@ router.get('/resumen', RemitoController.getResumen);
 // Edicion del remito
 router.put('/editar/:id', RemitoController.editarRemito);
 
+// Eliminar un remito por ID
+router.delete('/eliminar/:id', RemitoController.deleteRemito);
+
+// Eliminar todos los remitos con el mismo número de remito
+router.delete('/eliminar/nroRemito/:nroRemito', RemitoController.deleteAllRemitosByNroRemito);
+
 module.exports = router;

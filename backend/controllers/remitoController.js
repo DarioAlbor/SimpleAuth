@@ -9,6 +9,9 @@ exports.createRemito = async (req, res) => {
       return res.status(400).json({ error: 'Faltan propiedades en la solicitud' });
     }
 
+    // Generar un solo número de remito para todos los conjuntos de datos de remito
+    const remitoNumber = await generateRemitoNumber();
+
     // Método create para insertar un remito por cada conjunto de datos
     for (let i = 0; i < remitos.length; i++) {
       const {
@@ -26,7 +29,7 @@ exports.createRemito = async (req, res) => {
       }
 
       await Remito.create({
-        nroRemito: await generateRemitoNumber(),
+        nroRemito: remitoNumber,
         unidades,
         item,
         precio,
@@ -75,7 +78,7 @@ exports.getResumen = async (req, res) => {
   try {
     // Consultar la base de datos para obtener el resumen de remitos
     const remitos = await Remito.findAll({
-      attributes: ['id', 'unidades', 'item', 'precio', 'total', 'cliente', 'vendedor', 'oferta', 'iva', 'nroRemito'],
+      attributes: ['id', 'unidades', 'item', 'precio', 'total', 'cliente', 'vendedor', 'oferta', 'iva', 'nroRemito', 'estado'],
     });
 
     // Mapear los resultados para construir el resumen final
@@ -90,6 +93,7 @@ exports.getResumen = async (req, res) => {
       oferta: remito.oferta,
       iva: remito.iva,
       precio: remito.precio,
+      estado: remito.estado,
     }));
 
     res.status(200).json(resumenRemitos);
@@ -124,6 +128,41 @@ exports.editarRemito = async (req, res) => {
     res.status(200).json({ mensaje: 'Remito editado correctamente.' });
   } catch (error) {
     console.error('Error al editar el remito:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+};
+
+exports.deleteRemito = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Buscar el remito por su ID
+    const remitoExistente = await Remito.findByPk(id);
+
+    if (!remitoExistente) {
+      return res.status(404).json({ error: 'Remito no encontrado.' });
+    }
+
+    // Eliminar el remito por ID
+    await remitoExistente.destroy();
+
+    res.status(200).json({ mensaje: 'Remito eliminado correctamente.' });
+  } catch (error) {
+    console.error('Error al eliminar el remito:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+};
+
+exports.deleteAllRemitosByNroRemito = async (req, res) => {
+  try {
+    const { nroRemito } = req.params;
+
+    // Eliminar todos los remitos con el mismo nroRemito
+    await Remito.destroy({ where: { nroRemito } });
+
+    res.status(200).json({ mensaje: 'Todos los remitos con el mismo número han sido eliminados.' });
+  } catch (error) {
+    console.error('Error al eliminar todos los remitos por número de remito:', error);
     res.status(500).json({ error: 'Error interno del servidor.' });
   }
 };

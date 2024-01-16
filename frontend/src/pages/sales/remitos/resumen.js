@@ -1,5 +1,4 @@
 // ResumenRemitos.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -13,21 +12,52 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   IconButton,
   Icon,
   Input,
   Select,
-} from '@chakra-ui/react';
-import { FaAngleDown, FaEdit, FaTrash } from 'react-icons/fa';
+} from "@chakra-ui/react";
+import { FaAngleDown, FaEdit, FaTrash, FaCheckCircle } from 'react-icons/fa';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import { IoCheckmarkOutline, IoCheckmarkDoneOutline } from 'react-icons/io5';
+import { MdOutlinePriceCheck } from 'react-icons/md';
 
-// Agregamos la función calcularTotal
 const calcularTotal = (unidades, precio, oferta, iva) => {
   const precioConDescuento = precio * (1 - oferta / 100);
   const subtotal = unidades * precioConDescuento;
-  const totalConIVA = iva === 0 ? subtotal : subtotal * 1.21;
-  const totalFormateado = isNaN(totalConIVA) ? 0.00 : totalConIVA.toFixed(2);
-  return `$${totalFormateado}`;
+  const totalConIVA = iva === '0' ? subtotal : subtotal * 1.21;
+  return isNaN(totalConIVA) ? 0.0 : totalConIVA;
+};
+
+const obtenerIconoPorEstado = (estado) => {
+  switch (estado) {
+    case 'Pendiente':
+      return <IoCheckmarkOutline />;
+    case 'Aprobado':
+      return <IoCheckmarkDoneOutline />;
+    case 'Pagado':
+      return <MdOutlinePriceCheck />;
+    case 'Entregado':
+      return <FaCheckCircle />;
+    default:
+      return null;
+  }
+};
+
+const obtenerTextoTooltip = (estado) => {
+  switch (estado) {
+    case 'Pendiente':
+      return 'Este remito aun no tiene asignada una baja.';
+    case 'Aprobado':
+      return 'Este remito ya tiene una baja, falta ser pagado.';
+    case 'Pagado':
+      return 'Este remito ha sido pagado, proximamente será entregado.';
+    case 'Entregado':
+      return 'Este remito ha sido entrado.';
+    default:
+      return '';
+  }
 };
 
 const ResumenRemitos = () => {
@@ -100,7 +130,7 @@ const ResumenRemitos = () => {
         precio: editedData.precio,
         iva: editedData.iva,
         oferta: editedData.oferta,
-        // Incluir otras propiedades según sea necesario
+        total: editedData.total,
       });
 
       console.log('Respuesta del servidor al confirmar edición:', response.data);
@@ -136,17 +166,13 @@ const ResumenRemitos = () => {
 
   return (
     <Container maxW="container.lg" mt={8}>
-      <Box mb={4}>
-        <Text fontSize="xl" fontWeight="bold">
-          Resumen de Remitos - Vendedor {vendedorUsername}
-        </Text>
-      </Box>
-
+      {/* ... (contenido anterior) */}
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>
             <Th>Número de Remito</Th>
             <Th>Cliente</Th>
+            <Th>Estado</Th>
             <Th></Th>
           </Tr>
         </Thead>
@@ -157,12 +183,24 @@ const ResumenRemitos = () => {
                 <Td>{remito.nroRemito}</Td>
                 <Td>{remito.cliente}</Td>
                 <Td>
+                  <Tooltip label={obtenerTextoTooltip(remito.estado)} placement="top" hasArrow>
+                    <span>{obtenerIconoPorEstado(remito.estado)}</span>
+                  </Tooltip>
+                </Td>
+                <Td>
                   <IconButton
                     aria-label="Expandir Detalles"
                     icon={<Icon as={FaAngleDown} />}
                     onClick={() => handleRowClick(index, remito)}
                     variant="ghost"
                     colorScheme="teal"
+                  />
+                  <IconButton
+                    aria-label="Borrar Remito"
+                    icon={<Icon as={FaTrash} />}
+                    onClick={() => handleDeleteRemito(remito.id)}
+                    variant="ghost"
+                    colorScheme="red"
                   />
                 </Td>
               </Tr>
@@ -200,6 +238,12 @@ const ResumenRemitos = () => {
                                         setEditedData({
                                           ...editedData,
                                           unidades: e.target.value,
+                                          total: calcularTotal(
+                                            e.target.value,
+                                            editedData.precio,
+                                            editedData.oferta,
+                                            editedData.iva
+                                          ),
                                         })
                                       }
                                     />
@@ -234,6 +278,12 @@ const ResumenRemitos = () => {
                                         setEditedData({
                                           ...editedData,
                                           precio: e.target.value,
+                                          total: calcularTotal(
+                                            editedData.unidades,
+                                            e.target.value,
+                                            editedData.oferta,
+                                            editedData.iva
+                                          ),
                                         })
                                       }
                                     />
@@ -250,6 +300,12 @@ const ResumenRemitos = () => {
                                         setEditedData({
                                           ...editedData,
                                           iva: e.target.value,
+                                          total: calcularTotal(
+                                            editedData.unidades,
+                                            editedData.precio,
+                                            editedData.oferta,
+                                            e.target.value
+                                          ),
                                         })
                                       }
                                     >
@@ -269,6 +325,12 @@ const ResumenRemitos = () => {
                                         setEditedData({
                                           ...editedData,
                                           oferta: e.target.value,
+                                          total: calcularTotal(
+                                            editedData.unidades,
+                                            editedData.precio,
+                                            e.target.value,
+                                            editedData.iva
+                                          ),
                                         })
                                       }
                                     >
@@ -283,25 +345,21 @@ const ResumenRemitos = () => {
                                   )}
                                 </Td>
                                 <Td>
-                                  {editMode === renglon.id ? (
-                                    <Text>
-                                      {calcularTotal(
-                                        editedData.unidades,
-                                        editedData.precio,
-                                        editedData.oferta,
-                                        editedData.iva
-                                      )}
-                                    </Text>
-                                  ) : (
-                                    <Text>
-                                      {calcularTotal(
-                                        renglon.unidades,
-                                        renglon.precio,
-                                        renglon.oferta,
-                                        renglon.iva
-                                      )}
-                                    </Text>
-                                  )}
+                                  <Text>
+                                    {editMode === renglon.id
+                                      ? calcularTotal(
+                                          editedData.unidades,
+                                          editedData.precio,
+                                          editedData.oferta,
+                                          editedData.iva
+                                        )
+                                      : calcularTotal(
+                                          renglon.unidades,
+                                          renglon.precio,
+                                          renglon.oferta,
+                                          renglon.iva
+                                        )}
+                                  </Text>
                                 </Td>
                                 <Td>
                                   {editMode === renglon.id ? (
@@ -369,4 +427,4 @@ const ResumenRemitos = () => {
   );
 };
 
-export default ResumenRemitos;  
+export default ResumenRemitos;

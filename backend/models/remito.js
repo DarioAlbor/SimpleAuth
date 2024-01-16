@@ -1,7 +1,7 @@
 // models/Remito.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); // Asegúrate de tener configurada tu instancia de Sequelize
+const sequelize = require('../config/db'); 
 
 const Remito = sequelize.define('Remito', {
   nroRemito: {
@@ -39,6 +39,11 @@ const Remito = sequelize.define('Remito', {
   vendedor: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  estado: {
+    type: DataTypes.ENUM('Pendiente', 'Aprobado', 'Pagado', 'Entregado'),
+    allowNull: false,
+    defaultValue: 'Pendiente',
   },
 });
 
