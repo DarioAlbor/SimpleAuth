@@ -1,0 +1,68 @@
+/* Este archivo puede permanecer sin cambios */
+.sidebar {
+    width: 50px;
+    background-color: #333;
+    color: white;
+    padding: 4px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    transition: width 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .sidebar.expanded {
+    width: 200px;
+  }
+  
+  .sidebar .sidebar-text {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Ajusta el tamaño de la fuente según tus necesidades */
+    font-size: 16px; /* Puedes cambiar este valor */
+}
+
+  
+  .sidebar.expanded .sidebar-text {
+    display: inline-block;
+    opacity: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+/* Ajustes para el menú Remitos, Resumen y Clientes */
+.menu {
+    background-color: #333; /* Cambia el color de fondo del menú */
+    width: 180px; /* Ancho del menú */
+    border-radius: 8px; /* Borde redondeado */
+    margin-top: 10px; /* Espacio superior */
+  }  
+  
+  .menu-item:hover {
+    background-color: rgba(66, 153, 225, 0.8); /* Color de fondo al pasar el mouse */
+    border-radius: 5px; /* Borde redondeado */
+  }
+  
+  .menu-icon {
+    color: white; /* Color de los iconos */
+    font-size: 18px; /* Tamaño de los iconos */
+  }
+  
+  .menu-text {
+    transition: margin-left 0.1s ease;
+    color: white !important; /* Color del texto */
+  }
+  
+  .menu-item.expanded {
+    margin-left: 2;
+  }
+  

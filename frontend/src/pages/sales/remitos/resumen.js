@@ -48,13 +48,13 @@ const obtenerIconoPorEstado = (estado) => {
 const obtenerTextoTooltip = (estado) => {
   switch (estado) {
     case 'Pendiente':
-      return 'Este remito aun no tiene asignada una baja.';
+      return 'Este remito aún no tiene asignada una baja.';
     case 'Aprobado':
       return 'Este remito ya tiene una baja, falta ser pagado.';
     case 'Pagado':
-      return 'Este remito ha sido pagado, proximamente será entregado.';
+      return 'Este remito ha sido pagado, próximamente será entregado.';
     case 'Entregado':
-      return 'Este remito ha sido entrado.';
+      return 'Este remito ha sido entregado.';
     default:
       return '';
   }
@@ -146,6 +146,7 @@ const ResumenRemitos = () => {
     setEditedData({});
   };
 
+  // Función para eliminar un remito individual
   const handleDeleteRemito = async (remitoId) => {
     try {
       const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/${remitoId}`);
@@ -153,6 +154,27 @@ const ResumenRemitos = () => {
       cargarRemitos();
     } catch (error) {
       console.error('Error al eliminar remito:', error);
+    }
+  };
+
+  // Función para eliminar todo el remito
+  const handleDeleteRemitoAll = async (nroRemito) => {
+    try {
+      // Confirmar si el usuario realmente quiere eliminar todo el remito
+      const confirmar = window.confirm('¿Estás seguro de que quieres eliminar todo el remito?');
+
+      if (!confirmar) {
+        return; // Cancelar eliminación
+      }
+
+      // Llamar a la función para eliminar todo el remito
+      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
+      console.log('Respuesta del servidor al eliminar todo el remito:', response.data);
+
+      // Actualizar la lista de remitos después de la eliminación
+      cargarRemitos();
+    } catch (error) {
+      console.error('Error al eliminar todo el remito:', error);
     }
   };
 
@@ -198,7 +220,7 @@ const ResumenRemitos = () => {
                   <IconButton
                     aria-label="Borrar Remito"
                     icon={<Icon as={FaTrash} />}
-                    onClick={() => handleDeleteRemito(remito.id)}
+                    onClick={() => handleDeleteRemitoAll(remito.nroRemito)}
                     variant="ghost"
                     colorScheme="red"
                   />

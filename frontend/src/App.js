@@ -5,7 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/templates/footer';
 import CustomRouter from './CustomRouter';
-import Snowfall from 'react-snowfall'; // SACAR DESPUES DE NAVIDAD
 
 function App() {
     return (

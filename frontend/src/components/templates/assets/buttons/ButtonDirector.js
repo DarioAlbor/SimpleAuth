@@ -2,9 +2,11 @@
 import React from 'react';
 import { Flex, Icon, Box } from '@chakra-ui/react';  
 import { RiAdminFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const ButtonDirector = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => {
     return (
+        <Link to="/admin">
         <Flex
             onMouseEnter={() => {
                 setIsHovered(true);
@@ -43,6 +45,7 @@ const ButtonDirector = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) 
                 Director
             </Box>
         </Flex>
+        </Link>
     );
 };
 
