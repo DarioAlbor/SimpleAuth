@@ -26,7 +26,7 @@ const User = sequelize.define('users', {
     allowNull: false
     },
   role: {
-      type: DataTypes.ENUM('Cliente', 'Designer', 'Developer', 'Director', 'Vendedor'), // RANGOS ACTUALES
+      type: DataTypes.ENUM('Cliente', 'Designer', 'Developer', 'Director', 'Vendedor', 'Comprador', 'J. Ventas'), // RANGOS ACTUALES
       allowNull: false,
       defaultValue: 'Cliente' // Setea automaticamente el rango a Cliente, por ahora solo se cambia manualmente en MYSQL
     },

@@ -42,10 +42,10 @@ const ButtonSales = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => 
                 // Ajusté aquí
                 className={`nav-item ${isExpanded ? 'sidebar-expanded' : 'nav-item-minimized'}`}
             >
-                Vendedor
+                Ventas
             </Box>
         </Flex>
-        </Link>
+       </Link> 
     );
 };
 

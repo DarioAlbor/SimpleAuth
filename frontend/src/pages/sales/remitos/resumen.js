@@ -188,7 +188,6 @@ const ResumenRemitos = () => {
 
   return (
     <Container maxW="container.lg" mt={8}>
-      {/* ... (contenido anterior) */}
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>
@@ -223,6 +222,8 @@ const ResumenRemitos = () => {
                     onClick={() => handleDeleteRemitoAll(remito.nroRemito)}
                     variant="ghost"
                     colorScheme="red"
+                    isDisabled={remito.estado === 'Aprobado'}
+                    opacity={remito.estado === 'Aprobado' ? 0.5 : 1}
                   />
                 </Td>
               </Tr>
@@ -405,17 +406,21 @@ const ResumenRemitos = () => {
                                       <IconButton
                                         aria-label="Editar Renglón"
                                         icon={<Icon as={FaEdit} />}
-                                        onClick={() => handleEditRemito(renglon.id)}
+                                        onClick={() => handleEditRemito(remito.id)}
                                         variant="ghost"
                                         colorScheme="teal"
+                                        isDisabled={remito.estado === 'Aprobado'}
+                                        opacity={remito.estado === 'Aprobado' ? 0.5 : 1}
                                       />
-                                      <IconButton
-                                        aria-label="Borrar Renglón"
-                                        icon={<Icon as={FaTrash} />}
-                                        onClick={() => handleDeleteRemito(renglon.id)}
-                                        variant="ghost"
-                                        colorScheme="red"
-                                      />
+                                  <IconButton
+                                    aria-label="Borrar Renglón"
+                                    icon={<Icon as={FaTrash} />}
+                                    onClick={() => handleDeleteRemito(remito.id)}
+                                    variant="ghost"
+                                    colorScheme="red"
+                                    isDisabled={remito.estado === 'Aprobado'}
+                                    opacity={remito.estado === 'Aprobado' ? 0.5 : 1}
+                                  />
                                     </>
                                   )}
                                 </Td>

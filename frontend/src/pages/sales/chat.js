@@ -1,7 +1,7 @@
 // Chat.js
 import React from 'react';
 import ChatContainer from './chat/ChatContainer';
-import SidebarSales from '../../components/sales/sidebarsales';
+import SidebarSales from './components/sidebarsales';
 
 const Chat = () => {
   return (

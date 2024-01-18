@@ -1,11 +1,8 @@
     import React, { useState, useEffect } from 'react';
     import axios from 'axios';
     import Search from './assets/search';
-    import UploadFile from './assets/uploadfile';
-    import ButtonDeveloper from './assets/buttons/ButtonDeveloper';
-    import ButtonDirector from './assets/buttons/ButtonDirector';
-    import ButtonDesigner from './assets/buttons/ButtonDesigner';
-    import ButtonPanel from './assets/buttons/ButtonPanel';  // Importa el nuevo botón
+    import UploadFile from './assets/uploadfile'; 
+    import ButtonPanel from './assets/buttons/ButtonPanel';
     import {
     IconButton,
     Avatar,

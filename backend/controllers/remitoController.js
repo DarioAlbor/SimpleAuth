@@ -106,7 +106,7 @@ exports.getResumen = async (req, res) => {
 exports.editarRemito = async (req, res) => {
   try {
     const { id } = req.params;
-    const { unidades, item, precio, iva, oferta, total } = req.body;
+    const { unidades, item, precio, iva, oferta, total, estado } = req.body;
 
     // Buscar el remito por su ID
     const remitoExistente = await Remito.findByPk(id);
@@ -123,6 +123,7 @@ exports.editarRemito = async (req, res) => {
       iva,
       oferta,
       total,
+      estado,
     });
 
     res.status(200).json({ mensaje: 'Remito editado correctamente.' });

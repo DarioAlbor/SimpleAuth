@@ -24,7 +24,9 @@ import {
   FiChevronDown,
   FiMail,
 } from 'react-icons/fi';
-import './css/SideBarSales.css'; // Importar el archivo CSS
+import './css/SideBarSales.css';
+import ButtonPanel from './buttons/button';
+
 
 const SideBarSales = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -158,7 +160,9 @@ const SideBarSales = () => {
     </Text>
   </Flex>
 </a>
-</VStack>      </VStack>
+<ButtonPanel />
+</VStack>
+</VStack>
       {/* Botones inferiores */}
       <Box mt="auto">
         <Link to="/">

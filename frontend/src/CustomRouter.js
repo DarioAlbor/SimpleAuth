@@ -20,6 +20,9 @@ import SalesRemitos from './pages/sales/remitos';
 import SalesRemitosClientes from './pages/sales/remitosclientes';
 import ResumenRemitos from './pages/sales/remitosresumen';
 
+//JEFE DE VENTAS
+import PanelRemitos from './pages/sales/admin/panelremitos';
+
 //ADMIN
 import AdminPage from './pages/admin';
 
@@ -87,13 +90,25 @@ const CustomRouter = () => {
     };
 //VENDORES
     const SalesRoute = ({ element }) => {
-        const allowedRoles = ['Vendedor', 'Developer', 'Director'];
+        const allowedRoles = ['Vendedor', 'Developer', 'Director', 'J. Ventas'];
 
         // Verificacion
         const isAllowed = userRole && allowedRoles.includes(userRole);
 
         return isAllowed ? element : <Navigate to="/404" />;
     };
+
+    // JEFE DE VENTAS
+
+    const AdminSalesRoute = ({ element }) => {
+        const allowedRoles = ['J. Ventas', 'Developer', 'Director'];
+
+        // Verificacion
+        const isAllowed = userRole && allowedRoles.includes(userRole);
+
+        return isAllowed ? element : <Navigate to="/404" />;
+    };
+
 //DIRECTORES
 const AdminRoute = ({ element }) => {
     const allowedRoles = ['Director', 'Developer'];
@@ -128,6 +143,9 @@ const AdminRoute = ({ element }) => {
             <Route path="/sales/remitos" element={<PrivateRoute><SalesRoute element={<SalesRemitos />} /></PrivateRoute>} />
             <Route path="/sales/remitos/clientes" element={<PrivateRoute><SalesRoute element={<SalesRemitosClientes />} /></PrivateRoute>} />
             <Route path="/sales/remitos/resumen" element={<PrivateRoute><SalesRoute element={<ResumenRemitos />} /></PrivateRoute>} />
+
+            {/* PANEL JEFE DE VENTAS */}
+            <Route path="/admin/panel" element={<PrivateRoute><AdminSalesRoute element={<PanelRemitos />} /></PrivateRoute>} />
 
             {/* PANEL DE DIRECTOR */}
             <Route path="/admin" element={<PrivateRoute><AdminRoute element={<AdminPage />} /></PrivateRoute>} />

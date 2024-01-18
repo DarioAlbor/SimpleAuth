@@ -1,7 +1,7 @@
 // remitos.js
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
-import SideBarSales from '../../components/sales/sidebarsales';
+import SideBarSales from './components/sidebarsales';
 import RemitosContainer from './remitos/remitoscontainer';
 
 const Remitos = () => {

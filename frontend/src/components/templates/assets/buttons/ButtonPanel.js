@@ -51,6 +51,9 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
     case 'vendedor':
       ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
+      case 'j. ventas':
+        ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+        break;
     default:
       break;
   }
