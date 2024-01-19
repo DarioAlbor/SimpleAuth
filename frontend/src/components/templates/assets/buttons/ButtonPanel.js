@@ -9,6 +9,7 @@ import ButtonDeveloper from './ButtonDeveloper';
 import ButtonDirector from './ButtonDirector';
 import ButtonDesigner from './ButtonDesigner';
 import ButtonSales from './ButtonSales';
+import ButtonAdmin from './ButtonAdmin';
 
 const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
   const [userRole, setUserRole] = useState(null);
@@ -27,7 +28,7 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
   }, []);
 
   if (userRole?.toLowerCase() === 'cliente') {
-    return null; // No renderizar nada si el rol es "Cliente"
+    return null;
   }
 
   let ButtonComponents = [];
@@ -38,12 +39,14 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
       ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonAdmin key="admin" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'director':
       ButtonComponents.push(<ButtonDeveloper key="developer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+      ButtonComponents.push(<ButtonAdmin key="admin" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
       break;
     case 'designer':
       ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
@@ -54,6 +57,9 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
       case 'j. ventas':
         ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
         break;
+      case 'administracion':
+          ButtonComponents.push(<ButtonAdmin key="admin" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
+          break;
     default:
       break;
   }

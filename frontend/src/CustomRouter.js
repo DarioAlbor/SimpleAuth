@@ -22,6 +22,7 @@ import ResumenRemitos from './pages/sales/remitosresumen';
 
 //JEFE DE VENTAS
 import PanelRemitos from './pages/sales/admin/panelremitos';
+import PanelAprobados from './pages/sales/admin/panelaprobados';
 
 //ADMIN
 import AdminPage from './pages/admin';
@@ -145,7 +146,8 @@ const AdminRoute = ({ element }) => {
             <Route path="/sales/remitos/resumen" element={<PrivateRoute><SalesRoute element={<ResumenRemitos />} /></PrivateRoute>} />
 
             {/* PANEL JEFE DE VENTAS */}
-            <Route path="/admin/panel" element={<PrivateRoute><AdminSalesRoute element={<PanelRemitos />} /></PrivateRoute>} />
+            <Route path="/sales/admin/panel" element={<PrivateRoute><AdminSalesRoute element={<PanelRemitos />} /></PrivateRoute>} />
+            <Route path="/sales/admin/aprobados" element={<PrivateRoute><AdminSalesRoute element={<PanelAprobados />} /></PrivateRoute>} />
 
             {/* PANEL DE DIRECTOR */}
             <Route path="/admin" element={<PrivateRoute><AdminRoute element={<AdminPage />} /></PrivateRoute>} />

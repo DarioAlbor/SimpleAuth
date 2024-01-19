@@ -17,27 +17,27 @@ import {
 } from "@chakra-ui/react";
 import { FaAngleDown, FaTrash, FaSave, FaSadCry } from 'react-icons/fa';
 
-const Panel = () => {
+const PanelAprobados = () => {
   const [remitos, setRemitos] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
   const [detalleRemito, setDetalleRemito] = useState({});
   const [uniqueRemitoNumbers, setUniqueRemitoNumbers] = useState([]);
   const [selectedEstado, setSelectedEstado] = useState('');
 
-  const cargarRemitos = async () => {
+  const cargarRemitosAprobados = async () => {
     try {
       const response = await axios.get('http://localhost:3001/api/remitos/resumen', {
         withCredentials: true,
       });
 
-      const remitosPendientes = response.data.filter(remito => remito.estado === 'Pendiente');
-      setRemitos(remitosPendientes);
+      const remitosAprobados = response.data.filter(remito => remito.estado === 'Aprobado');
+      setRemitos(remitosAprobados);
 
       // Identificar números de remito únicos
-      const uniqueNumbers = Array.from(new Set(remitosPendientes.map(remito => remito.nroRemito)));
+      const uniqueNumbers = Array.from(new Set(remitosAprobados.map(remito => remito.nroRemito)));
       setUniqueRemitoNumbers(uniqueNumbers);
     } catch (error) {
-      console.error('Error al obtener remitos pendientes:', error);
+      console.error('Error al obtener remitos aprobados:', error);
     }
   };
 
@@ -46,71 +46,28 @@ const Panel = () => {
     setDetalleRemito(remito);
   };
 
-  const handleDeleteRemitoAll = async (nroRemito) => {
-    try {
-      // Confirmar si el usuario realmente quiere eliminar todo el remito
-      const confirmar = window.confirm('¿Estás seguro de que quieres eliminar todo el remito?');
-
-      if (!confirmar) {
-        return; // Cancelar eliminación
-      }
-
-      // Llamar a la función para eliminar todo el remito
-      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
-      console.log('Respuesta del servidor al eliminar todo el remito:', response.data);
-
-      // Actualizar la lista de remitos después de la eliminación
-      cargarRemitos();
-    } catch (error) {
-      console.error('Error al eliminar todo el remito:', error);
-    }
+  // Función de manejo de borrar remito (inhabilitada para remitos aprobados)
+  const handleDeleteRemito = (remitoId) => {
+    console.log('No se puede borrar un remito aprobado.');
   };
 
-  const handleEstadoChange = (newEstado) => {
-    setSelectedEstado(newEstado);
-  };
-
-  const handleSaveEstado = async (nroRemito) => {
-    try {
-      // Filtrar los remitos aprobados
-      const remitosAprobados = remitos
-        .filter(remito => remito.nroRemito === nroRemito && remito.estado === 'Pendiente')
-        .map(remito => remito.id);
-
-      if (remitosAprobados.length === 0) {
-        // No hay remitos pendientes para aprobar
-        return;
-      }
-
-      // Enviar solicitudes para editar el estado de cada remito
-      await Promise.all(
-        remitosAprobados.map(async (remitoId) => {
-          const response = await axios.put(`http://localhost:3001/api/remitos/editar/${remitoId}`, {
-            estado: selectedEstado,
-          });
-          console.log('Respuesta del servidor al aprobar remito:', response.data);
-        })
-      );
-
-      // Actualizar la lista de remitos después de la edición
-      cargarRemitos();
-    } catch (error) {
-      console.error('Error al aprobar remitos:', error);
-    }
+  // Función de manejo de editar estado (inhabilitada para remitos aprobados)
+  const handleSaveEstado = (nroRemito) => {
+    console.log('No se puede editar el estado de un remito aprobado.');
   };
 
   useEffect(() => {
-    cargarRemitos();
+    cargarRemitosAprobados();
   }, []);
 
   return (
     <Container maxW="container.lg" mt={8}>
-      <h1>Remitos Pendientes</h1>
+      <h1>Remitos Aprobados</h1>
       {remitos.length === 0 ? (
         <Center>
           <Box mt={5}>
             <Icon as={FaSadCry} boxSize={50} ml={20} color="gray.500" />
-            <Text mt={0} fontSize="lg" color="gray.500">No hay remitos pendientes</Text>
+            <Text mt={0} fontSize="lg" color="gray.500">No hay remitos aprobados</Text>
           </Box>
         </Center>
       ) : (
@@ -137,9 +94,8 @@ const Panel = () => {
                     <Td>
                       <Select
                         value={selectedEstado}
-                        onChange={(e) => handleEstadoChange(e.target.value)}
+                        isDisabled={true} // Deshabilitar la selección de estado
                       >
-                        <option value="Pendiente">Pendiente</option>
                         <option value="Aprobado">Aprobado</option>
                       </Select>
                     </Td>
@@ -154,7 +110,8 @@ const Panel = () => {
                       <IconButton
                         aria-label="Borrar Remito"
                         icon={<Icon as={FaTrash} />}
-                        onClick={() => handleDeleteRemitoAll(firstRemitoWithNumber.nroRemito)}
+                        onClick={() => handleDeleteRemito(firstRemitoWithNumber.id)}
+                        isDisabled={true} // Deshabilitar el botón de borrar
                         variant="ghost"
                         colorScheme="red"
                       />
@@ -162,6 +119,7 @@ const Panel = () => {
                         aria-label="Guardar Estado"
                         icon={<Icon as={FaSave} />}
                         onClick={() => handleSaveEstado(firstRemitoWithNumber.nroRemito)}
+                        isDisabled={true} // Deshabilitar el botón de guardar estado
                         variant="ghost"
                         colorScheme="green"
                       />
@@ -211,4 +169,4 @@ const Panel = () => {
   );
 };
 
-export default Panel;
+export default PanelAprobados;

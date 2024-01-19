@@ -1,13 +1,12 @@
 // ButtonPanel.js
 import React, { useState, useEffect } from 'react';
-import { Box, IconButton, Tooltip } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import ButtonAdmin from './buttonadmin';
+import { Divider, Flex, Icon, Tooltip } from '@chakra-ui/react';
+import { BsExclamationOctagonFill } from 'react-icons/bs';
 
 const ButtonPanel = () => {
   const [userRole, setUserRole] = useState(null);
-  const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -22,30 +21,22 @@ const ButtonPanel = () => {
     fetchUserRole();
   }, []);
 
-  useEffect(() => {
-    setIsMaximized(false); 
-  }, [userRole]); 
-
-  if (userRole?.toLowerCase() === 'vendedor') {
+  if (userRole?.toLowerCase() !== 'j. ventas') {
     return null;
   }
 
-  const toggleMaximized = () => {
-    setIsMaximized(!isMaximized);
-  };
-
   return (
-    <Box>
-      <Tooltip label="Administracion" placement="right" hasArrow>
-        <IconButton
-          aria-label="Maximize"
-          icon={<ChevronDownIcon />}
-          onClick={toggleMaximized}
-          variant="outline"
-        />
-      </Tooltip>
-      {isMaximized && <ButtonAdmin />}
-    </Box>
+    <>
+      <Divider my="0" />
+      <Flex align="center">
+        <Tooltip label="Panel únicamente visible para Gerencia" placement="right" hasArrow>
+          <Flex>
+            <Icon as={BsExclamationOctagonFill} color="red.500" mr="0" />
+          </Flex>
+        </Tooltip>
+      </Flex>
+      <ButtonAdmin />
+    </>
   );
 };
 
