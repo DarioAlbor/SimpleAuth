@@ -6,7 +6,7 @@ import { MdAttachMoney } from "react-icons/md";
 
 const ButtonAdmin = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) => {
     return (
-        <Link to="/finance">
+        <Link to="/finance/inicio">
             <Flex
                 onMouseEnter={() => {
                     setIsHovered(true);

@@ -45,7 +45,7 @@ const ButtonDirector = ({ isHovered, setIsHovered, isExpanded, setIsExpanded }) 
                 Director
             </Box>
         </Flex>
-        </Link>
+        </Link> 
     );
 };
 

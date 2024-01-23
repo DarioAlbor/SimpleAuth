@@ -1,3 +1,4 @@
+// SideBarSales.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -23,9 +24,11 @@ import {
   FiChevronDown,
   FiMail,
 } from 'react-icons/fi';
-import './css/sidebar.css'; // Importar el archivo CSS
+import './css/sidebarfinance.css';
+import { GoUnverified } from "react-icons/go";
+import { MdVerified } from "react-icons/md";
 
-const SideBar = () => {
+const SideBarFinance = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSubMenuExpanded, setIsSubMenuExpanded] = useState(false);
 
@@ -45,8 +48,10 @@ const SideBar = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Contenido de la barra lateral */}
+
       <VStack spacing="5" align="center">
-        <Link to="/admin">
+        <Link to="/finance/inicio">
           <Flex
             align="center"
             _hover={{
@@ -80,7 +85,7 @@ const SideBar = () => {
         {/* Submenú fijo de "Remitos" */}
         {isSubMenuExpanded && (
           <VStack spacing="5" align="center">
-            <Link to="/sales/remitos">
+            <Link to="/finance/pendientes">
               <Flex
                 align="center"
                 _hover={{
@@ -88,13 +93,14 @@ const SideBar = () => {
                   borderRadius: 'md',
                 }}
               >
-                <Icon as={FiFile} fontSize="20px" />
+                <Icon as={GoUnverified} fontSize="20px" />
                 <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
-                  Remito
+                  Pendientes
                 </Text>
               </Flex>
             </Link>
-            <Link to="/sales/remitos/resumen">
+
+            <Link to="/finance/pagados">
               <Flex
                 align="center"
                 _hover={{
@@ -102,44 +108,15 @@ const SideBar = () => {
                   borderRadius: 'md',
                 }}
               >
-                <Icon as={FiList} fontSize="20px" />
+                <Icon as={MdVerified} fontSize="20px" />
                 <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
-                  Resumen
-                </Text>
-              </Flex>
-            </Link>
-            <Link to="/sales/remitos/clientes">
-              <Flex
-                align="center"
-                _hover={{
-                  bg: 'rgba(66, 153, 225, 0.8)',
-                  borderRadius: 'md',
-                }}
-              >
-                <Icon as={FiUsers} fontSize="20px" />
-                <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
-                  Clientes
+                  Pagados
                 </Text>
               </Flex>
             </Link>
           </VStack>
         )}
-          <VStack spacing="5" align="center">
-        <Link to="/sales/chat">
-          <Flex
-            align="center"
-            _hover={{
-              bg: 'rgba(66, 153, 225, 0.8)',
-              borderRadius: 'md',
-            }}
-          >
-            <Icon as={FiUser} fontSize="20px" />
-            <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} transition="margin-left 0.1s ease" color={textColor}>
-              Chat
-            </Text>
-          </Flex>
-        </Link>
-      </VStack>
+
       <VStack spacing="5" align="center">
       <a href="https://vefixy.com/webmail2/" target="_blank" rel="noopener noreferrer">
   <Flex
@@ -155,7 +132,9 @@ const SideBar = () => {
     </Text>
   </Flex>
 </a>
-</VStack>      </VStack>
+
+</VStack>
+</VStack>
       {/* Botones inferiores */}
       <Box mt="auto">
         <Link to="/">
@@ -178,7 +157,7 @@ const SideBar = () => {
       {/* Botones de contacto y configuración */}
       <Button
   as="a"
-  href="mailto:soporte@drogueriagarzon.com"
+  href="mailto:soporte@localhost"
   target="_blank"
   rel="noopener noreferrer"
   leftIcon={<Icon as={FiLifeBuoy} />}
@@ -230,4 +209,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default SideBarFinance;

@@ -24,8 +24,10 @@ import ResumenRemitos from './pages/sales/remitosresumen';
 import PanelRemitos from './pages/sales/admin/panelremitos';
 import PanelAprobados from './pages/sales/admin/panelaprobados';
 
-//ADMIN
-import AdminPage from './pages/admin';
+//ADMINISTRACION
+import FinanceInicio from './pages/finance/index';
+import FinanceRemitosPendientes from './pages/finance/remitospendientes';
+import FinanceRemitosPagados from './pages/finance/remitospagados';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -111,8 +113,8 @@ const CustomRouter = () => {
     };
 
 //DIRECTORES
-const AdminRoute = ({ element }) => {
-    const allowedRoles = ['Director', 'Developer'];
+const FinanceRoute = ({ element }) => {
+    const allowedRoles = ['Director', 'Developer', 'Administracion'];
 
     // Verificacion
     const isAllowed = userRole && allowedRoles.includes(userRole);
@@ -149,8 +151,10 @@ const AdminRoute = ({ element }) => {
             <Route path="/sales/admin/panel" element={<PrivateRoute><AdminSalesRoute element={<PanelRemitos />} /></PrivateRoute>} />
             <Route path="/sales/admin/aprobados" element={<PrivateRoute><AdminSalesRoute element={<PanelAprobados />} /></PrivateRoute>} />
 
-            {/* PANEL DE DIRECTOR */}
-            <Route path="/admin" element={<PrivateRoute><AdminRoute element={<AdminPage />} /></PrivateRoute>} />
+            {/* PANEL DE ADMINISTRACION */}
+            <Route path="/finance/inicio" element={<PrivateRoute><FinanceInicio element={<FinanceRoute />} /></PrivateRoute>} />
+            <Route path="/finance/pendientes" element={<PrivateRoute><FinanceRemitosPendientes element={<FinanceRoute />} /></PrivateRoute>} />
+            <Route path="/finance/pagados" element={<PrivateRoute><FinanceRemitosPagados element={<FinanceRoute />} /></PrivateRoute>} />
 
             <Route
                 index

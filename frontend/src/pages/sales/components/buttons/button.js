@@ -21,9 +21,14 @@ const ButtonPanel = () => {
     fetchUserRole();
   }, []);
 
-  if (userRole?.toLowerCase() !== 'j. ventas') {
+  if (
+    userRole?.toLowerCase() !== 'j. ventas' &&
+    userRole?.toLowerCase() !== 'developer' &&
+    userRole?.toLowerCase() !== 'director'
+  ) {
     return null;
   }
+  
 
   return (
     <>
