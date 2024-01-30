@@ -5,6 +5,7 @@ import { LuPanelRight } from "react-icons/lu";
 import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import { MdOutlinePriceCheck } from "react-icons/md";
 
 const ButtonAdmin = () => {
   const [isSubMenuExpanded, setIsSubMenuExpanded] = useState(false);
@@ -50,7 +51,7 @@ const ButtonAdmin = () => {
             </Flex>
           </Link>
 
-          {/* Nuevo botón para Aprobados */}
+          {/* Aprobados */}
           <Link to="/sales/admin/aprobados">
             <Flex
               align="center"
@@ -65,6 +66,23 @@ const ButtonAdmin = () => {
               </Text>
             </Flex>
           </Link>
+
+         {/* Pagados */}
+          <Link to="/sales/admin/pagados">
+            <Flex
+              align="center"
+              _hover={{
+                bg: 'rgba(66, 153, 225, 0.8)',
+                borderRadius: 'md',
+              }}
+            >
+              <Icon as={MdOutlinePriceCheck} fontSize="20px" />
+              <Text className="sidebar-text" ml="2" color={textColor}>
+                Pagados
+              </Text>
+            </Flex>
+          </Link>
+
         </VStack>
       )}
     </Flex>

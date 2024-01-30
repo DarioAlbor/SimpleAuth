@@ -23,6 +23,7 @@ import ResumenRemitos from './pages/sales/remitosresumen';
 //JEFE DE VENTAS
 import PanelRemitos from './pages/sales/admin/panelremitos';
 import PanelAprobados from './pages/sales/admin/panelaprobados';
+import PanelPagados from './pages/sales/admin/panelpagados';
 
 //ADMINISTRACION
 import FinanceInicio from './pages/finance/index';
@@ -150,6 +151,7 @@ const FinanceRoute = ({ element }) => {
             {/* PANEL JEFE DE VENTAS */}
             <Route path="/sales/admin/panel" element={<PrivateRoute><AdminSalesRoute element={<PanelRemitos />} /></PrivateRoute>} />
             <Route path="/sales/admin/aprobados" element={<PrivateRoute><AdminSalesRoute element={<PanelAprobados />} /></PrivateRoute>} />
+            <Route path="/sales/admin/pagados" element={<PrivateRoute><AdminSalesRoute element={<PanelPagados />} /></PrivateRoute>} />
 
             {/* PANEL DE ADMINISTRACION */}
             <Route path="/finance/inicio" element={<PrivateRoute><FinanceInicio element={<FinanceRoute />} /></PrivateRoute>} />

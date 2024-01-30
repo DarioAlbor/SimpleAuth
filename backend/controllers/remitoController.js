@@ -167,3 +167,36 @@ exports.deleteAllRemitosByNroRemito = async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor.' });
   }
 };
+
+exports.getDetalleRemito = async (req, res) => {
+  try {
+    const { nroRemito } = req.params;
+    
+    // Cambiar la búsqueda para encontrar todos los remitos con el mismo nroRemito
+    const remitos = await Remito.findAll({ where: { nroRemito } });
+
+    if (!remitos || remitos.length === 0) {
+      return res.status(404).json({ error: 'Remitos no encontrados.' });
+    }
+
+    // Mapear los remitos al formato deseado para el detalle
+    const detallesRemitos = remitos.map(remito => ({
+      id: remito.id,
+      unidades: remito.unidades,
+      item: remito.item,
+      total: remito.total,
+      cliente: remito.cliente,
+      vendedor: remito.vendedor,
+      nroRemito: remito.nroRemito,
+      oferta: remito.oferta,
+      iva: remito.iva,
+      precio: remito.precio,
+      estado: remito.estado,
+    }));
+
+    res.status(200).json(detallesRemitos);
+  } catch (error) {
+    console.error('Error al obtener el detalle del remito:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};

@@ -1,6 +1,7 @@
 // ResumenRemitos.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import jsPDF from 'jspdf';
 import {
   Container,
   Box,
@@ -18,10 +19,11 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-import { FaAngleDown, FaEdit, FaTrash, FaCheckCircle } from 'react-icons/fa';
+import { FaAngleDown, FaEdit, FaTrash, FaCheckCircle, FaPrint } from 'react-icons/fa';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { IoCheckmarkOutline, IoCheckmarkDoneOutline } from 'react-icons/io5';
 import { MdOutlinePriceCheck } from 'react-icons/md';
+import { generateReprintPDF } from './reimpresion';
 
 const calcularTotal = (unidades, precio, oferta, iva) => {
   const precioConDescuento = precio * (1 - oferta / 100);
@@ -117,10 +119,18 @@ const ResumenRemitos = () => {
     setDetalleRemito(remito);
   };
 
-  const handleEditRemito = (remitoId) => {
-    setEditMode(remitoId);
-    setEditedData(remitosDelVendedor.find((remito) => remito.id === remitoId));
-  };
+  const handleEditRemito = (renglonId) => {
+    const renglonToEdit = remitosDelVendedor.find((renglon) => renglon.id === renglonId);
+    setEditMode(renglonId);
+    setEditedData({
+      unidades: renglonToEdit.unidades,
+      item: renglonToEdit.item,
+      precio: renglonToEdit.precio,
+      iva: renglonToEdit.iva,
+      oferta: renglonToEdit.oferta,
+      total: renglonToEdit.total,
+    });
+  };  
 
   const handleConfirmEdit = async (remitoId) => {
     try {
@@ -178,6 +188,56 @@ const ResumenRemitos = () => {
     }
   };
 
+  // REIMPRIMIR 
+  const handleReimprimirRemito = async (remitoId) => {
+    try {
+      // Obtener datos del remito desde el servidor (puedes ajustar esto según tu implementación)
+      const response = await axios.get(`http://localhost:3001/api/remitos/detalle/${remitoId}`, {
+        withCredentials: true,
+      });
+
+      const remitoData = response.data;
+
+      // Ajustar la estructura de los datos para que coincida con la función generatePrintData
+      const remitoDataFormatted = [{
+        vendedor: remitoData[0].vendedor,
+        nroRemito: remitoData[0].nroRemito,
+        cliente: remitoData[0].cliente,
+        cantidadTotal: remitoData.reduce((total, detalle) => total + parseInt(detalle.unidades), 0),
+        importeTotal: remitoData.reduce((total, detalle) => total + parseFloat(detalle.total), 0).toFixed(2),
+        detalleRemitos: remitoData,
+      }];
+
+      // Generar datos de impresión
+      const printData = generateReprintPDF(remitoDataFormatted);
+
+      // Generar el PDF utilizando la función existente
+      generatePDFFromPrintData(printData);
+    } catch (error) {
+      console.error('Error al reimprimir remito:', error);
+    }
+  };
+
+  const generatePDFFromPrintData = (printData) => {
+    const pdf = new jsPDF();
+    let y = 5;
+    const spacing = 10;
+    const marginLeft = 5;
+
+    printData.forEach((element) => {
+      if (element.line) {
+        pdf.setLineWidth(0.1);
+        pdf.line(marginLeft, y, 200, y);
+      } else {
+        pdf.setFontSize(12);
+        pdf.text(element.text, marginLeft, y, { align: element.align, width: element.width });
+      }
+      y += spacing;
+    });
+
+    pdf.save('remito.pdf');
+  };
+
   useEffect(() => {
     cargarVendedorUsername();
   }, []);
@@ -224,6 +284,13 @@ const ResumenRemitos = () => {
                     colorScheme="red"
                     isDisabled={remito.estado === 'Aprobado'}
                     opacity={remito.estado === 'Aprobado' ? 0.5 : 1}
+                  />
+                  <IconButton
+                    aria-label="Reimprimir"
+                    icon={<Icon as={FaPrint} />}
+                    onClick={() => handleReimprimirRemito(remito.nroRemito)} 
+                    variant="ghost"
+                    colorScheme="teal"
                   />
                 </Td>
               </Tr>
@@ -403,15 +470,15 @@ const ResumenRemitos = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <IconButton
-                                        aria-label="Editar Renglón"
-                                        icon={<Icon as={FaEdit} />}
-                                        onClick={() => handleEditRemito(remito.id)}
-                                        variant="ghost"
-                                        colorScheme="teal"
-                                        isDisabled={remito.estado === 'Aprobado'}
-                                        opacity={remito.estado === 'Aprobado' ? 0.5 : 1}
-                                      />
+                            <IconButton
+                              aria-label="Editar Renglón"
+                              icon={<Icon as={FaEdit} />}
+                              onClick={() => handleEditRemito(renglon.id)}
+                              variant="ghost"
+                              colorScheme="teal"
+                              isDisabled={remito.estado === 'Aprobado'}
+                              opacity={remito.estado === 'Aprobado' ? 0.5 : 1}
+                            />
                                   <IconButton
                                     aria-label="Borrar Renglón"
                                     icon={<Icon as={FaTrash} />}

@@ -19,4 +19,7 @@ router.delete('/eliminar/:id', RemitoController.deleteRemito);
 // Eliminar todos los remitos con el mismo número de remito
 router.delete('/eliminar/nroRemito/:nroRemito', RemitoController.deleteAllRemitosByNroRemito);
 
+// Obtener el detalle de un remito por nroRemito
+router.get('/detalle/:nroRemito', RemitoController.getDetalleRemito);
+
 module.exports = router;
