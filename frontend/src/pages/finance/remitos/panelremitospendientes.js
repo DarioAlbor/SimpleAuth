@@ -40,7 +40,7 @@ const Panel = () => {
       }
 
       // Llamar a la función para eliminar el remito
-      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
+      const response = await axios.delete(`http://drogueriagarzon.com:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
       console.log('Respuesta del servidor al eliminar el remito:', response.data);
 
       // Actualizar la lista de remitos después de la eliminación
@@ -68,7 +68,7 @@ const Panel = () => {
       // Enviar solicitudes para editar el estado de cada remito
       await Promise.all(
         remitosAprobados.map(async (remitoId) => {
-          const response = await axios.put(`http://localhost:3001/api/remitos/editar/${remitoId}`, {
+          const response = await axios.put(`http://drogueriagarzon.com:3001/api/remitos/editar/${remitoId}`, {
             estado: estadoToUpdate,
           });
           console.log('Respuesta del servidor al actualizar estado del remito:', response.data);
@@ -84,7 +84,7 @@ const Panel = () => {
 
   const cargarRemitos = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/remitos/resumen', {
+      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/resumen', {
         withCredentials: true,
       });
 
