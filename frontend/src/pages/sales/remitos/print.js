@@ -62,7 +62,7 @@ const RemitosPrint = ({
 
   const traerID = async () => {
     try {
-      const response = await axios.get('http://drogueriagarzon.com:3001/api/remitos/resumen');
+      const response = await axios.get('http://portal.drogueriagarzon.com:3001/api/remitos/resumen');
       const lastRemitoId =
         response.data.length > 0 ? response.data[response.data.length - 1].nroRemito : null;
       console.log('Último Número de Remito:', lastRemitoId);

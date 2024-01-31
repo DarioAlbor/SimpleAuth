@@ -30,7 +30,7 @@ const Config = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://drogueriagarzon.com:3001/api/user/getUserinfo', {
+        const response = await fetch('http://portal.drogueriagarzon.com:3001/api/user/getUserinfo', {
           method: 'GET',
           credentials: 'include',
         });

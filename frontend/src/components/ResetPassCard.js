@@ -29,7 +29,7 @@ const ResetPassCard = () => {
     useEffect(() => {
         const validateToken = async () => {
             try {
-              const response = await axios.post('http://drogueriagarzon.com:3001/api/login/validate-reset-token', { token });
+              const response = await axios.post('http://portal.drogueriagarzon.com:3001/api/login/validate-reset-token', { token });
               setValidToken(response.data.valid);
             } catch (error) {
               console.error('Error validating token:', error);
@@ -41,7 +41,7 @@ const ResetPassCard = () => {
 
     const handleResetPassClick = async () => {
         try {
-            const response = await axios.post('http://drogueriagarzon.com:3001/api/login/reset-password', {
+            const response = await axios.post('http://portal.drogueriagarzon.com:3001/api/login/reset-password', {
                 email: 'dario@vefixy.com',
                 token,
                 newPassword: password,
@@ -120,7 +120,7 @@ const ResetPassCard = () => {
                 <Image
                     alt={'Reset Password Image'}
                     objectFit={'cover'}
-                    src={'http://portal.drogueriagarzon.com/images/garzonfront.jpg'}
+                    src={'http://portal.portal.drogueriagarzon.com/images/garzonfront.jpg'}
                 />
             </Flex>
         </Stack>

@@ -17,7 +17,7 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await axios.get('http://drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
+        const response = await axios.get('http://portal.drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
         setUserRole(response.data.role);
       } catch (error) {
         console.error('Error al obtener el rol del usuario:', error);
