@@ -37,7 +37,7 @@ function SignupCard({ handleSignUp }) {
 
   const checkEmailExists = async (email) => {
     try {
-      const response = await fetch(`http://portal.drogueriagarzon.com/apicheckEmail/${email}`);
+      const response = await fetch(`https://portal.drogueriagarzon.com/api/checkEmail/${email}`);
       const data = await response.json();
 
       if (data.exists === 'Si') {

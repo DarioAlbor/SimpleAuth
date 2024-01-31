@@ -11,7 +11,7 @@ const ForgotPass = () => {
 
     const handleForgotPassClick = async () => {
         try {
-            const response = await axios.post('http://portal.drogueriagarzon.com/apilogin/forgot-password', { email }); // Ajusta la URL
+            const response = await axios.post('https://portal.drogueriagarzon.com/api/login/forgot-password', { email }); // Ajusta la URL
             setResetSuccess(true);
         } catch (error) {
             console.error('Error:', error);

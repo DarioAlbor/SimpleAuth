@@ -57,11 +57,11 @@ const RemitosContainer = ({ generatePDF }) => {
     }));
 
     if (!state.consultasRealizadas) {
-      axios.get('http://portal.drogueriagarzon.com/apiuser/getUsername', { withCredentials: true })
+      axios.get('https://portal.drogueriagarzon.com/api/user/getUsername', { withCredentials: true })
         .then(response => setState((prevState) => ({ ...prevState, username: response.data.username })))
         .catch(error => console.error('Error al obtener el nombre de usuario:', error));
 
-      axios.get('http://portal.drogueriagarzon.com/apiremitos/clientes/traer')
+      axios.get('https://portal.drogueriagarzon.com/api/remitos/clientes/traer')
         .then(response => setState((prevState) => ({ ...prevState, clientes: response.data })))
         .catch(error => console.error('Error al obtener clientes:', error));
 
@@ -145,7 +145,7 @@ const RemitosContainer = ({ generatePDF }) => {
         vendedor: state.username,
       };
   
-      const response = await axios.post('http://portal.drogueriagarzon.com/apiremitos/addrto', requestBody, { withCredentials: true });
+      const response = await axios.post('https://portal.drogueriagarzon.com/api/remitos/addrto', requestBody, { withCredentials: true });
   
       if (response.status === 201) {
         console.log('Remito creado exitosamente');

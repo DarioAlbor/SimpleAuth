@@ -38,7 +38,7 @@ const Panel = () => {
         return;
       }
 
-      const response = await axios.delete(`http://portal.drogueriagarzon.com/apiremitos/eliminar/nroRemito/${nroRemito}`);
+      const response = await axios.delete(`https://portal.drogueriagarzon.com/api/remitos/eliminar/nroRemito/${nroRemito}`);
       console.log('Respuesta del servidor al eliminar el remito:', response.data);
 
       cargarRemitos();
@@ -61,7 +61,7 @@ const Panel = () => {
 
       await Promise.all(
         remitosToUpdate.map(async (remitoId) => {
-          const response = await axios.put(`http://portal.drogueriagarzon.com/apiremitos/editar/${remitoId}`, {
+          const response = await axios.put(`https://portal.drogueriagarzon.com/api/remitos/editar/${remitoId}`, {
             estado: estadoToUpdate,
           });
           console.log('Respuesta del servidor al actualizar estado del remito:', response.data);
@@ -76,7 +76,7 @@ const Panel = () => {
 
   const cargarRemitos = async () => {
     try {
-      const response = await axios.get('http://portal.drogueriagarzon.com/apiremitos/resumen', {
+      const response = await axios.get('https://portal.drogueriagarzon.com/api/remitos/resumen', {
         withCredentials: true,
       });
 

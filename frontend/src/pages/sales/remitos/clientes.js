@@ -54,7 +54,7 @@ const RemitosClientes = () => {
     }
 
     try {
-      const response = await axios.post('http://portal.drogueriagarzon.com/apiremitos/clientes/guardar', clienteData);
+      const response = await axios.post('https://portal.drogueriagarzon.com/api/remitos/clientes/guardar', clienteData);
       console.log('Respuesta del servidor:', response.data);
       cargarClientes();
     } catch (error) {
@@ -72,7 +72,7 @@ const RemitosClientes = () => {
 
   const cargarClientes = async () => {
     try {
-      const response = await axios.get('http://portal.drogueriagarzon.com/apiremitos/clientes/traer');
+      const response = await axios.get('https://portal.drogueriagarzon.com/api/remitos/clientes/traer');
       setClientes(response.data);
     } catch (error) {
       console.error('Error al obtener clientes:', error);
@@ -86,7 +86,7 @@ const RemitosClientes = () => {
 
   const handleConfirmEdit = async (clienteId) => {
     try {
-      const response = await axios.put(`http://portal.drogueriagarzon.com/apiremitos/clientes/editar/${clienteId}`, editedData);
+      const response = await axios.put(`https://portal.drogueriagarzon.com/api/remitos/clientes/editar/${clienteId}`, editedData);
       console.log('Respuesta del servidor al confirmar edición:', response.data);
       setEditMode(null);
       cargarClientes();
@@ -102,7 +102,7 @@ const RemitosClientes = () => {
 
   const handleDeleteCliente = async (clienteId) => {
     try {
-      const response = await axios.delete(`http://portal.drogueriagarzon.com/apiremitos/clientes/eliminar/${clienteId}`);
+      const response = await axios.delete(`https://portal.drogueriagarzon.com/api/remitos/clientes/eliminar/${clienteId}`);
       console.log('Respuesta del servidor al eliminar cliente:', response.data);
       cargarClientes();
     } catch (error) {

@@ -5,7 +5,7 @@ import ColorModeToggle from '../components/templates/colormodetoggle';
 const Register = () => {
   const handleSignUp = async (firstName, lastName, email, password) => {
     try {
-      const response = await fetch('http://portal.drogueriagarzon.com/apiregister', {
+      const response = await fetch('https://portal.drogueriagarzon.com/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

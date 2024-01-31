@@ -39,7 +39,7 @@ const CustomRouter = () => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const response = await fetch('http://portal.drogueriagarzon.com/apiuser/checkAuthentication', {
+                const response = await fetch('https://portal.drogueriagarzon.com/api/user/checkAuthentication', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -54,7 +54,7 @@ const CustomRouter = () => {
 
         const fetchUserRole = async () => {
             try {
-                const response = await fetch('http://portal.drogueriagarzon.com/apiuser/getRole', {
+                const response = await fetch('https://portal.drogueriagarzon.com/api/user/getRole', {
                     method: 'GET',
                     credentials: 'include',
                 });

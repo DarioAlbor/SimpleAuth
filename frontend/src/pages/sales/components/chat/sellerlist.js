@@ -10,7 +10,7 @@ const SellerList = () => {
   useEffect(() => {
     const fetchSellers = async () => {
       try {
-        const response = await fetch('http://portal.drogueriagarzon.com/apiroles/getSellers');
+        const response = await fetch('https://portal.drogueriagarzon.com/api/roles/getSellers');
         const data = await response.json();
 
         if (data.sellers !== undefined) {
