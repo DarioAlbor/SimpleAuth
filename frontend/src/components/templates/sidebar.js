@@ -76,7 +76,7 @@
 
     const handleLogout = async () => {
         try {
-            await axios.post('https://portal.drogueriagarzon.com:3001/api/logout', null, { withCredentials: true });
+            await axios.post('http://portal.drogueriagarzon.com/apilogout', null, { withCredentials: true });
             window.location.reload();
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
@@ -124,7 +124,7 @@
         useEffect(() => {
           const fetchData = async () => {
             try {
-              const response = await axios.get('https://portal.drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
+              const response = await axios.get('http://portal.drogueriagarzon.com/apiuser/getRole', { withCredentials: true });
               setRole(response.data.role);
             } catch (error) {
               console.error('Error al obtener el rol del usuario:', error);
@@ -259,14 +259,14 @@
         useEffect(() => {
           const fetchData = async () => {
             try {
-              const response = await axios.get('https://portal.drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true });
+              const response = await axios.get('http://portal.drogueriagarzon.com/apiuser/getUsername', { withCredentials: true });
               setUsername(response.data.username);
             } catch (error) {
               console.error('Error al obtener el nombre de usuario:', error);
             }
       
             try {
-              const response = await axios.get('https://portal.drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true });
+              const response = await axios.get('http://portal.drogueriagarzon.com/apiuser/getRole', { withCredentials: true });
               setRole(response.data.role);
             } catch (error) {
               console.error('Error al obtener el rol del usuario:', error);
@@ -278,8 +278,8 @@
           } else {
             axios
               .all([
-                axios.get('https://portal.drogueriagarzon.com:3001/api/user/getUsername', { withCredentials: true }),
-                axios.get('https://portal.drogueriagarzon.com:3001/api/user/getRole', { withCredentials: true }),
+                axios.get('http://portal.drogueriagarzon.com/apiuser/getUsername', { withCredentials: true }),
+                axios.get('http://portal.drogueriagarzon.com/apiuser/getRole', { withCredentials: true }),
               ])
               .then((responses) => {
                 setUsername(responses[0].data.username);
