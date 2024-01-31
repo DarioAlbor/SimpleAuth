@@ -73,7 +73,7 @@ const ResumenRemitos = () => {
 
   const cargarVendedorUsername = async () => {
     try {
-      const response = await axios.get('http://portal.drogueriagarzon.com:3001/api/user/getUsername', {
+      const response = await axios.get('https://portal.drogueriagarzon.com:3001/api/user/getUsername', {
         withCredentials: true,
       });
       setVendedorUsername(response.data.username);
@@ -89,7 +89,7 @@ const ResumenRemitos = () => {
         return;
       }
 
-      const response = await axios.get('http://portal.drogueriagarzon.com:3001/api/remitos/resumen', {
+      const response = await axios.get('https://portal.drogueriagarzon.com:3001/api/remitos/resumen', {
         withCredentials: true,
       });
       const remitosDelVendedor = response.data.filter(
@@ -134,7 +134,7 @@ const ResumenRemitos = () => {
 
   const handleConfirmEdit = async (remitoId) => {
     try {
-      const response = await axios.put(`http://portal.drogueriagarzon.com:3001/api/remitos/editar/${remitoId}`, {
+      const response = await axios.put(`https://portal.drogueriagarzon.com:3001/api/remitos/editar/${remitoId}`, {
         unidades: editedData.unidades,
         item: editedData.item,
         precio: editedData.precio,
@@ -159,7 +159,7 @@ const ResumenRemitos = () => {
   // Función para eliminar un remito individual
   const handleDeleteRemito = async (remitoId) => {
     try {
-      const response = await axios.delete(`http://portal.drogueriagarzon.com:3001/api/remitos/eliminar/${remitoId}`);
+      const response = await axios.delete(`https://portal.drogueriagarzon.com:3001/api/remitos/eliminar/${remitoId}`);
       console.log('Respuesta del servidor al eliminar remito:', response.data);
       cargarRemitos();
     } catch (error) {
@@ -178,7 +178,7 @@ const ResumenRemitos = () => {
       }
 
       // Llamar a la función para eliminar todo el remito
-      const response = await axios.delete(`http://portal.drogueriagarzon.com:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
+      const response = await axios.delete(`https://portal.drogueriagarzon.com:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
       console.log('Respuesta del servidor al eliminar todo el remito:', response.data);
 
       // Actualizar la lista de remitos después de la eliminación
@@ -192,7 +192,7 @@ const ResumenRemitos = () => {
   const handleReimprimirRemito = async (remitoId) => {
     try {
       // Obtener datos del remito desde el servidor (puedes ajustar esto según tu implementación)
-      const response = await axios.get(`http://portal.drogueriagarzon.com:3001/api/remitos/detalle/${remitoId}`, {
+      const response = await axios.get(`https://portal.drogueriagarzon.com:3001/api/remitos/detalle/${remitoId}`, {
         withCredentials: true,
       });
 

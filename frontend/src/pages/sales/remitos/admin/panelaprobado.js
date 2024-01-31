@@ -26,7 +26,7 @@ const PanelAprobados = () => {
 
   const cargarRemitosAprobados = async () => {
     try {
-      const response = await axios.get('http://portal.drogueriagarzon.com:3001/api/remitos/resumen', {
+      const response = await axios.get('https://portal.drogueriagarzon.com:3001/api/remitos/resumen', {
         withCredentials: true,
       });
 
