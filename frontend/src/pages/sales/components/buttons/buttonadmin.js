@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Flex, Icon, Text, VStack, useColorModeValue } from '@chakra-ui/react';
-import { FiFileText, FiFile, FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown } from 'react-icons/fi';
 import { LuPanelRight } from "react-icons/lu";
 import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";

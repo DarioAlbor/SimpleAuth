@@ -1,4 +1,3 @@
-// SideBarSales.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -19,12 +18,12 @@ import {
   FiChevronDown,
   FiMail,
 } from 'react-icons/fi';
-import './css/sidebarfinance.css';
+import './css/sidebarcompras.css';
 import { GoUnverified } from "react-icons/go";
-import { MdVerified } from "react-icons/md";
 import { LuPanelRight } from "react-icons/lu";
+import { MdOutlineAttachMoney } from "react-icons/md";
 
-const SideBarFinance = () => {
+const SidebarCompras = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSubMenuExpanded, setIsSubMenuExpanded] = useState(false);
 
@@ -47,7 +46,7 @@ const SideBarFinance = () => {
       {/* Contenido de la barra lateral */}
 
       <VStack spacing="5" align="center">
-        <Link to="/finance/inicio">
+        <Link to="/compras">
           <Flex
             align="center"
             _hover={{
@@ -81,7 +80,7 @@ const SideBarFinance = () => {
         {/* Submenú fijo de "Remitos" */}
         {isSubMenuExpanded && (
           <VStack spacing="5" align="center">
-            <Link to="/finance/pendientes">
+            <Link to="/compras/remitos/pendientes">
               <Flex
                 align="center"
                 _hover={{
@@ -95,24 +94,28 @@ const SideBarFinance = () => {
                 </Text>
               </Flex>
             </Link>
-
-            <Link to="/finance/pagados">
-              <Flex
-                align="center"
-                _hover={{
-                  bg: 'rgba(66, 153, 225, 0.8)',
-                  borderRadius: 'md',
-                }}
-              >
-                <Icon as={MdVerified} fontSize="20px" />
-                <Text className="sidebar-text" ml={isHovered ? '2' : '-100px'} color={textColor}>
-                  Pagados
-                </Text>
-              </Flex>
-            </Link>
           </VStack>
         )}
 
+{/*SECCION PRECIOS*/}
+<VStack spacing="5" align="center">
+      <a href="/" rel="noopener noreferrer">
+  <Flex
+    align="center"
+    _hover={{
+      bg: 'rgba(66, 153, 225, 0.8)',
+      borderRadius: 'md',
+    }}
+  >
+    <Icon as={MdOutlineAttachMoney} fontSize="20px" />
+    <Text className="sidebar-text" ml={isHovered ? '2' : '-200px'} transition="margin-left 0.1s ease" color={textColor}>
+      Precios
+    </Text>
+  </Flex>
+</a>
+</VStack>
+
+{/* SECCION MAIL */}
       <VStack spacing="5" align="center">
       <a href="https://vefixy.com/webmail2/" target="_blank" rel="noopener noreferrer">
   <Flex
@@ -128,8 +131,8 @@ const SideBarFinance = () => {
     </Text>
   </Flex>
 </a>
-
 </VStack>
+
 </VStack>
       {/* Botones inferiores */}
       <Box mt="auto">
@@ -205,4 +208,4 @@ const SideBarFinance = () => {
   );
 };
 
-export default SideBarFinance;
+export default SidebarCompras;

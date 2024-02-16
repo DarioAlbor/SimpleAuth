@@ -134,7 +134,7 @@ body {
 
 .top-bar {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     padding: 5px 2rem;
     border-bottom: 1px solid #000;

@@ -1,6 +1,6 @@
 // CustomRouter.js
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import ForgotPass from './pages/Forgotpass';
@@ -32,12 +32,12 @@ import FinanceRemitosPagados from './pages/finance/remitospagados';
 
 //COMPRAS
 import ComprasInicio from './pages/compras/index';
+import ComprasRemitosPendientes from './pages/compras/remitos/pendientes';
 
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState(null);
     const [checkComplete, setCheckComplete] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -138,13 +138,13 @@ const FinanceRoute = ({ element }) => {
 
     return (
         <Routes>
-            {/* PUBLICAS ACA */}
+            {/* PUBLICAS ACA (QUE PUEDEN ACCEDER SIN ESTAR LOGEADO) */}
             <Route path="/register" element={<PublicRoute element={<Register />} />} />
             <Route path="/login" element={<PublicRoute element={<Login />} />} />
             <Route path="/login/forgotpass" element={<PublicRoute element={<ForgotPass />} />} />
             <Route path="/login/resetpass/:token" element={<PublicRoute element={<ResetPass />} />} />
 
-            {/* PRIVADAS ACA */}
+            {/* "PRIVADAS (QUE NECESITAN LOGIN)" TAMBIEN VAN LAS DE RANGO CLIENTE ACA */}
             <Route path="/inicio/*" element={<PrivateRoute><Inicio /></PrivateRoute>} />
             <Route path="/tienda" element={<PrivateRoute><Tienda /></PrivateRoute>} />
             <Route path="/viasalud" element={<PrivateRoute><ViaSalud /></PrivateRoute>} />
@@ -167,12 +167,13 @@ const FinanceRoute = ({ element }) => {
             <Route path="/sales/admin/pagados" element={<PrivateRoute><AdminSalesRoute element={<PanelPagados />} /></PrivateRoute>} />
 
             {/* PANEL DE ADMINISTRACION */}
-            <Route path="/finance" element={<PrivateRoute><FinanceInicio element={<FinanceRoute />} /></PrivateRoute>} />
-            <Route path="/finance/pendientes" element={<PrivateRoute><FinanceRemitosPendientes element={<FinanceRoute />} /></PrivateRoute>} />
-            <Route path="/finance/pagados" element={<PrivateRoute><FinanceRemitosPagados element={<FinanceRoute />} /></PrivateRoute>} />
+            <Route path="/finance" element={<PrivateRoute><FinanceRoute element={<FinanceInicio />} /></PrivateRoute>} />
+            <Route path="/finance/pendientes" element={<PrivateRoute><FinanceRoute element={<FinanceRemitosPendientes />} /></PrivateRoute>} />
+            <Route path="/finance/pagados" element={<PrivateRoute><FinanceRoute element={<FinanceRemitosPagados />} /></PrivateRoute>} />
            
             {/* PANEL DE COMPRAS */}
-            <Route path="/finance" element={<PrivateRoute><ComprasInicio element={<ComprasRoute />} /></PrivateRoute>} />
+            <Route path="/compras" element={<PrivateRoute><ComprasRoute element={<ComprasInicio />} /></PrivateRoute>} />
+            <Route path="/compras/remitos/pendientes" element={<PrivateRoute><ComprasRoute element={<ComprasRemitosPendientes />} /></PrivateRoute>} />
 
             <Route
                 index
