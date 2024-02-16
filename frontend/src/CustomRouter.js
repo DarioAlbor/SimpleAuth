@@ -30,6 +30,9 @@ import FinanceInicio from './pages/finance/index';
 import FinanceRemitosPendientes from './pages/finance/remitospendientes';
 import FinanceRemitosPagados from './pages/finance/remitospagados';
 
+//COMPRAS
+import ComprasInicio from './pages/compras/index';
+
 const CustomRouter = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState(null);
@@ -39,7 +42,7 @@ const CustomRouter = () => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const response = await fetch('https://portal.drogueriagarzon.com/api/user/checkAuthentication', {
+                const response = await fetch('http://localhost:3001/api/user/checkAuthentication', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -54,7 +57,7 @@ const CustomRouter = () => {
 
         const fetchUserRole = async () => {
             try {
-                const response = await fetch('https://portal.drogueriagarzon.com/api/user/getRole', {
+                const response = await fetch('http://localhost:3001/api/user/getRole', {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -92,9 +95,19 @@ const CustomRouter = () => {
 
         return isAllowed ? element : <Navigate to="/404" />;
     };
-//VENDORES
+//VENDEDORES
     const SalesRoute = ({ element }) => {
         const allowedRoles = ['Vendedor', 'Developer', 'Director', 'J. Ventas'];
+
+        // Verificacion
+        const isAllowed = userRole && allowedRoles.includes(userRole);
+
+        return isAllowed ? element : <Navigate to="/404" />;
+    };
+
+//COMPRADORES
+    const ComprasRoute = ({ element }) => {
+        const allowedRoles = ['Comprador', 'Developer', 'Director'];
 
         // Verificacion
         const isAllowed = userRole && allowedRoles.includes(userRole);
@@ -154,9 +167,12 @@ const FinanceRoute = ({ element }) => {
             <Route path="/sales/admin/pagados" element={<PrivateRoute><AdminSalesRoute element={<PanelPagados />} /></PrivateRoute>} />
 
             {/* PANEL DE ADMINISTRACION */}
-            <Route path="/finance/inicio" element={<PrivateRoute><FinanceInicio element={<FinanceRoute />} /></PrivateRoute>} />
+            <Route path="/finance" element={<PrivateRoute><FinanceInicio element={<FinanceRoute />} /></PrivateRoute>} />
             <Route path="/finance/pendientes" element={<PrivateRoute><FinanceRemitosPendientes element={<FinanceRoute />} /></PrivateRoute>} />
             <Route path="/finance/pagados" element={<PrivateRoute><FinanceRemitosPagados element={<FinanceRoute />} /></PrivateRoute>} />
+           
+            {/* PANEL DE COMPRAS */}
+            <Route path="/finance" element={<PrivateRoute><ComprasInicio element={<ComprasRoute />} /></PrivateRoute>} />
 
             <Route
                 index

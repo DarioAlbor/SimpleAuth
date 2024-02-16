@@ -23,7 +23,7 @@ app.use(express.static('assets'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors({ origin: 'https://portal.drogueriagarzon.com/', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 // Rutas
 const loginRoutes = require('./routes/login');
@@ -62,7 +62,7 @@ app.use('/upload/carousel', express.static('assets/carousel'));
 // Configurar Socket.io
 const io = socketIo(server, {
   cors: {
-    origin: 'https://portal.drogueriagarzon.com/',
+    origin: 'http://localhost:3000',
     credentials: true,
   },
 });

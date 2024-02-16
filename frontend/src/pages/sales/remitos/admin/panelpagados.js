@@ -38,7 +38,7 @@ const Panel = () => {
         return;
       }
 
-      const response = await axios.delete(`https://portal.drogueriagarzon.com/api/remitos/eliminar/nroRemito/${nroRemito}`);
+      const response = await axios.delete(`http://localhost:3001/api/remitos/eliminar/nroRemito/${nroRemito}`);
       console.log('Respuesta del servidor al eliminar el remito:', response.data);
 
       cargarRemitos();
@@ -61,7 +61,7 @@ const Panel = () => {
 
       await Promise.all(
         remitosToUpdate.map(async (remitoId) => {
-          const response = await axios.put(`https://portal.drogueriagarzon.com/api/remitos/editar/${remitoId}`, {
+          const response = await axios.put(`http://localhost:3001/api/remitos/editar/${remitoId}`, {
             estado: estadoToUpdate,
           });
           console.log('Respuesta del servidor al actualizar estado del remito:', response.data);
@@ -76,7 +76,7 @@ const Panel = () => {
 
   const cargarRemitos = async () => {
     try {
-      const response = await axios.get('https://portal.drogueriagarzon.com/api/remitos/resumen', {
+      const response = await axios.get('http://localhost:3001/api/remitos/resumen', {
         withCredentials: true,
       });
 
@@ -95,7 +95,7 @@ const Panel = () => {
 
   return (
     <Container maxW="container.lg" mt={8}>
-      <h1>Remitos</h1>
+      <h1><b>PAGADOS 💲</b></h1>
       {remitos.length === 0 ? (
         <Center>
           <Box mt={5}>

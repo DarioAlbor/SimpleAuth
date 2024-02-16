@@ -1,23 +1,17 @@
-// ButtonPanel.js
 import React, { useState, useEffect } from 'react';
-import { Menu, MenuButton, MenuList, Button, Icon, Flex } from '@chakra-ui/react';
-import { FiChevronDown } from 'react-icons/fi';
-import { RiAdminFill } from 'react-icons/ri';
 import axios from 'axios';
-import Scrollbar from 'react-scrollbar';
-import ButtonDeveloper from './ButtonDeveloper';
-import ButtonDirector from './ButtonDirector';
-import ButtonDesigner from './ButtonDesigner';
-import ButtonSales from './ButtonSales';
-import ButtonAdmin from './ButtonAdmin';
+import { Icon, Button, MenuItem, MenuList, MenuDivider } from '@chakra-ui/react';
+import { FiChevronDown } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
-const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
+const ButtonPanel = ({ isHovered, setIsHovered }) => {
   const [userRole, setUserRole] = useState(null);
+  const [submenuOpen, setSubmenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await axios.get('https://portal.drogueriagarzon.com/api/user/getRole', { withCredentials: true });
+        const response = await axios.get('http://localhost:3001/api/user/getRole', { withCredentials: true });
         setUserRole(response.data.role);
       } catch (error) {
         console.error('Error al obtener el rol del usuario:', error);
@@ -27,47 +21,86 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
     fetchUserRole();
   }, []);
 
-  if (userRole?.toLowerCase() === 'cliente') {
+  if (!userRole || userRole?.toLowerCase() === 'cliente') {
     return null;
   }
 
-  let ButtonComponents = [];
-
-  switch (userRole?.toLowerCase()) {
-    case 'developer':
-      ButtonComponents.push(<ButtonDeveloper key="developer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonAdmin key="admin" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      break;
-    case 'director':
-      ButtonComponents.push(<ButtonDeveloper key="developer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonDirector key="director" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      ButtonComponents.push(<ButtonAdmin key="admin" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      break;
-    case 'designer':
-      ButtonComponents.push(<ButtonDesigner key="designer" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      break;
-    case 'vendedor':
-      ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-      break;
+  const renderSubMenuItems = () => {
+    switch (userRole?.toLowerCase()) {
+      case 'developer':
+        return (
+          <>
+            <MenuItem>
+              <Link to="/developer">Desarrollador</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/director">Director</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/design">Diseñador</Link>
+            </MenuItem>
+            <MenuItem> 
+              <Link to="/sales">Ventas</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/compras">Compras</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/finance">Administracion</Link>
+            </MenuItem>
+          </>
+        );
+      case 'director':
+        return (
+          <>
+            <MenuItem>
+              <Link to="/director">Director</Link>
+            </MenuItem>
+          </>
+        );
+      case 'designer':
+        return (
+          <>
+            <MenuItem>
+              <Link to="/design">Diseñador</Link>
+            </MenuItem>
+          </>
+        );
+      case 'vendedor':
       case 'j. ventas':
-        ButtonComponents.push(<ButtonSales key="sales" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-        break;
+        return (
+          <>
+            <MenuItem>
+              <Link to="/sales">Ventas</Link>
+            </MenuItem>
+          </>
+        );
+        case 'comprador':
+          return (
+            <>
+              <MenuItem>
+                <Link to="/compras">Compras</Link>
+              </MenuItem>
+            </>
+          );
       case 'administracion':
-          ButtonComponents.push(<ButtonAdmin key="admin" isHovered={isHovered} setIsHovered={setIsHovered} setIsExpanded={setIsExpanded} />);
-          break;
-    default:
-      break;
-  }
+        return (
+          <>
+            <MenuItem>
+              <Link to="/finance">Administracion</Link>
+            </MenuItem>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
   
+
   return (
-    <Menu>
-      <MenuButton
-        as={Button}
+    <div style={{ position: 'relative' }}>
+      <MenuDivider />
+      <Button
         rounded="lg"
         variant="link"
         cursor="pointer"
@@ -75,30 +108,18 @@ const ButtonPanel = ({ isHovered, setIsHovered, setIsExpanded }) => {
           bg: 'black.400',
           color: 'cyan',
         }}
-        ml="2"
-        mt="7"
-        mb="0"
-        px="0"
-        py="0"
+        onClick={() => setSubmenuOpen(!submenuOpen)}
       >
-        <Flex align="center">
-          <Icon as={RiAdminFill} fontSize="xl" mr="0" />
-          <Icon as={FiChevronDown} />
-        </Flex>
-      </MenuButton>
-      <MenuList
-        style={{
-          backgroundColor: 'transparent',
-          color: 'red', // Cambia el color del texto a negro u otro color que sea visible
-        }}
-      >
-        <Scrollbar style={{ maxHeight: '200px' }}> {/* Ajusta la altura máxima según sea necesario */}
-          {ButtonComponents.map((ButtonComponent) => (
-            <React.Fragment key={ButtonComponent.key}>{ButtonComponent}</React.Fragment>
-          ))}
-        </Scrollbar>
-      </MenuList>
-    </Menu>
+        <MenuList>
+        Departamentos <Icon as={FiChevronDown} />
+        </MenuList>
+      </Button>
+      {submenuOpen && (
+        <div style={{ position: 'absolute', top: '100%', backgroundColor: 'black', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
+          {renderSubMenuItems()}
+        </div>
+      )}
+    </div>
   );
 };
 

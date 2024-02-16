@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleLoginClick = async () => {
         try {
-            const response = await fetch('https://portal.drogueriagarzon.com/api/login', {
+            const response = await fetch('http://localhost:3001/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

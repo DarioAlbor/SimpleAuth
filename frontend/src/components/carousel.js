@@ -14,14 +14,14 @@ const Carousel = () => {
     };
 
     useEffect(() => {
-        // Hacer la solicitud al backend para obtener la lista de im�genes
-        fetch('https://portal.drogueriagarzon.com/api/getcarousel')
+        // Hacer la solicitud al backend para obtener la lista de imagenes
+        fetch('http://localhost:3001/api/getcarousel')
             .then((response) => response.json())
             .then((data) => {
                 setImages(data.images);
             })
             .catch((error) => {
-                console.error('Error al obtener la lista de im�genes:', error);
+                console.error('Error al obtener la lista de imagenes:', error);
             });
     }, []); // Se ejecuta solo una vez al montar el componente
 
