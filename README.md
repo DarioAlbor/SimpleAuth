@@ -15,10 +15,18 @@ SimpleAuth es un proyecto utilizando el manejo de autentificación y sesiones, p
 
 ## 🚀 ¿Cómo deployarlo?
 
-`git clone https://github.com/DarioAlbor/SimpleAuth.git`
-`cd SimpleAuth`
-`yarn`
-`yarn start`
+- `git clone https://github.com/DarioAlbor/SimpleAuth.git`
+
+## Frontend
+- `cd client`
+- `cd src/utils/apiroutes.js` Modificar la ruta con tu backend
+- `yarn`
+- `yarn start`
+## Backend
+- `cd server`
+- Modificar `.env.example` con tus datos y renombrarlo a `.env`
+- `npm install`
+- `npm run dev`
 
 ## 📬 Contacto
 
