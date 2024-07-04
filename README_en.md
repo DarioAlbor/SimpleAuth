@@ -34,9 +34,9 @@ You can contact me via my [LinkedIn](https://www.linkedin.com/in/albordario/).
 
 ## 📷 Images
 
-| ![User Profile](./imagesgit/index.png) | ![Login](./imagesgit/login.png) |
+| ![User Profile](./imagesgit/index.png) | ![Login](./imagesgit/signin.png) |
 |:---------------------------------------:|:-------------------------------:|
 | User Profile                            | Login                           |
 |                                         |                                |
-| ![Register](./imagesgit/register.png)   | ![Change Profile Image](./imagesgit/changeimage.png) |
+| ![Register](./imagesgit/signup.png)   | ![Change Profile Image](./imagesgit/changeimage.png) |
 | Register                                | Change Profile Image            |
