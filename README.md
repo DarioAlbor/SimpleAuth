@@ -1,4 +1,4 @@
-# SimpleAuth
+# SimpleAuth 🔒
 
 [Español](README.md) <img src="https://flagicons.lipis.dev/flags/4x3/ar.svg" width="20"/> / [Inglés](README_en.md) <img src="https://flagicons.lipis.dev/flags/4x3/us.svg" width="20"/>
 
@@ -31,3 +31,12 @@ SimpleAuth es un proyecto utilizando el manejo de autentificación y sesiones, p
 ## 📬 Contacto
 
 Puedes contactarme mediante mi [LinkedIn](https://www.linkedin.com/in/albordario/).
+
+## 📷 Imágenes
+
+| ![Perfil del usuario](./imagesgit/index.png) | ![Inicio de sesión](./imagesgit/login.png) |
+|:---------------------------------------------:|:------------------------------------------:|
+| Perfil del usuario                            | Inicio de sesión                           |
+|                                               |                                            |
+| ![Registro](./imagesgit/register.png)         | ![Cambiar imagen de perfil](./imagesgit/changeimage.png) |
+| Registro                                      | Cambiar imagen de perfil                   |
